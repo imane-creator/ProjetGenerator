@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <!-- CDN Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+{% load static %}
+<div class=" flex flex-col items-center absolute inset-0 w-full h-full sm:h-500 ">
+  <!-- Vidéo en arrière-plan -->
+  <video 
+  class="absolute inset-0 w-full h-45 object-cover -z-10"
+  autoplay 
+  muted 
+  loop 
+  playsinline>
+  <source src="{% static 'vidio/Média1.mp4' %}" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+
+  <!-- Barre de navigation -->
+  <nav class="bg-black bg-opacity-75 text-white fixed w-full">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex shrink-0 items-center">
+            <img class="h-16 w-16" src="{% static 'images/image.png' %}" alt="Your Company">
+          </div>
+          <div class="hidden sm:ml-6 sm:block flex justify-center items-center h-16">
+            <div class="flex justify-center items-center h-20">
+              <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white justify-center" aria-current="page">Dashboard</a>
+              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
+              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
+              <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div class="flex items-center">
+            {% if user.is_authenticated %}
+            <!-- Si l'utilisateur est authentifié -->
+            <div class="relative group">
+              <!-- Bouton utilisateur avec image et nom -->
+              <button class="flex items-center px-3 py-2 text-sm font-medium bg-yellow-600 rounded-full border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-600">
+                <img src="{% static 'images/profile-placeholder.png' %}" alt="User Avatar" class="h-8 w-8 rounded-full mr-2">
+                <span>{{ user.username }}</span>
+                <svg class="w-5 h-5 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <!-- Menu déroulant -->
+              <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                <a href="{% url 'templates_manager:profile' %}" class="block px-4 py-2 hover:bg-gray-100 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 1.5c1.657 0 3 1.343 3 3v4.5h4.5a1.5 1.5 0 011.5 1.5v9a1.5 1.5 0 01-1.5 1.5H3a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5H8.25V4.5c0-1.657 1.343-3 3-3z"/>
+                  </svg>
+                  View Profile
+                </a>
+                
+                
+                                <form method="POST" action="{% url 'templates_manager:logout' %}" class="block">
+                  {% csrf_token %}
+                  <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3H6.75A2.25 2.25 0 004.5 5.25v13.5A2.25 2.25 0 006.75 21h6.75a2.25 2.25 0 002.25-2.25V15"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9l3 3m0 0l-3 3m3-3H9"/>
+                    </svg>
+                    Logout
+                  </button>                </form>
+              </div>
+            </div>
+            {% else %}
+            <!-- Si l'utilisateur n'est pas authentifié -->
+            <a href="{% url 'accounts:login' %}" class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded-full ml-2">Login</a>
+            <a href="{% url 'accounts:register' %}" class="bg-gray-100 hover:bg-yellow-500 text-black px-4 py-2 rounded-full ml-2">Sign Up</a>
+            {% endif %}
+          </div>
+        </div>
+        
+      </div>
+    </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Titre et sous-titre -->
+  <div class="text-center mt-16">
+    <h2 class="text-pretty text-4xl font-semibold tracking-tight text-white sm:text-5xl">Create your website now!</h2>
+    <p class="text-white mt-2">Choose the template that you like 😍</p>
+  </div>
+  
+</div>
+
+
+
+{% block content %}
+<div class="bg-transparent text-white h-full ">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    
+    
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16   pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      <!-- Première carte -->
+      <article class="flex max-w-xl flex-col items-center justify-center relative group">
+      <h3 class="mt-3 mb-8 text-lg font-semibold text-white flex items-center justify-center"
+    style="text-shadow: 3px 3px 10px rgba(0, 0, 0, 1);">
+  <a href="{% static 'famm/index.html' %}">
+    <span class="absolute inset-0"></span>
+    Boost your conversion rate
+  </a>
+</h3>
+
+
+
+        <div class="relative w-full h-64 overflow-hidden rounded-lg shadow-md">
+          <img src="{% static 'imageTemplate/image1.png' %}" alt="Image" class="object-cover w-full h-full">
+          <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="{% static 'famm/about.html' %}">
+              <button class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-full mx-2">View</button>
+            </a>
+            {% if user.is_authenticated %}
+            <!-- Si l'utilisateur est authentifié, il est dirigé vers la page de modification -->
+            <a href="{% static 'famm1/about.html' %}">
+              <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full mx-2">Modify</button>
+            </a>
+          {% else %}
+            <!-- Sinon, il est redirigé vers la page de connexion -->
+            <a href="{% url 'accounts:login' %}">
+              <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full mx-2">Modify</button>
+            </a>
+          {% endif %}
+          </div>
+        </div>
+      </article>
+
+      <!-- Deuxième carte -->
+      <article class="flex max-w-xl flex-col items-center justify-center relative group">
+        <h3 class="mt-3 mb-8 text-lg font-semibold text-white group-hover:text-gray-600 flex items-center justify-center">
+          <a href="{% static 'browny-v1.0/index.html' %}">
+            <span class="absolute inset-0"></span>
+            Improve your sales
+          </a>
+        </h3>
+        <div class="relative w-full h-64 overflow-hidden rounded-lg shadow-md">
+          <img src="{% static 'imageTemplate/img2.png' %}" alt="Image" class="object-cover w-full h-full">
+          <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="{% static 'browny-v1.0/index.html' %}">
+              <button class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-full mx-2">View</button>
+            </a>
+            {% if user.is_authenticated %}
+            <!-- Si l'utilisateur est authentifié, il est dirigé vers la page de modification -->
+            <a href="{% static 'famm1/about.html' %}">
+              <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full mx-2">Modify</button>
+            </a>
+          {% else %}
+            <!-- Sinon, il est redirigé vers la page de connexion -->
+            <a href="{% url 'accounts:login' %}">
+              <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full mx-2">Modify</button>
+            </a>
+          {% endif %}          </div>
+        </div>
+      </article>
+
+      <!-- Troisième carte -->
+      <article class="flex max-w-xl flex-col items-center justify-center relative group">
+        <h3 class="mt-3 mb-8 text-lg font-semibold text-white group-hover:text-gray-600 flex items-center justify-center">
+          <a href="{% static 'listrace-v1.0/index.html' %}">
+            <span class="absolute inset-0"></span>
+            Expand your reach
+          </a>
+        </h3>
+        <div class="relative w-full h-64 overflow-hidden rounded-lg shadow-md">
+          <img src="{% static 'imageTemplate/img3.png' %}" alt="Image" class="object-cover w-full h-full">
+          <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="{% static 'listrace-v1.0/index.html' %}">
+              <button class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-full mx-2">View</button>
+            </a>
+            {% if user.is_authenticated %}
+            <!-- Si l'utilisateur est authentifié, il est dirigé vers la page de modification -->
+            <a href="{% static 'famm1/about.html' %}">
+              <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full mx-2">Modify</button>
+            </a>
+          {% else %}
+            <!-- Sinon, il est redirigé vers la page de connexion -->
+            <a href="{% url 'accounts:login' %}">
+              <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full mx-2">Modify</button>
+            </a>
+          {% endif %}          </div>
+        </div>
+      </article>
+
+
+
+
+<!-- Cinquième carte -->
+
+
+<!-- Sixième carte -->
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+</body>
+</html>

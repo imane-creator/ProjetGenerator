@@ -1,0 +1,13 @@
+<section class="why_section layout_padding">
+    <div class="container">
+       <div class="heading_container heading_center">
+          <h2>{{ heading }}</h2>
+       </div>
+       <div class="row">
+          {% for card in cards %}
+          {% include "components/why_card.html" with card=card %}
+          {% endfor %}
+       </div>
+    </div>
+ </section>
+ 

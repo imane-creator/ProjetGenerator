@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <!-- CDN Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+{% load static %}
+{% block content %}
+    <!-- Conteneur principal en Flex -->
+    <div class="min-h-screen flex bg-gray-100">
+        <!-- Section gauche (arrière-plan ou vide) -->
+        <div class="flex-1 bg-indigo-600 text-white flex justify-center items-center">
+          <!-- Conteneur vidéo -->
+          <div class="relative w-full h-full">
+              <!-- Vidéo en plein écran dans le div -->
+              <video autoplay loop muted class="absolute inset-0 w-full h-full object-cover">
+                  <source src="{% static 'vidio/vid2.mp4' %}" type="video/mp4" />
+                  Votre navigateur ne supporte pas la vidéo.
+              </video>
+          </div>
+      </div>
+      
+
+        <!-- Section droite (formulaire de connexion) -->
+        <div class="w-full max-w-md p-6 bg-white border border-gray-300 rounded-lg shadow-md flex items-center">
+            <div class="w-full">
+                <div class="text-center">
+                    <h2 class="text-2xl font-semibold text-black mb-4">Connexion</h2>
+                    <h3 class="text-xl font-medium text-gray-600 mb-4">Rejoignez-nous dès maintenant 🚀</h3>
+                    <p class="text-sm text-gray-500 mb-6">Gérez vos tâches facilement et efficacement.</p>
+
+                    <!-- Formulaire de connexion -->
+                    <form method="POST" class="space-y-4">
+                        {% csrf_token %}
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+                            <input name="username" id="username" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                            <input type="password" name="password" id="password" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required placeholder="********">
+                        </div>
+
+                        <!-- Erreur (si elle existe) -->
+                        {% if form.non_field_errors %}
+                        <div class="text-sm text-red-500 mt-2">
+                            {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Se connecter</button>
+                    </form>
+
+                    <div class="mt-4 text-center text-black">
+                        <p class="text-sm">Pas encore de compte ? 
+                            <a href="{% url 'accounts:register' %}" class="text-indigo-600 hover:text-indigo-500">Inscrivez-vous</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+</body>
+</html>
