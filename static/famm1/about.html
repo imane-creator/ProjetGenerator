@@ -20,89 +20,252 @@
       <link href="css/style.css" rel="stylesheet" />
       <!-- responsive style -->
       <link href="css/responsive.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
       <style>
-         .editable {
-             border: 1px dashed #ccc;
-             padding: 10px;
-             cursor: pointer;
-         }
- 
-         .editable:hover {
-             border: 1px solid #007bff;
-         }
-         .editable-image {
+        .editable {
+          border: 2px dashed #0d6efd;
+          padding: 10px;
+          cursor: pointer;
+          margin: 5px 0;
+        }
+        .editable:hover {
+          border: 1px solid #007bff;
+        }
+        .editable-image {
+          cursor: pointer;
+          border: 2px dashed #007bff;
+          transition: border 0.3s ease;
+          width: auto;
+          height: auto;
+        }
+        .editable-image:hover {
+          border-color: #0056b3;
+        }
+        #color-popup {
+          position: absolute;
+          display: none;
+          z-index: 1000;
+          background: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          padding: 10px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .popup-modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 60%;
+          height: 80%;
+          background-color: rgba(0, 0, 0, 0.5);
+          justify-content: center;
+          align-items: center;
+        }
+        .popup-content {
+          background-color: white;
+          padding: 20px;
+          border-radius: 5px;
+          text-align: center;
+          width: 300px;
+        }
+        .popup-content input {
+          width: 80%;
+          height: 200px;
+          padding: 8px;
+          margin: 10px 0;
+        }
+        .popup-content button {
+          margin: 5px;
+          padding: 8px 85px;
+        }
+        .modal-dialog {
+          max-width: 600px;
+        }
+        .modal-content {
+          border-radius: 10px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .modal-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        textarea#editor {
+          width: 100%;
+          height: 700px !important; /* Hauteur augmentée */
+          resize: vertical; /* Laisser l'utilisateur ajuster si besoin */
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          font-size: 16px;
+        }
+        .modal-footer {
+          display: flex !important;
+          align-items: center;
+          justify-content: flex-end;
+          margin-right: 18px !important;
+        }
+        .modal-footer .btn {
+        font-size: 0.9rem;            /* Réduit la taille du texte */
+        padding: 0.3rem 0.6rem !important;  /* Réduit l'espace intérieur */
+       }
+       .ck.ck-editor_main>.ck-editor_editable:not(.ck-focused) {
+       border-color: var(--ck-color-base-border);
+       height: 150px !important;
+       }
+       .color-picker-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1050;
+            display: none;
+        }
+        
+        .color-picker-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        #editable-text700, #editable-text-200 {
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+}
+       /* Permettre le changement de couleur sur toutes les sections */
+.arrival_section, 
+.footer_section, 
+.box {
+    position: relative;
+    cursor: pointer;
+}
+
+
+
+
+
+/* Ajoutez plutôt ces règles */
+.editable {
+    position: relative;
+    z-index: 10;
+}
+
+.editable-section, 
+.arrival_section, 
+.footer_section, 
+.box {
+    position: relative;
+    cursor: pointer;
+}
+
+#color-popup {
+    z-index: 10000;
+    padding: 15px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+.editable-image {
     cursor: pointer;
     border: 2px dashed #007bff;
-    transition: border 0.3s ease;
-    max-width: 7cm; /* S'adapte à la largeur du conteneur */
-    max-height: 3cm; /* Limite la hauteur */
-    width: auto; /* Conserve les proportions */
-    height: auto; /* Conserve les proportions */
+    transition: all 0.3s ease;
 }
-
 .editable-image:hover {
     border-color: #0056b3;
+    opacity: 0.8;
+}
+.editable-icon {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.editable-icon:hover {
+    transform: scale(1.1);
+    color: #007bff;
+}
+.editable-icon::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px dashed #007bff;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.editable-icon:hover::after {
+    opacity: 1;
 }
 
-     </style>
+      </style>
    </head>
    <body class="sub_page">
-  
-      <div class="hero_area">
-        <!-- Navbar stylisée -->
-<nav class="navbar navbar-expand-lg bg-black bg-opacity-75 ">
-  <div class="container">
-     <!-- Logo -->
-     <a class="navbar-brand text-white" href="#">
-        <img src="images/logo copy.png" alt="Logo" width="90">
-     </a>
-
-     <!-- Contenu à droite -->
-     <div class="ms-auto d-flex align-items-center">
-        <!-- Boutons supplémentaires (comme dans votre exemple) -->
-        <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white me-3">
-           Dashboard
-        </a>
-        <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white me-3">
-           Team
-        </a>
-        <!-- Bouton Publier -->
-        <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold">Publier</button>
-     </div>
-  </div>
-</nav>
-
+    <nav class="navbar navbar-expand-lg bg-black bg-opacity-75 ">
+      <div class="container">
+         <!-- Logo -->
+         <a class="navbar-brand text-white" href="#">
+            <img src="images/logo copy.png" alt="Logo" width="90">
+         </a>
+    
+         <!-- Contenu à droite -->
+         <div class="ms-auto d-flex align-items-center">
+            <!-- Boutons supplémentaires (comme dans votre exemple) -->
+            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white me-3">
+               Dashboard
+            </a>
+            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white me-3">
+               Team
+            </a>
+            <!-- Bouton Publier -->
+            <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold">Publier</button>
+         </div>
+      </div>
+    </nav>
+      <div class="hero_area editable-section " style="cursor: pointer; border: 3px dashed #a9b1b7;">
+      
          <!-- header section strats -->
          <header class="header_section">
             <div class="container">
                <nav class="navbar navbar-expand-lg custom_nav-container ">
-                  <a class="navbar-brand" href="#"><img width="250" class="editable-image"  src="images/logo.png" alt="#" /></a>
+                  <a class="navbar-brand" href="#"><img style="max-width: 7cm;  max-height: 3cm;" class="editable-image"  src="images/logo.png" alt="#" /></a>
                   
                   <!-- popup image -->
-<!-- Image Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                  <!-- Modal pour éditer les images -->
+<div class="modal fade" id="imageEditModal" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog">
        <div class="modal-content">
            <div class="modal-header">
-               <h5 class="modal-title" id="imageModalLabel">Modifier l'image</h5>
+               <h5 class="modal-title">Modifier l'image</h5>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
            </div>
            <div class="modal-body">
-               <form id="imageForm">
-                   <div class="mb-3">
-                       <label for="uploadImage" class="form-label">Téléchargez une image</label>
-                       <input type="file" class="form-control" id="uploadImage" accept="image/*">
-                   </div>
-               </form>
+               <div class="mb-3">
+                   <label for="image-url-input" class="form-label">URL de l'image</label>
+                   <input type="text" class="form-control" id="image-url-input">
+               </div>
+               <div class="mb-3">
+                   <label class="form-label">Ou télécharger une image</label>
+                   <input type="file" class="form-control" id="image-upload-input" accept="image/*">
+               </div>
            </div>
            <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-               <button type="button" class="btn btn-primary" id="saveImage">Sauvegarder</button>
+               <button type="button" class="btn btn-primary" id="save-image-changes">Enregistrer</button>
            </div>
        </div>
    </div>
 </div>
+                
 
 <!-- ============end popup image========== -->
                   
@@ -132,78 +295,45 @@
                         </li>
                         <li class="nav-item">
                            <a class="nav-link" href="#">
-                              <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                                 <g>
-                                    <g>
-                                       <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                                          c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                                    </g>
-                                 </g>
-                                 <g>
-                                    <g>
-                                       <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                                          C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                                          c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                                          C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                                    </g>
-                                 </g>
-                                 <g>
-                                    <g>
-                                       <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                                          c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                                    </g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                                 <g>
-                                 </g>
-                              </svg>
+                              <i class=" editable-icon fas fa-shopping-cart" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                            </a>
                         </li>
-                        <form class="form-inline">
+                        <li class="nav-item">
                            <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                           <i class="fa fa-search" aria-hidden="true"></i>
+                           <i class="editable-icon fa fa-search" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                            </button>
-                        </form>
+                        </li>
+                        
+                        
+                         <!-- La Popup -->
+                 <!-- Popup Modal pour ajouter un élément -->
+              <div id="popup-modal" class="popup-modal" style="z-index: 1000;">
+                <div class="popup-content">
+                  <h4>Ajouter un élément</h4>
+                  <input type="text" id="new-nav-item-name" placeholder="Entrez le nom de l'élément" />
+                  <button id="save-nav-item" class="btn btn-success">Sauvegarder</button>
+                  <button id="cancel-nav-item" class="btn btn-secondary">Annuler</button>
+                </div>
+              </div>
+
+
                      </ul>
+
+                     
                   </div>
                </nav>
+               
             </div>
          </header>
+         <!-- end header section -->
       </div>
+     
 
- <section class="inner_page_head">
+ <section class="editable-section inner_page_head" style="background-color: #f7444e; color: white; cursor: pointer; border: 3px dashed #d9e0e5;">
    <div class="container-fluid">
        <div class="row">
            <div class="col-md-12">
                <div class="full">
-                   <!-- Zone éditable -->
                    <h3 class="editable" id="editable-text-1">About us</h3>
                </div>
            </div>
@@ -211,30 +341,34 @@
    </div>
 </section>
 
+<!-- Popup pour le sélecteur de couleur -->
+<div id="color-popup">
+   <input type="color" id="color-picker" value="#3b82f6">
+</div>
+<!--  -->
+
+<!-- Popup Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg">
-       <div class="modal-content">
-           <div class="modal-header">
-               <h5 class="modal-title" id="editModalLabel">Modifier le texte</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-               <textarea id="editor"></textarea>
-           </div>
-           <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-               <button type="button" class="btn btn-primary" id="saveChanges">Enregistrer</button>
-           </div>
-       </div>
-   </div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>            
+                
+            </div>
+            <div class="modal-body">
+                <textarea id="editor"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="padding: 0.55rem 0.5rem;" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" style="padding: 0.55rem 0.5rem;"  id="saveChanges">Enregistrer</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-
-
-
    
-      <section class="why_section layout_padding">
+      <section class="why_section layout_padding editable-section" style="cursor: pointer; border: 3px dashed #a9b1b7;">
+         <div class="container-fluid">
          <div class="container">
             <div class="heading_container heading_center">
                <h2 class="editable" id="editable-text-8">
@@ -242,10 +376,10 @@
                </h2>
             </div>
             <div class="row">
-               <div class="col-md-4">
-                     <div class="box ">
+               <div class="col-md-4 ">
+                  <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
                      <div class="img-box" style="font-size: 50px;">
-                     <i class="fa-solid fa-car"></i>
+                        <i class="editable-icon fas fa-car" data-icon-class="fa-car" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                      </div>
 
                      <div class="detail-box">
@@ -260,9 +394,9 @@
                   </div>
                </div>
                <div class="col-md-4">
-                  <div class="box ">
+                  <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
                      <div class="img-box" style="font-size: 50px;">
-                          <i class="fa-solid fa-truck-fast" ></i>                     
+                        <i class="editable-icon fas fa-truck-fast" data-icon-class="fa-truck-fast" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                      </div>
                      <div class="detail-box">
                         <h5 class="editable" id="editable-text-4">
@@ -275,10 +409,10 @@
                   </div>
                </div>
                <div class="col-md-4">
-                  <div class="box ">
+                  <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
                      <div class="img-box" style="font-size: 50px;">
-                        <i class="fa-solid fa-star" ></i>                     
-                   </div>
+                        <i class="editable-icon fas fa-star" data-icon-class="fa-star" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                     </div>
                      <div class="detail-box">
                         <h5 class="editable" id="editable-text6">
                            Best Quality
@@ -292,37 +426,60 @@
             </div>
          </div>
       </section>  
+      <!-- end why section -->
+       <!-- Modal pour choisir les icônes -->
+<div class="modal fade" id="iconEditModal" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title">Choisir une icône</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+           </div>
+           <div class="modal-body">
+               <div class="mb-3">
+                   <input type="text" id="icon-search" class="form-control" placeholder="Rechercher une icône...">
+               </div>
+               <div class="icon-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-height: 400px; overflow-y: auto;">
+                   <!-- Les icônes seront chargées ici par JavaScript -->
+               </div>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+               <button type="button" class="btn btn-primary" id="save-icon-changes">Enregistrer</button>
+           </div>
+       </div>
+   </div>
+</div>
 
 
 
 
-      <section class="arrival_section">
+      <!-- arrival section -->
+      <section class="arrival_section editable-section" style="border: 2px dashed #007bff;">
          <div class="container">
             <div class="box">
                <div class="arrival_bg_box">
-                  <img src="images/arrival-bg.png" alt="">
+                  <img class="editable-image" src="images/arrival-bg.png" alt="" data-image-id="arrival-bg">
                </div>
                <div class="row">
                   <div class="col-md-6 ml-auto">
                      <div class="heading_container remove_line_bt">
-                        <h2 class="editable" id="editable-text70">
+                        <h2 class="editable" id="editable-text700" style="position: relative; z-index: 10;">
                            #NewArrivals
                         </h2>
                      </div>
-                     <p style="margin-top: 20px;margin-bottom: 30px;" class="editable" id="editable-text-10">
+                     <p style="margin-top: 20px;margin-bottom: 30px;" class="editable" id="editable-text-200" style="position: relative; z-index: 10;">
                         Vitae fugiat laboriosam officia perferendis provident aliquid voluptatibus dolorem, fugit ullam sit earum id eaque nisi hic? Tenetur commodi, nisi rem vel, ea eaque ab ipsa, autem similique ex unde!
                      </p>
-                     <a href="" class="editable" id="editable-text-11">
-                     Shop Now
-                     </a>
                   </div>
                </div>
             </div>
          </div>
       </section>
-      
-      <footer class="footer_section">
-         <div class="container">
+      <!-- end arrival section -->
+      <!-- footer section -->
+      <footer class="footer_section editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
+         <div class="container ">
             <div class="row">
                <div class="col-md-4 footer-col">
                   <div class="footer_contact">
@@ -331,19 +488,19 @@
                      </h4>
                      <div class="contact_link_box">
                         <p>
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <i class="editable-icon fa fa-map-marker" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;" ></i>
                         <span class="editable" id="editable-text21">
                         Location
                         </span>
                      </p>
                         <p>
-                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <i class="editable-icon fa fa-phone" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                         <span class="editable" id="editable-text22">
                         Call +01 1234567890
                         </span>
                      </p>
                         <p>
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <i class=" editable-icon fa fa-envelope" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;" ></i>
                         <span class="editable" id="editable-text23">
                         demo@gmail.com
                         </span>
@@ -361,16 +518,16 @@
                      </p>
                      <div class="footer_social">
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="fa-brands fa-facebook"></i>
+                           <i class="editable-icon fa-brands fa-facebook" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                         </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="fa-brands fa-twitter"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-twitter" style="cursor: pointer; border: 1px dashed #d9e0e5;" ></i>                        </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="fa-brands fa-linkedin"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-linkedin" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>                        </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="fa-brands fa-instagram"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-instagram" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>                        </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="fa-brands fa-pinterest"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-pinterest" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>                        </div>
                      </div>
                   </div>
                </div>
@@ -393,108 +550,242 @@
          </div>
       </footer>
       <!-- footer section -->
-      <!-- jQery -->
       <script src="js/jquery-3.4.1.min.js"></script>
-      <!-- popper js -->
       <script src="js/popper.min.js"></script>
-      <!-- bootstrap js -->
       <script src="js/bootstrap.js"></script>
-      <script type="module" src="js/generate.js"></script>
-
-      <!-- custom js -->
       <script src="js/custom.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    
-
-      <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+      <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
-
+  
       <script>
-         document.addEventListener('DOMContentLoaded', function () {
-             const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-             const editorTextarea = document.getElementById('editor');
-             const saveButton = document.getElementById('saveChanges');
-             let editorInstance = null; // Stocker l'instance CKEditor
-             let currentEditableElement = null; // Élément actuellement édité
-      
-             // Fonction pour initialiser ou réinitialiser CKEditor
-             function initializeEditor(content) {
-                 if (editorInstance) {
-                     editorInstance.setData(content); // Met à jour le contenu
-                 } else {
-                     CKEDITOR.replace('editor'); // Initialise CKEditor
-                     editorInstance = CKEDITOR.instances.editor;
-                 }
-             }
-      
-             // Attacher des événements à toutes les zones éditables
-             document.querySelectorAll('.editable').forEach(element => {
-                 element.addEventListener('click', function () {
-                     currentEditableElement = element; // Mémoriser l'élément sélectionné
-                     const content = currentEditableElement.innerHTML; // Récupérer le contenu
-                     initializeEditor(content); // Charger le contenu dans CKEditor
-                     editModal.show(); // Afficher le modal
-                 });
-             });
-      
-             // Sauvegarder les modifications
-             saveButton.addEventListener('click', function () {
-                 if (editorInstance) {
-                     currentEditableElement.innerHTML = editorInstance.getData(); // Mettre à jour le contenu de l'élément
-                 }
-                 editModal.hide(); // Fermer le modal
-             });
-      
-             // Réinitialiser l'éditeur lorsque le modal se ferme
-             document.getElementById('editModal').addEventListener('hidden.bs.modal', function () {
-                 if (editorInstance) {
-                     editorInstance.setData(''); // Réinitialiser le contenu de l'éditeur
-                 }
-             });
-         });
+document.addEventListener('DOMContentLoaded', function() {
+    // Configuration de l'éditeur de texte
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+    const saveButton = document.getElementById('saveChanges');
+    let editorInstance;
+    let currentEditableElement;
 
-         //image 
-    document.addEventListener('DOMContentLoaded', function () {
-        const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
-        const uploadImageInput = document.getElementById('uploadImage');
-        const saveImageButton = document.getElementById('saveImage');
-        let currentEditableImage = null;
+    function initializeEditor(content) {
+        if (editorInstance) {
+            editorInstance.setData(content);
+        } else {
+            ClassicEditor
+                .create(document.querySelector('#editor'))
+                .then(editor => {
+                    editorInstance = editor;
+                    editor.setData(content);
+                })
+                .catch(error => {
+                    console.error('Erreur CKEditor:', error);
+                });
+        }
+    }
 
-        // Détection de clic sur les images éditables
-        document.querySelectorAll('.editable-image').forEach(image => {
-            image.addEventListener('click', function () {
-               event.preventDefault();
-                currentEditableImage = image; // Stocker l'image actuelle
-                uploadImageInput.value = ""; // Réinitialiser le champ de téléchargement
-                imageModal.show(); // Afficher la modal
-            });
+    // Gestion des éléments éditables (texte)
+    document.querySelectorAll('.editable, [id^="editable-text"]').forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            currentEditableElement = element;
+            initializeEditor(currentEditableElement.innerHTML);
+            editModal.show();
         });
+    });
+    saveButton.addEventListener('click', function() {
+        if (editorInstance && currentEditableElement) {
+            currentEditableElement.innerHTML = editorInstance.getData();
+        }
+        editModal.hide();
+    });
 
-        // Sauvegarder la nouvelle image
-        saveImageButton.addEventListener('click', function () {
-            if (uploadImageInput.files.length > 0) {
-                const file = uploadImageInput.files[0];
-                const reader = new FileReader();
+    // Gestion des couleurs de section
+    const sections = document.querySelectorAll('.editable-section, .arrival_section, .footer_section, .box');
+    const colorPopup = document.getElementById('color-popup');
+    const colorPicker = document.getElementById('color-picker');
+    let currentSection = null;
 
-                reader.onload = function (event) {
-                    currentEditableImage.src = event.target.result; // Remplacer la source de l'image
-                };
-
-                reader.readAsDataURL(file); // Lire le fichier
+    sections.forEach((section) => {
+        section.addEventListener('click', function(e) {
+            // Vérifier si on a cliqué sur un élément éditable ou ses enfants
+            if (e.target.closest('.editable') || e.target.closest('[id^="editable-text"]')) {
+                return;
             }
-
-            imageModal.hide(); // Fermer la modal
+            
+            currentSection = section;
+            colorPopup.style.display = 'block';
+            colorPopup.style.top =  ` ${e.clientY}px`;
+            colorPopup.style.left =  `${e.clientX}px `;
+            e.stopPropagation();
         });
     });
 
+    colorPicker.addEventListener('input', (e) => {
+        if (currentSection) {
+            currentSection.style.backgroundColor = e.target.value;
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!colorPopup.contains(e.target)) {
+            colorPopup.style.display = 'none';
+        }
+    });
+
+    // ... (le reste de votre code existant) ...
+
+    // ... (le reste de votre code existant) ...
+
+            // Votre code existant pour la navbar...
+            const navbar = document.querySelector('.navbar-nav');
+            const addNavItemLink = document.getElementById('add-nav-item');
+            const popupModal = document.getElementById('popup-modal');
+            const newNavItemName = document.getElementById('new-nav-item-name');
+            const saveNavItemBtn = document.getElementById('save-nav-item');
+            const cancelNavItemBtn = document.getElementById('cancel-nav-item');
     
-   // Attacher un écouteur d'événements au bouton "Publier"
-   
+            addNavItemLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                popupModal.style.display = 'flex';
+            });
+    
+            function addNavItem(name) {
+                const newLi = document.createElement('li');
+                newLi.className = 'nav-item';
+    
+                const newLink = document.createElement('a');
+                newLink.className = 'nav-link editable';
+                newLink.href = '#';
+                newLink.textContent = name;
+    
+                newLi.appendChild(newLink);
+                navbar.appendChild(newLi);
+    
+                newLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentEditableElement = this;
+                    initializeEditor(this.innerHTML);
+                    editModal.show();
+                });
+    
+                popupModal.style.display = 'none';
+                newNavItemName.value = '';
+            }
+    
+            saveNavItemBtn.addEventListener('click', () => {
+                const itemName = newNavItemName.value.trim();
+                if (itemName) {
+                    addNavItem(itemName);
+                } else {
+                    alert('Veuillez entrer un nom valide pour l\'élément.');
+                }
+            });
+    
+            cancelNavItemBtn.addEventListener('click', () => {
+                popupModal.style.display = 'none';
+                newNavItemName.value = '';
+            });
+        });
 
-       // Créer le contenu HTML dynamique de la page
+        const imageModal = new bootstrap.Modal(document.getElementById('imageEditModal'));
+    const imageInput = document.getElementById('image-url-input');
+    const saveImageBtn = document.getElementById('save-image-changes');
+    let currentImageElement;
 
+    document.querySelectorAll('.editable-image').forEach(img => {
+        img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            currentImageElement = img;
+            imageInput.value = img.src;
+            imageModal.show();
+        });
+    });
 
-</script>
+    saveImageBtn.addEventListener('click', function() {
+        if (currentImageElement && imageInput.value) {
+            currentImageElement.src = imageInput.value;
+        }
+        imageModal.hide();
+    });
+    document.getElementById('image-upload-input').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById('image-url-input').value = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+// Gestion des icônes
+const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
+const iconSearch = document.getElementById('icon-search');
+const iconGrid = document.querySelector('.icon-grid');
+const saveIconBtn = document.getElementById('save-icon-changes');
+let currentIconElement;
+
+// Liste des icônes Font Awesome à afficher (vous pouvez la personnaliser)
+const popularIcons = [
+    'fa-car', 'fa-truck', 'fa-star', 'fa-check', 'fa-heart',
+    'fa-bolt', 'fa-rocket', 'fa-gem', 'fa-plane', 'fa-ship',
+    'fa-bicycle', 'fa-motorcycle', 'fa-bus', 'fa-train', 'fa-subway',
+    'fa-shield-alt', 'fa-trophy', 'fa-medal', 'fa-crown', 'fa-award',
+    'fa-lightbulb', 'fa-bell', 'fa-gift', 'fa-umbrella', 'fa-leaf'
+];
+
+// Charger les icônes dans le modal
+function loadIcons(searchTerm = '') {
+    iconGrid.innerHTML = '';
+    const filteredIcons = popularIcons.filter(icon => 
+        icon.includes(searchTerm.toLowerCase())
+    );
+    
+    filteredIcons.forEach(icon => {
+        const iconElement = document.createElement('div');
+        iconElement.className = 'text-center p-2';
+        iconElement.style.cursor = 'pointer';
+        iconElement.innerHTML =  `<i class="fas ${icon} fa-2x"></i><div class="small mt-1">${icon.replace('fa-', '')}</div> `;
+        
+        iconElement.addEventListener('click', () => {
+            document.querySelectorAll('.icon-grid div').forEach(el => {
+                el.style.backgroundColor = '';
+            });
+            iconElement.style.backgroundColor = '#e9f5ff';
+            currentIconElement.dataset.iconClass = icon;
+        });
+        
+        iconGrid.appendChild(iconElement);
+    });
+}
+
+// Gestion du clic sur les icônes
+document.querySelectorAll('.editable-icon').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        
+        currentIconElement = this;
+        loadIcons();
+        iconModal.show();
+    });
+});
+
+// Recherche d'icônes
+iconSearch.addEventListener('input', (e) => {
+    loadIcons(e.target.value);
+});
+
+// Sauvegarde des changements
+saveIconBtn.addEventListener('click', function() {
+    if (currentIconElement) {
+        const newIconClass = currentIconElement.dataset.iconClass;
+        currentIconElement.className = `editable-icon fas ${newIconClass}`;
+    }
+    iconModal.hide();
+});
+        </script>
 
       
       
