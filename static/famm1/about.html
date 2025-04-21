@@ -556,7 +556,8 @@
       <script src="js/custom.js"></script>
       <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
-  
+  		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
       <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration de l'éditeur de texte
@@ -605,6 +606,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const colorPicker = document.getElementById('color-picker');
     let currentSection = null;
 
+
+
+
+    
     sections.forEach((section) => {
         section.addEventListener('click', function(e) {
             // Vérifier si on a cliqué sur un élément éditable ou ses enfants
