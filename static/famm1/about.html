@@ -23,6 +23,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+      
 
       <style>
         .editable {
@@ -148,10 +149,6 @@
     cursor: pointer;
 }
 
-
-
-
-
 /* Ajoutez plutôt ces règles */
 .editable {
     position: relative;
@@ -208,7 +205,11 @@
 }
 
       </style>
-   </head>
+<!-- Après les autres liens CSS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>   
+
+</head>
    <body class="sub_page">
     <nav class="navbar navbar-expand-lg bg-black bg-opacity-75 ">
       <div class="container">
@@ -227,11 +228,10 @@
                Team
             </a>
             <!-- Bouton Publier -->
-            <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold">Publier</button>
-         </div>
+<!-- Trouvez ce bouton dans votre navbar -->
+<button class="btn btn-warning rounded-pill px-4 py-2 fw-bold" id="publishBtn">Publier</button>         </div>
       </div>
     </nav>
-      <div class="hero_area editable-section " style="cursor: pointer; border: 3px dashed #a9b1b7;">
       
          <!-- header section strats -->
          <header class="header_section">
@@ -305,17 +305,7 @@
                         </li>
                         
                         
-                         <!-- La Popup -->
-                 <!-- Popup Modal pour ajouter un élément -->
-              <div id="popup-modal" class="popup-modal" style="z-index: 1000;">
-                <div class="popup-content">
-                  <h4>Ajouter un élément</h4>
-                  <input type="text" id="new-nav-item-name" placeholder="Entrez le nom de l'élément" />
-                  <button id="save-nav-item" class="btn btn-success">Sauvegarder</button>
-                  <button id="cancel-nav-item" class="btn btn-secondary">Annuler</button>
-                </div>
-              </div>
-
+       
 
                      </ul>
 
@@ -587,12 +577,12 @@ document.addEventListener('DOMContentLoaded', function() {
         element.addEventListener('click', function(e) {
             e.stopPropagation();
             e.preventDefault();
-            
             currentEditableElement = element;
             initializeEditor(currentEditableElement.innerHTML);
             editModal.show();
         });
     });
+
     saveButton.addEventListener('click', function() {
         if (editorInstance && currentEditableElement) {
             currentEditableElement.innerHTML = editorInstance.getData();
@@ -612,87 +602,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     sections.forEach((section) => {
         section.addEventListener('click', function(e) {
-            // Vérifier si on a cliqué sur un élément éditable ou ses enfants
-            if (e.target.closest('.editable') || e.target.closest('[id^="editable-text"]')) {
-                return;
-            }
-            
+            if (e.target.closest('.editable') || e.target.closest('[id^="editable-text"]')) return;
             currentSection = section;
             colorPopup.style.display = 'block';
-            colorPopup.style.top =  ` ${e.clientY}px`;
-            colorPopup.style.left =  `${e.clientX}px `;
+            colorPopup.style.top = `${e.clientY}px`;
+            colorPopup.style.left = `${e.clientX}px`;
             e.stopPropagation();
         });
     });
 
     colorPicker.addEventListener('input', (e) => {
-        if (currentSection) {
-            currentSection.style.backgroundColor = e.target.value;
-        }
+        if (currentSection) currentSection.style.backgroundColor = e.target.value;
     });
 
     document.addEventListener('click', (e) => {
-        if (!colorPopup.contains(e.target)) {
-            colorPopup.style.display = 'none';
-        }
+        if (!colorPopup.contains(e.target)) colorPopup.style.display = 'none';
     });
 
-    // ... (le reste de votre code existant) ...
+    
+   
 
-    // ... (le reste de votre code existant) ...
-
-            // Votre code existant pour la navbar...
-            const navbar = document.querySelector('.navbar-nav');
-            const addNavItemLink = document.getElementById('add-nav-item');
-            const popupModal = document.getElementById('popup-modal');
-            const newNavItemName = document.getElementById('new-nav-item-name');
-            const saveNavItemBtn = document.getElementById('save-nav-item');
-            const cancelNavItemBtn = document.getElementById('cancel-nav-item');
-    
-            addNavItemLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                popupModal.style.display = 'flex';
-            });
-    
-            function addNavItem(name) {
-                const newLi = document.createElement('li');
-                newLi.className = 'nav-item';
-    
-                const newLink = document.createElement('a');
-                newLink.className = 'nav-link editable';
-                newLink.href = '#';
-                newLink.textContent = name;
-    
-                newLi.appendChild(newLink);
-                navbar.appendChild(newLi);
-    
-                newLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    currentEditableElement = this;
-                    initializeEditor(this.innerHTML);
-                    editModal.show();
-                });
-    
-                popupModal.style.display = 'none';
-                newNavItemName.value = '';
-            }
-    
-            saveNavItemBtn.addEventListener('click', () => {
-                const itemName = newNavItemName.value.trim();
-                if (itemName) {
-                    addNavItem(itemName);
-                } else {
-                    alert('Veuillez entrer un nom valide pour l\'élément.');
-                }
-            });
-    
-            cancelNavItemBtn.addEventListener('click', () => {
-                popupModal.style.display = 'none';
-                newNavItemName.value = '';
-            });
-        });
-
-        const imageModal = new bootstrap.Modal(document.getElementById('imageEditModal'));
+    // Gestion des images
+    const imageModal = new bootstrap.Modal(document.getElementById('imageEditModal'));
     const imageInput = document.getElementById('image-url-input');
     const saveImageBtn = document.getElementById('save-image-changes');
     let currentImageElement;
@@ -701,7 +632,6 @@ document.addEventListener('DOMContentLoaded', function() {
         img.addEventListener('click', function(e) {
             e.stopPropagation();
             e.preventDefault();
-            
             currentImageElement = img;
             imageInput.value = img.src;
             imageModal.show();
@@ -714,84 +644,147 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         imageModal.hide();
     });
+
     document.getElementById('image-upload-input').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            document.getElementById('image-url-input').value = event.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-// Gestion des icônes
-const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
-const iconSearch = document.getElementById('icon-search');
-const iconGrid = document.querySelector('.icon-grid');
-const saveIconBtn = document.getElementById('save-icon-changes');
-let currentIconElement;
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('image-url-input').value = event.target.result;
+                if (currentImageElement) currentImageElement.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
-// Liste des icônes Font Awesome à afficher (vous pouvez la personnaliser)
-const popularIcons = [
-    'fa-car', 'fa-truck', 'fa-star', 'fa-check', 'fa-heart',
-    'fa-bolt', 'fa-rocket', 'fa-gem', 'fa-plane', 'fa-ship',
-    'fa-bicycle', 'fa-motorcycle', 'fa-bus', 'fa-train', 'fa-subway',
-    'fa-shield-alt', 'fa-trophy', 'fa-medal', 'fa-crown', 'fa-award',
-    'fa-lightbulb', 'fa-bell', 'fa-gift', 'fa-umbrella', 'fa-leaf'
-];
+    // Gestion des icônes
+    const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
+    const iconSearch = document.getElementById('icon-search');
+    const iconGrid = document.querySelector('.icon-grid');
+    const saveIconBtn = document.getElementById('save-icon-changes');
+    let currentIconElement;
+    const popularIcons = [
+        'fa-car', 'fa-truck', 'fa-star', 'fa-check', 'fa-heart',
+        'fa-bolt', 'fa-rocket', 'fa-gem', 'fa-plane', 'fa-ship',
+        'fa-bicycle', 'fa-motorcycle', 'fa-bus', 'fa-train', 'fa-subway',
+        'fa-shield-alt', 'fa-trophy', 'fa-medal', 'fa-crown', 'fa-award',
+        'fa-lightbulb', 'fa-bell', 'fa-gift', 'fa-umbrella', 'fa-leaf'
+    ];
 
-// Charger les icônes dans le modal
-function loadIcons(searchTerm = '') {
-    iconGrid.innerHTML = '';
-    const filteredIcons = popularIcons.filter(icon => 
-        icon.includes(searchTerm.toLowerCase())
-    );
-    
-    filteredIcons.forEach(icon => {
-        const iconElement = document.createElement('div');
-        iconElement.className = 'text-center p-2';
-        iconElement.style.cursor = 'pointer';
-        iconElement.innerHTML =  `<i class="fas ${icon} fa-2x"></i><div class="small mt-1">${icon.replace('fa-', '')}</div> `;
-        
-        iconElement.addEventListener('click', () => {
-            document.querySelectorAll('.icon-grid div').forEach(el => {
-                el.style.backgroundColor = '';
+    function loadIcons(searchTerm = '') {
+        iconGrid.innerHTML = '';
+        const filteredIcons = popularIcons.filter(icon => icon.includes(searchTerm.toLowerCase()));
+        filteredIcons.forEach(icon => {
+            const iconElement = document.createElement('div');
+            iconElement.className = 'text-center p-2';
+            iconElement.style.cursor = 'pointer';
+            iconElement.innerHTML = `<i class="fas ${icon} fa-2x"></i><div class="small mt-1">${icon.replace('fa-', '')}</div>`;
+            iconElement.addEventListener('click', () => {
+                document.querySelectorAll('.icon-grid div').forEach(el => el.style.backgroundColor = '');
+                iconElement.style.backgroundColor = '#e9f5ff';
+                currentIconElement.dataset.iconClass = icon;
             });
-            iconElement.style.backgroundColor = '#e9f5ff';
-            currentIconElement.dataset.iconClass = icon;
+            iconGrid.appendChild(iconElement);
         });
-        
-        iconGrid.appendChild(iconElement);
-    });
-}
-
-// Gestion du clic sur les icônes
-document.querySelectorAll('.editable-icon').forEach(icon => {
-    icon.addEventListener('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        
-        currentIconElement = this;
-        loadIcons();
-        iconModal.show();
-    });
-});
-
-// Recherche d'icônes
-iconSearch.addEventListener('input', (e) => {
-    loadIcons(e.target.value);
-});
-
-// Sauvegarde des changements
-saveIconBtn.addEventListener('click', function() {
-    if (currentIconElement) {
-        const newIconClass = currentIconElement.dataset.iconClass;
-        currentIconElement.className = `editable-icon fas ${newIconClass}`;
     }
-    iconModal.hide();
-});
-        </script>
 
+    document.querySelectorAll('.editable-icon').forEach(icon => {
+        icon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            currentIconElement = this;
+            loadIcons();
+            iconModal.show();
+        });
+    });
+
+    iconSearch.addEventListener('input', (e) => loadIcons(e.target.value));
+    saveIconBtn.addEventListener('click', function() {
+        if (currentIconElement) {
+            currentIconElement.className = `editable-icon fas ${currentIconElement.dataset.iconClass}`;
+        }
+        iconModal.hide();
+    });
+
+});
+</script>
+<script>
+document.getElementById('publishBtn').addEventListener('click', async () => {
+    try {
+        // Cloner le document
+        const docClone = document.cloneNode(true);
+
+        // Supprimer les éléments d'édition
+        const elementsToRemove = [
+            ...docClone.querySelectorAll('#color-popup, #editModal, #imageEditModal, #iconEditModal'),
+            docClone.querySelector('nav.navbar')
+        ];
+        elementsToRemove.forEach(el => el?.remove());
+
+        // Nettoyer les classes et styles
+        docClone.querySelectorAll('*').forEach(element => {
+            if (element.nodeType === Node.ELEMENT_NODE) {
+                if (element.className && typeof element.className === 'string') {
+                    element.className = element.className
+                        .replace(/(^|\s)(editable|editable-image|editable-icon)(\s|$)/g, ' ')
+                        .trim();
+                }
+                if (element.style) {
+                    element.style.removeProperty('border');
+                    element.style.removeProperty('cursor');
+                }
+            }
+        });
+
+        // Récupérer le HTML final
+        const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Site Final</title>
+    ${[...docClone.querySelectorAll('link[rel="stylesheet"]')]
+        .map(link => `<link rel="stylesheet" href="${link.getAttribute('href')}">`)
+        .join('\n    ')}
+</head>
+<body>
+    ${docClone.querySelector('body').innerHTML}
+</body>
+</html>`;
+
+        // Créer le ZIP
+        const zip = new JSZip();
+        zip.file("index.html", htmlContent);
+
+        // Ajouter les fichiers CSS
+        const cssFolder = zip.folder("css");
+        const cssFiles = [...docClone.querySelectorAll('link[rel="stylesheet"][href^="css/"]')];
+        await Promise.all(cssFiles.map(async link => {
+            const href = link.getAttribute('href');
+            const response = await fetch(href);
+            const cssContent = await response.text();
+            cssFolder.file(href.split('/').pop(), cssContent);
+        }));
+
+        // Ajouter les images externes
+        const imgFolder = zip.folder("images");
+        const images = [...docClone.querySelectorAll('img[src^="images/"]')];
+        await Promise.all(images.map(async img => {
+            const src = img.getAttribute('src');
+            const response = await fetch(src);
+            const blob = await response.blob();
+            imgFolder.file(src.split('/').pop(), blob);
+        }));
+
+        // Générer le ZIP
+        const content = await zip.generateAsync({ type: "blob" });
+        saveAs(content, "site-final.zip");
+
+    } catch (error) {
+        console.error("Erreur :", error);
+        alert("Erreur lors de la génération du site. Vérifiez la console.");
+    }
+});
+   </script>
       
       
    </body>
