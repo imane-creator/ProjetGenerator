@@ -1,1069 +1,696 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 
 <head>
-	<!-- meta data -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Directory Landing Page</title>
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-	<!--font-family-->
-	<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-	
-	<!-- title of site -->
-	<title>Directory Landing Page</title>
+    <link rel="stylesheet" href="assets/css/linearicons.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 
-	<!-- For favicon png -->
-	<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+    <style>
+        .navbar {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+            transition: all 0.3s ease;
+            z-index: 99999 !important;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #333 !important;
+            transition: color 0.3s ease;
+        }
+        .navbar-brand span {
+            color: #f44336;
+        }
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 10px 20px !important;
+            margin: 0 5px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-item.active .nav-link {
+            color: #f44336 !important;
+        }
+        .navbar-toggler {
+            border: none;
+            padding: 10px;
+        }
+        .navbar-toggler .fa-bars {
+            font-size: 24px;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        @media (max-width: 991px) {
+            .navbar-nav {
+                background-color: #fff;
+                padding: 15px;
+                text-align: center;
+            }
+            .navbar-nav .nav-link {
+                padding: 12px 0 !important;
+                margin: 5px 0;
+            }
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+        .statistics {
+            padding: 80px 0;
+            background-color: #1a1a1a;
+            font-family: 'Poppins', sans-serif;
+        }
+        .statistics-counter {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .single-ststistics-box {
+            text-align: center;
+            position: relative;
+        }
+        .statistics-content {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+        .counter {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+        .statistics-content span {
+            font-size: 24px;
+            color: #fff;
+            opacity: 0.8;
+        }
+        .single-ststistics-box h3 {
+            color: #fff;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 12px;
+            font-weight: 300;
+        }
+        @media (max-width: 768px) {
+            .statistics-counter {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+            .single-ststistics-box:not(:last-child)::after {
+                display: none;
+            }
+            .counter {
+                font-size: 36px;
+            }
+            .statistics-content span {
+                font-size: 20px;
+            }
+            .single-ststistics-box h3 {
+                font-size: 14px;
+            }
+        }
+        .statistics * {
+            color: #fff !important;
+        }
    
-	<!--font-awesome.min.css-->
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-
-	<!--linear icon css-->
-	<link rel="stylesheet" href="assets/css/linearicons.css">
-
-	<!--animate.css-->
-	<link rel="stylesheet" href="assets/css/animate.css">
-
-	<!--flaticon.css-->
-	<link rel="stylesheet" href="assets/css/flaticon.css">
-
-	<!--slick.css-->
-	<link rel="stylesheet" href="assets/css/slick.css">
-	<link rel="stylesheet" href="assets/css/slick-theme.css">
-	
-	<!-- Bootstrap 5.1.3 CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
-		  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
-		  crossorigin="anonymous">
-	
-	<!-- bootsnav -->
-	<link rel="stylesheet" href="assets/css/bootsnav.css" >	
-	
-	<!--style.css-->
-	<link rel="stylesheet" href="assets/css/style.css">
-	
-	<!--responsive.css-->
-	<link rel="stylesheet" href="assets/css/responsive.css">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
-	
-	<!-- Ajouts pour l'édition -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-	<style>
-		.navbar {
-			font-family: 'Poppins', sans-serif;
-			background-color: #fff !important;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-			padding: 12px 0;
-			transition: all 0.3s ease;
-		}
-		
-		.navbar-brand {
-			font-weight: 700;
-			font-size: 1.8rem;
-			color: #333 !important;
-			transition: color 0.3s ease;
-		}
-		
-		.navbar-brand span {
-			color: #f44336;
-		}
-		
-		.navbar-nav .nav-link {
-			color: #333 !important;
-			font-weight: 500;
-			text-transform: uppercase;
-			letter-spacing: 0.8px;
-			padding: 10px 20px !important;
-			margin: 0 5px;
-			position: relative;
-			transition: all 0.3s ease;
-		}
-		
-		.navbar-nav .nav-link:hover,
-		.navbar-nav .nav-item.active .nav-link {
-			color: #f44336 !important;
-		}
-		
-	
-		
-		
-		.navbar-toggler {
-			border: none;
-			padding: 10px;
-		}
-		
-		.navbar-toggler .fa-bars {
-			font-size: 24px;
-			color: #333;
-			transition: color 0.3s ease;
-		}
-		
-		@media (max-width: 991px) {
-			.navbar-nav {
-				background-color: #fff;
-				padding: 15px;
-				text-align: center;
-			}
-			
-			.navbar-nav .nav-link {
-				padding: 12px 0 !important;
-				margin: 5px 0;
-			}
-			
-			.navbar-brand {
-				font-size: 1.5rem;
-			}
-		}
-
-		.statistics {
-    padding: 80px 0;
-    background-color: #1a1a1a;
-    font-family: 'Poppins', sans-serif;
+        #color-popup {
+            position: fixed;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 10000;
+            display: none;
+        }
+ 
+       
+       
+        #works.works {
+            display: block;
+        }
+        .modal-dialog {
+            max-width: 600px;
+            margin: 1.75rem auto;
+            position: relative;
+        }
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        textarea#editor {
+            width: 100%;
+            height: 200px !important;
+            resize: vertical;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .modal-footer {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: 18px !important;
+        }
+        .modal-footer .btn {
+            font-size: 0.9rem;
+            padding: 0.3rem 0.6rem !important;
+        }
+      
+        .modal {
+            z-index: 100000 !important;
+        }
+        .modal-backdrop {
+            z-index: 99999 !important;
+        }
+        #publishBtn {
+            position: relative;
+            z-index: 100000;
+            transition: all 0.3s ease;
+        }
+        #publishBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+        /* Ajouter ce style */
+.icon-grid i.fa {
+    pointer-events: auto !important;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
-.statistics-counter {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    flex-wrap: wrap;
+.icon-grid i.fa:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.2);
+}
+/* Dans la section <style> */
+    .icon-item {
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    padding: 10px !important;
 }
 
-.single-ststistics-box {
-    text-align: center;
-    position: relative;
+.icon-item:hover {
+    background: #f0f8ff !important;
+    transform: scale(1.1);
 }
 
-.statistics-content {
-    display: flex;
-    align-items: baseline;
-    gap: 5px;
+.icon-item i {
+    pointer-events: none; /* Permet de cliquer sur toute la zone */
 }
+.navbar-publish-only {
+            background-color: #000 !important; /* Fond noir pour correspondre à l'ancienne navbar */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+        }
 
-.counter {
-    font-size: 48px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1;
+        .navbar-publish-only .btn-publish {
+            background-color: #ffc107; /* Couleur jaune du bouton warning */
+            border-color: #ffc107;
+            color: #000;
+            font-weight: bold;
+            padding: 8px 24px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-publish-only .btn-publish:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .navbar-publish-only .btn-publish {
+    font-size: 1.5rem; /* Texte encore plus grand */
+    padding: 16px 40px; /* Padding encore plus large */
 }
-
-.statistics-content span {
-    font-size: 24px;
-    color: #fff;
-    opacity: 0.8;
-}
-
-.single-ststistics-box h3 {
-    color: #fff;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 12px;
-    font-weight: 300;
+.navbar-publish-only .btn-publish {
+    min-width: 200px; /* Largeur minimale */
 }
 
 
-@media (max-width: 768px) {
-    .statistics-counter {
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
-    
-    .single-ststistics-box:not(:last-child)::after {
-        display: none;
-    }
-    
-    .counter {
-        font-size: 36px;
-    }
-    
-    .statistics-content span {
-        font-size: 20px;
-    }
-    
-    .single-ststistics-box h3 {
-        font-size: 14px;
-    }
-}
-
-/* Ajout générique pour forcer la couleur */
-.statistics * {
-    color: #fff !important;
-}
-
-
-	#works.works {
-    margin-top: 100px !important; 
-    display: block; /* Pour forcer le comportement de bloc */
-}
-.welcome-hero {
-    position: relative;
-    background: url(../images/welcome-hero/banner.jpg) no-repeat;
-    background-position: center;
-    background-size: cover;
-    text-align: center;
-    height: 800px;
-    z-index: 1;
-}
-</style>
-		
+    </style>
 </head>
-	
-	<body>
-		<!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
-		
-		<!--header-top start -->
-		<header id="header-top" class="header-top">
-			<ul>
-				<li>
-					<div class="header-top-left">
-						<ul>
-							<li class="select-opt">
-								<select name="language" id="language">
-									<option value="default">EN</option>
-									<option value="Bangla">BN</option>
-									<option value="Arabic">AB</option>
-								</select>
-							</li>
-							<li class="select-opt">
-								<select name="currency" id="currency">
-									<option value="usd">USD</option>
-									<option value="euro">Euro</option>
-									<option value="bdt">BDT</option>
-								</select>
-							</li>
-							<li class="select-opt">
-								<a href="#"><span class="lnr lnr-magnifier"></span></a>
-							</li>
-						</ul>
-					</div>
-				</li>
-				<li class="head-responsive-right pull-right">
-					<div class="header-top-right">
-						<ul>
-							<li class="header-top-contact">
-								+1 222 777 6565
-							</li>
-							<li class="header-top-contact">
-								<a href="#">sign in</a>
-							</li>
-							<li class="header-top-contact">
-								<a href="#">register</a>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-					
-		</header><!--/.header-top-->
-		<!--header-top end -->
 
-		<!-- top-area Start -->
-		<section class="top-area">
-			<div class="header-area">
-				<!-- Start Navigation -->
-				<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-					<div class="container">
-						<a class="navbar-brand" href="index.html">list<span>race</span></a>
-						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
-							<i class="fas fa-bars"></i>
-						</button>
-						<div class="collapse navbar-collapse" id="navbar-menu">
-							<ul class="navbar-nav ms-auto">
-								<li class="nav-item">
-									<a class="nav-link" href="#home">home</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#works">how it works</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#explore">explore</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#reviews">review</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#blog">blog</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#contact">contact</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</nav>
-		   
-				<!--/nav-->
-			    <!-- End Navigation -->
-			</div><!--/.header-area-->
-		    <div class="clearfix"></div>
+<body>
+    <section class="top-area ">
+        <div class="header-area">
+            
+            <nav class="navbar navbar-expand-lg navbar-dark ">
+                <div class="container">
+                    <a class="navbar-brand editable" href="index.html">list<span>race</span></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+                        <i class="fas fa-bars editable-icon"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link editable" href="#home">home</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#works">how it works</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#explore">explore</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#reviews">review</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#blog">blog</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#contact">contact</a></li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="clearfix"></div>
+    </section>
 
-		</section><!-- /.top-area-->
-		<!-- top-area End -->
-
-		<!--welcome-hero start -->
-		<section id="home" class="welcome-hero editable-section">
-			<div>
-			   <!-- Image cachée pour l'édition -->
-			   <img class="editable-image" src="../images/welcome-hero/banner.jpg" alt="Background Image" style="display: none;" data-image-id="welcome-hero-bg">
-			   <div class="container">
-				  <div class="welcome-hero-txt">
-					 <h2>best place to find and explore <br> that all you need</h2>
-					 <p>
-						Find Best Place, Restaurant, Hotel, Real State and many more think in just One click 
-					 </p>
-				  </div>
-				  <div class="welcome-hero-serch-box">
-					 <div class="welcome-hero-form">
-						<div class="single-welcome-hero-form">
-						   <h3>what?</h3>
-						   <form action="index.html">
-							  <input type="text" placeholder="Ex: palce, resturent, food, automobile" />
-						   </form>
-						   <div class="welcome-hero-form-icon">
-							  <i class="flaticon-list-with-dots"></i>
-						   </div>
-						</div>
-						<div class="single-welcome-hero-form">
-						   <h3>location</h3>
-						   <form action="index.html">
-							  <input type="text" placeholder="Ex: london, newyork, rome" />
-						   </form>
-						   <div class="welcome-hero-form-icon">
-							  <i class="flaticon-gps-fixed-indicator"></i>
-						   </div>
-						</div>
-					 </div>
-					 <div class="welcome-hero-serch">
-						<button class="welcome-hero-btn" onclick="window.location.href='#'">
-						   search <i data-feather="search"></i>
-						</button>
-					 </div>
-				  </div>
-			   </div>
-			</div>
-		 </section>
-		<!--list-topics end-->
-
-		<!--works start -->
-		<section id="works" class="works">
-			<div class="container">
-				<div class="section-header">
-					<h2>how it works</h2>
-					<p>Learn More about how our website works</p>
-				</div><!--/.section-header-->
-				<div class="works-content">
-					<div class="row">
-						<div class="col-md-4 col-sm-6">
-							<div class="single-how-works">
-								<div class="single-how-works-icon">
-									<i class="flaticon-lightbulb-idea"></i>
-								</div>
-								<h2><a href="#">choose <span> what to</span> do</a></h2>
-								<p>
-									Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua. 
-								</p>
-								<button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">
-									read more
-								</button>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-how-works">
-								<div class="single-how-works-icon">
-									<i class="flaticon-networking"></i>
-								</div>
-								<h2><a href="#">find <span> what you want</span></a></h2>
-								<p>
-									Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua. 
-								</p>
-								<button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">
-									read more
-								</button>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-how-works">
-								<div class="single-how-works-icon">
-									<i class="flaticon-location-on-road"></i>
-								</div>
-								<h2><a href="#">explore <span> amazing</span> place</a></h2>
-								<p>
-									Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua. 
-								</p>
-								<button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">
-									read more
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div><!--/.container-->
-		
-		</section><!--/.works-->
-		<!--works end -->
-
-		<!--explore start -->
-		<section id="explore" class="explore">
-			<div class="container">
-				<div class="section-header">
-					<h2>explore</h2>
-					<p>Explore New place, food, culture around the world and many more</p>
-				</div><!--/.section-header-->
-				<div class="explore-content">
-					<div class="row">
-						<div class=" col-md-4 col-sm-6">
-							<div class="single-explore-item">
-								<div class="single-explore-img">
-									<img src="assets/images/explore/e1.jpg" alt="explore image">
-									<div class="single-explore-img-info">
-										<button onclick="window.location.href='#'">best rated</button>
-										<div class="single-explore-image-icon-box">
-											<ul>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-arrows-alt"></i>
-													</div>
-												</li>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-bookmark-o"></i>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="single-explore-txt bg-theme-1">
-									<h2><a href="#">tommy helfinger bar</a></h2>
-									<p class="explore-rating-price">
-										<span class="explore-rating">5.0</span>
-										<a href="#"> 10 ratings</a> 
-										<span class="explore-price-box">
-											form
-											<span class="explore-price">5$-300$</span>
-										</span>
-										 <a href="#">resturent</a>
-									</p>
-									<div class="explore-person">
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="explore-person-img">
-													<a href="#">
-														<img src="assets/images/explore/person.png" alt="explore person">
-													</a>
-												</div>
-											</div>
-											<div class="col-sm-10">
-												<p>
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua.... 
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="explore-open-close-part">
-										<div class="row">
-											<div class="col-sm-5">
-												<button class="close-btn" onclick="window.location.href='#'">close now</button>
-											</div>
-											<div class="col-sm-7">
-												<div class="explore-map-icon">
-													<a href="#"><i data-feather="map-pin"></i></a>
-													<a href="#"><i data-feather="upload"></i></a>
-													<a href="#"><i data-feather="heart"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-explore-item">
-								<div class="single-explore-img">
-									<img src="assets/images/explore/e2.jpg" alt="explore image">
-									<div class="single-explore-img-info">
-										<button onclick="window.location.href='#'">featured</button>
-										<div class="single-explore-image-icon-box">
-											<ul>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-arrows-alt"></i>
-													</div>
-												</li>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-bookmark-o"></i>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="single-explore-txt bg-theme-2">
-									<h2><a href="#">swim and dine resort</a></h2>
-									<p class="explore-rating-price">
-										<span class="explore-rating">4.5</span>
-										<a href="#"> 8 ratings</a> 
-										<span class="explore-price-box">
-											form
-											<span class="explore-price">50$-500$</span>
-										</span>
-										 <a href="#">hotel</a>
-									</p>
-									<div class="explore-person">
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="explore-person-img">
-													<a href="#">
-														<img src="assets/images/explore/person.png" alt="explore person">
-													</a>
-												</div>
-											</div>
-											<div class="col-sm-10">
-												<p>
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua.... 
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="explore-open-close-part">
-										<div class="row">
-											<div class="col-sm-5">
-												<button class="close-btn open-btn" onclick="window.location.href='#'">open now</button>
-											</div>
-											<div class="col-sm-7">
-												<div class="explore-map-icon">
-													<a href="#"><i data-feather="map-pin"></i></a>
-													<a href="#"><i data-feather="upload"></i></a>
-													<a href="#"><i data-feather="heart"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-explore-item">
-								<div class="single-explore-img">
-									<img src="assets/images/explore/e3.jpg" alt="explore image">
-									<div class="single-explore-img-info">
-										<button onclick="window.location.href='#'">best rated</button>
-										<div class="single-explore-image-icon-box">
-											<ul>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-arrows-alt"></i>
-													</div>
-												</li>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-bookmark-o"></i>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="single-explore-txt bg-theme-3">
-									<h2><a href="#">europe tour</a></h2>
-									<p class="explore-rating-price">
-										<span class="explore-rating">5.0</span>
-										<a href="#"> 15 ratings</a> 
-										<span class="explore-price-box">
-											form
-											<span class="explore-price">5k$-10k$</span>
-										</span>
-										 <a href="#">destination</a>
-									</p>
-									<div class="explore-person">
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="explore-person-img">
-													<a href="#">
-														<img src="assets/images/explore/person.png" alt="explore person">
-													</a>
-												</div>
-											</div>
-											<div class="col-sm-10">
-												<p>
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua.... 
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="explore-open-close-part">
-										<div class="row">
-											<div class="col-sm-5">
-												<button class="close-btn" onclick="window.location.href='#'">close now</button>
-											</div>
-											<div class="col-sm-7">
-												<div class="explore-map-icon">
-													<a href="#"><i data-feather="map-pin"></i></a>
-													<a href="#"><i data-feather="upload"></i></a>
-													<a href="#"><i data-feather="heart"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class=" col-md-4 col-sm-6">
-							<div class="single-explore-item">
-								<div class="single-explore-img">
-									<img src="assets/images/explore/e4.jpg" alt="explore image">
-									<div class="single-explore-img-info">
-										<button onclick="window.location.href='#'">most view</button>
-										<div class="single-explore-image-icon-box">
-											<ul>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-arrows-alt"></i>
-													</div>
-												</li>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-bookmark-o"></i>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="single-explore-txt bg-theme-4">
-									<h2><a href="#">banglow with swiming pool</a></h2>
-									<p class="explore-rating-price">
-										<span class="explore-rating">5.0</span>
-										<a href="#"> 10 ratings</a> 
-										<span class="explore-price-box">
-											form
-											<span class="explore-price">10k$-15k$</span>
-										</span>
-										 <a href="#">real estate</a>
-									</p>
-									<div class="explore-person">
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="explore-person-img">
-													<a href="#">
-														<img src="assets/images/explore/person.png" alt="explore person">
-													</a>
-												</div>
-											</div>
-											<div class="col-sm-10">
-												<p>
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua.... 
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="explore-open-close-part">
-										<div class="row">
-											<div class="col-sm-5">
-												<button class="close-btn" onclick="window.location.href='#'">close now</button>
-											</div>
-											<div class="col-sm-7">
-												<div class="explore-map-icon">
-													<a href="#"><i data-feather="map-pin"></i></a>
-													<a href="#"><i data-feather="upload"></i></a>
-													<a href="#"><i data-feather="heart"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-explore-item">
-								<div class="single-explore-img">
-									<img src="assets/images/explore/e5.jpg" alt="explore image">
-									<div class="single-explore-img-info">
-										<button onclick="window.location.href='#'">featured</button>
-										<div class="single-explore-image-icon-box">
-											<ul>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-arrows-alt"></i>
-													</div>
-												</li>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-bookmark-o"></i>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="single-explore-txt bg-theme-2">
-									<h2><a href="#">vintage car expo</a></h2>
-									<p class="explore-rating-price">
-										<span class="explore-rating">4.2</span>
-										<a href="#"> 8 ratings</a> 
-										<span class="explore-price-box">
-											form
-											<span class="explore-price">500$-1200$</span>
-										</span>
-										 <a href="#">automotion</a>
-									</p>
-									<div class="explore-person">
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="explore-person-img">
-													<a href="#">
-														<img src="assets/images/explore/person.png" alt="explore person">
-													</a>
-												</div>
-											</div>
-											<div class="col-sm-10">
-												<p>
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua.... 
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="explore-open-close-part">
-										<div class="row">
-											<div class="col-sm-5">
-												<button class="close-btn open-btn" onclick="window.location.href='#'">open now</button>
-											</div>
-											<div class="col-sm-7">
-												<div class="explore-map-icon">
-													<a href="#"><i data-feather="map-pin"></i></a>
-													<a href="#"><i data-feather="upload"></i></a>
-													<a href="#"><i data-feather="heart"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-explore-item">
-								<div class="single-explore-img">
-									<img src="assets/images/explore/e6.jpg" alt="explore image">
-									<div class="single-explore-img-info">
-										<button onclick="window.location.href='#'">best rated</button>
-										<div class="single-explore-image-icon-box">
-											<ul>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-arrows-alt"></i>
-													</div>
-												</li>
-												<li>
-													<div class="single-explore-image-icon">
-														<i class="fa fa-bookmark-o"></i>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="single-explore-txt bg-theme-5">
-									<h2><a href="#">thailand tour</a></h2>
-									<p class="explore-rating-price">
-										<span class="explore-rating">5.0</span>
-										<a href="#"> 15 ratings</a> 
-										<span class="explore-price-box">
-											form
-											<span class="explore-price">5k$-10k$</span>
-										</span>
-										 <a href="#">destination</a>
-									</p>
-									<div class="explore-person">
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="explore-person-img">
-													<a href="#">
-														<img src="assets/images/explore/person.png" alt="explore person">
-													</a>
-												</div>
-											</div>
-											<div class="col-sm-10">
-												<p>
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua.... 
-												</p>
-											</div>
-										</div>
-									</div>
-									<div class="explore-open-close-part">
-										<div class="row">
-											<div class="col-sm-5">
-												<button class="close-btn" onclick="window.location.href='#'">close now</button>
-											</div>
-											<div class="col-sm-7">
-												<div class="explore-map-icon">
-													<a href="#"><i data-feather="map-pin"></i></a>
-													<a href="#"><i data-feather="upload"></i></a>
-													<a href="#"><i data-feather="heart"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div><!--/.container-->
-
-		</section><!--/.explore-->
-		<!--explore end -->
-
-		<!--reviews start -->
-		
-		<!--reviews end -->
-
-		<!-- statistics strat -->
-		<section id="statistics" class="statistics">
-			<div class="container">
-				<div class="statistics-counter">
-					<div class="single-ststistics-box">
-						<div class="statistics-content">
-							<div class="counter">90</div><span>K+</span>
-						</div>
-						<h3>listings</h3>
-					</div>
-					<div class="single-ststistics-box">
-						<div class="statistics-content">
-							<div class="counter">40</div><span>k+</span>
-						</div>
-						<h3>listing categories</h3>
-					</div>
-					<div class="single-ststistics-box">
-						<div class="statistics-content">
-							<div class="counter">65</div><span>k+</span>
-						</div>
-						<h3>visitors</h3>
-					</div>
-					<div class="single-ststistics-box">
-						<div class="statistics-content">
-							<div class="counter">50</div>
-							<span>k+</span>
-						</div>
-						<h3>happy clients</h3>
-					</div>
-				</div>
-			</div>
-		</section><!--/.counter-->	
-		<!-- statistics end -->
-
-		<!--blog start -->
-		<section id="blog" class="blog" >
-			<div class="container">
-				<div class="section-header">
-					<h2>news and articles</h2>
-					<p>Always upto date with our latest News and Articles </p>
-				</div><!--/.section-header-->
-				<div class="blog-content">
-					<div class="row">
-						<div class="col-md-4 col-sm-6">
-							<div class="single-blog-item">
-								<div class="single-blog-item-img">
-									<img src="assets/images/blog/b1.jpg" alt="blog image">
-								</div>
-								<div class="single-blog-item-txt">
-									<h2><a href="#">How to find your Desired Place more quickly</a></h2>
-									<h4>posted <span>by</span> <a href="#">admin</a> march 2018</h4>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-blog-item">
-								<div class="single-blog-item-img">
-									<img src="assets/images/blog/b2.jpg" alt="blog image">
-								</div>
-								<div class="single-blog-item-txt">
-									<h2><a href="#">How to find your Desired Place more quickly</a></h2>
-									<h4>posted <span>by</span> <a href="#">admin</a> march 2018</h4>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6">
-							<div class="single-blog-item">
-								<div class="single-blog-item-img">
-									<img src="assets/images/blog/b3.jpg" alt="blog image">
-								</div>
-								<div class="single-blog-item-txt">
-									<h2><a href="#">How to find your Desired Place more quickly</a></h2>
-									<h4>posted <span>by</span> <a href="#">admin</a> march 2018</h4>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div><!--/.container-->
-			
-		</section><!--/.blog-->
-		<!--blog end -->
-
-		<!--subscription strat -->
-		<section id="contact"  class="subscription">
-			<div class="container">
-				<div class="subscribe-title text-center">
-					<h2>
-						do you want to add your business listing with us?
-					</h2>
-					<p>
-						Listrace offer you to list your business with us and we very much able to promote your Business.
-					</p>
-				</div>
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="subscription-input-group">
-							<form action="#">
-								<input type="email" class="subscription-input-form" placeholder="Enter your email here">
-								<button class="appsLand-btn subscribe-btn" onclick="window.location.href='#'">
-									creat account
-								</button>
-							</form>
-						</div>
-					</div>	
-				</div>
-			</div>
-
-		</section><!--/subscription-->	
-		<!--subscription end -->
-
-		<!--footer start-->
-		<footer id="footer"  class="footer">
-			<div class="container">
-				<div class="footer-menu">
-		           	<div class="row">
-			           	<div class="col-sm-3">
-			           		 <div class="navbar-header">
-				                <a class="navbar-brand" href="index.html">list<span>race</span></a>
-				            </div><!--/.navbar-header-->
-			           	</div>
-			           	<div class="col-sm-9">
-			           		<ul class="footer-menu-item">
-			                    <li class="scroll"><a href="#works">how it works</a></li>
-			                    <li class="scroll"><a href="#explore">explore</a></li>
-			                    <li class="scroll"><a href="#reviews">review</a></li>
-			                    <li class="scroll"><a href="#blog">blog</a></li>
-			                    <li class="scroll"><a href="#contact">contact</a></li>
-			                    <li class=" scroll"><a href="#contact">my account</a></li>
-			                </ul><!--/.nav -->
-			           	</div>
-		           </div>
-				</div>
-				<div class="hm-footer-copyright">
-					<div class="row">
-						<div class="col-sm-5">
-							<p>
-								&copy;copyright. designed and developed by <a href="https://www.themesine.com/">themesine</a>
-							</p><!--/p-->
-						</div>
-						<div class="col-sm-7">
-							<div class="footer-social">
-								<span><i class="fa fa-phone"> +1  (222) 777 8888</i></span>
-								<a href="#"><i class="fa fa-facebook"></i></a>	
-								<a href="#"><i class="fa fa-twitter"></i></a>
-								<a href="#"><i class="fa fa-linkedin"></i></a>
-								<a href="#"><i class="fa fa-google-plus"></i></a>
-							</div>
-						</div>
-					</div>
-					
-				</div><!--/.hm-footer-copyright-->
-			</div><!--/.container-->
-
-			<div id="scroll-Top">
-				<div class="return-to-top">
-					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
-				</div>
-				
-			</div><!--/.scroll-Top-->
-			
-        </footer><!--/.footer-->
-		<!--footer end-->
-		
-		<!-- Include all js compiled plugins (below), or include individual files as needed -->
-<!-- Modals -->
-<div class="modal fade" id="editModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-body">
-                <textarea id="editor"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" onclick="editorInstance.getData().then(data => {
-                    currentEditable.innerHTML = data;
-                    editModal.hide();
-                })">Enregistrer</button>
+    <section id="home" class="welcome-hero ">
+        <div>
+            <img class="editable-image" src="assets/images/welcome-hero/banner.jpg" alt="Background Image" style="display: none;" data-image-id="welcome-hero-bg">
+            <div class="container">
+                <div class="welcome-hero-txt">
+                    <h2 class="editable">best place to find and explore <br> that all you need</h2>
+                    <p class="editable">Find Best Place, Restaurant, Hotel, Real State and many more think in just One click</p>
+                </div>
+                <div class="welcome-hero-serch-box">
+                    <div class="welcome-hero-form">
+                        <div class="single-welcome-hero-form">
+                            <h3 class="editable">what?</h3>
+                            <form action="index.html">
+                                <input type="text" placeholder="Ex: palce, resturent, food, automobile" />
+                            </form>
+                            <div class="welcome-hero-form-icon">
+                                <i class="flaticon-list-with-dots editable-icon"></i>
+                            </div>
+                        </div>
+                        <div class="single-welcome-hero-form">
+                            <h3 class="editable">location</h3>
+                            <form action="index.html">
+                                <input type="text" placeholder="Ex: london, newyork, rome" />
+                            </form>
+                            <div class="welcome-hero-form-icon">
+                                <i class="flaticon-gps-fixed-indicator editable-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="welcome-hero-serch">
+                        <button class="welcome-hero-btn" onclick="window.location.href='#'">
+                            search <i data-feather="search" class="editable-icon"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="modal fade" id="imageEditModal">
-    <!-- Contenu du modal d'image similaire à l'exemple -->
-</div>
+    <section id="works" class="works " >
+        <div class="container" style="margin-top: 100px;">
+            <div class="section-header">
+                <h2 class="editable">how it works</h2>
+                <p class="editable">Learn More about how our website works</p>
+            </div>
+            <div class="works-content">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-how-works " >
+                            <div class="single-how-works-icon">
+                                <i class="flaticon-lightbulb-idea editable-icon"></i>
+                            </div>
+                            <h2><a href="#" class="editable">choose <span> what to</span> do</a></h2>
+                            <p class="editable">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua.</p>
+                            <button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">read more</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-how-works " data-color-editable>
+                            <div class="single-how-works-icon">
+                                <i class="flaticon-networking editable-icon"></i>
+                            </div>
+                            <h2><a href="#" class="editable">find <span> what you want</span></a></h2>
+                            <p class="editable">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua.</p>
+                            <button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">read more</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-how-works " data-color-editable>
+                            <div class="single-how-works-icon">
+                                <i class="flaticon-location-on-road editable-icon"></i>
+                            </div>
+                            <h2><a href="#" class="editable">explore <span> amazing</span> place</a></h2>
+                            <p class="editable">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua.</p>
+                            <button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">read more</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="modal fade" id="iconEditModal">
-    <!-- Contenu du modal d'icônes similaire à l'exemple -->
-</div>
+    <section id="explore" class="explore " data-color-editable>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="editable">explore</h2>
+                <p class="editable">Explore New place, food, culture around the world and many more</p>
+            </div>
+            <div class="explore-content">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e1.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-1">
+                                <h2><a href="#" class="editable">tommy helfinger bar</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">10 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">5$-300$</span></span>
+                                    <a href="#" class="editable">resturent</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e2.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-2">
+                                <h2><a href="#" class="editable">swim and dine resort</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">4.5</span>
+                                    <a href="#" class="editable">8 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">50$-500$</span></span>
+                                    <a href="#" class="editable">hotel</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e3.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-3">
+                                <h2><a href="#" class="editable">europe tour</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">15 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">5k$-10k$</span></span>
+                                    <a href="#" class="editable">destination</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e4.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-4">
+                                <h2><a href="#" class="editable">banglow with swiming pool</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">10 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">10k$-15k$</span></span>
+                                    <a href="#" class="editable">real estate</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e5.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-2">
+                                <h2><a href="#" class="editable">vintage car expo</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">4.2</span>
+                                    <a href="#" class="editable">8 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">500$-1200$</span></span>
+                                    <a href="#" class="editable">automotion</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e6.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-5">
+                                <h2><a href="#" class="editable">thailand tour</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">15 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">5k$-10k$</span></span>
+                                    <a href="#" class="editable">destination</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div id="color-popup">
-    <input type="color" id="color-picker">
-</div>
+   
+
+    <section id="blog" class="blog " data-color-editable>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="editable">news and articles</h2>
+                <p class="editable">Always upto date with our latest News and Articles</p>
+            </div>
+            <div class="blog-content">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-blog-item">
+                            <div class="single-blog-item-img">
+                                <img src="assets/images/blog/b1.jpg" alt="blog image" class="editable-image">
+                            </div>
+                            <div class="single-blog-item-txt">
+                                <h2><a href="#" class="editable">How to find your Desired Place more quickly</a></h2>
+                                <h4 class="editable">posted <span>by</span> <a href="#">admin</a> march 2018</h4>
+                                <p class="editable">Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-blog-item">
+                            <div class="single-blog-item-img">
+                                <img src="assets/images/blog/b2.jpg" alt="blog image" class="editable-image">
+                            </div>
+                            <div class="single-blog-item-txt">
+                                <h2><a href="#" class="editable">How to find your Desired Place more quickly</a></h2>
+                                <h4 class="editable">posted <span>by</span> <a href="#">admin</a> march 2018</h4>
+                                <p class="editable">Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-blog-item">
+                            <div class="single-blog-item-img">
+                                <img src="assets/images/blog/b3.jpg" alt="blog image" class="editable-image">
+                            </div>
+                            <div class="single-blog-item-txt">
+                                <h2><a href="#" class="editable">How to find your Desired Place more quickly</a></h2>
+                                <h4 class="editable">posted <span>by</span> <a href="#">admin</a> march 2018</h4>
+                                <p class="editable">Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="subscription " data-color-editable>
+        <div class="container">
+            <div class="subscribe-title text-center">
+                <h2 class="editable">do you want to add your business listing with us?</h2>
+                <p class="editable">Listrace offer you to list your business with us and we very much able to promote your Business.</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="subscription-input-group">
+                        <form action="#">
+                            <input type="email" class="subscription-input-form" placeholder="Enter your email here">
+                            <button class="appsLand-btn subscribe-btn editable" onclick="window.location.href='#'">creat account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="footer ">
+        <div class="container">
+            <div class="footer-menu">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="navbar-header">
+                            <a class="navbar-brand editable" href="index.html">list<span>race</span></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <ul class="footer-menu-item">
+                            <li class="scroll"><a href="#works" class="editable">how it works</a></li>
+                            <li class="scroll"><a href="#explore" class="editable">explore</a></li>
+                            <li class="scroll"><a href="#reviews" class="editable">review</a></li>
+                            <li class="scroll"><a href="#blog" class="editable">blog</a></li>
+                            <li class="scroll"><a href="#contact" class="editable">contact</a></li>
+                            <li class="scroll"><a href="#contact" class="editable">my account</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="hm-footer-copyright">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <p class="editable">©copyright. designed and developed by <a href="https://www.themesine.com/">themesine</a></p>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="footer-social">
+                            <a href="#"><i class="fa-brands fa-facebook-f editable-icon"></i></a>
+<a href="#"><i class="fa-brands fa-twitter editable-icon"></i></a>
+<a href="#"><i class="fa-brands fa-linkedin-in editable-icon"></i></a>
+<a href="#"><i class="fa-brands fa-google-plus-g editable-icon"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="scroll-Top">
+            <div class="return-to-top">
+                <i class="fa fa-angle-up editable-icon" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+            </div>
+        </div>
+    </footer>
 
 
-		<script src="assets/js/jquery.js"></script>
-        
-        <!--modernizr.min.js-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-		
-		<!--bootstrap.min.js-->
-        <script src="assets/js/bootstrap.min.js"></script>
-		
-		<!-- bootsnav js -->
-		<script src="assets/js/bootsnav.js"></script>
+ 
 
-        <!--feather.min.js-->
-        <script  src="assets/js/feather.min.js"></script>
 
-        <!-- counter js -->
-		<script src="assets/js/jquery.counterup.min.js"></script>
-		<script src="assets/js/waypoints.min.js"></script>
 
-        <!--slick.min.js-->
-        <script src="assets/js/slick.min.js"></script>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-		     
-        <!--Custom JS-->
-        <script src="assets/js/custom.js"></script>
-
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
-            crossorigin="anonymous"></script>
-        
-    </body>
-	
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/BootsNav/1.1/bootsnav.min.js"></script>    
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+   
+</body>
 </html>
