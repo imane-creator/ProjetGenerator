@@ -1,0 +1,307 @@
+document.getElementById('publishBtn').addEventListener('click', () => {
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    paymentModal.show();
+});
+
+async function generateAndDownloadZip() {
+    try {
+        // Cloner le document
+        const docClone = document.cloneNode(true);
+        
+        const preserveElements = [
+            '#welcome-hero',
+            '#welcome-hero-title',
+            '#welcome-hero-subtitle',
+            '#profileImage'
+        ].map(sel => {
+            const original = document.querySelector(sel);
+            const clone = docClone.querySelector(sel);
+            if(original && clone) {
+                clone.style.cssText = original.style.cssText;
+                clone.className = original.className;
+            }
+            return clone;
+        });
+
+        // Nettoyage des styles et attributs
+        docClone.querySelectorAll('*').forEach(element => {
+            if (!element.closest('[data-editable-background]') && 
+                !element.classList.contains('editable') && 
+                !element.classList.contains('editable-section')) {
+                element.removeAttribute('style');
+            }
+            element.classList.remove('editable-section', 'editable-image', 'editable-icon');
+        });
+
+        // Copier les styles de fond
+        docClone.querySelectorAll('.editable-section').forEach(section => {
+            const originalSection = document.querySelector(`#${section.id}`);
+            if (originalSection) {
+                section.style.backgroundColor = originalSection.style.backgroundColor;
+                section.style.backgroundImage = originalSection.style.backgroundImage;
+                section.style.backgroundSize = originalSection.style.backgroundSize;
+                section.style.backgroundPosition = originalSection.style.backgroundPosition;
+            }
+        });
+
+        // Créer le ZIP
+        const zip = new JSZip();
+        const css = zip.folder('css');
+        const js = zip.folder('js');
+        const images = zip.folder('images');
+        const fonts = zip.folder('fonts');
+
+        // Gestion des CSS
+        const cssFiles = [
+            { path: 'assets/css/bootstrap.min.css', name: 'bootstrap.min.css' },
+            { path: 'assets/css/font-awesome.min.css', name: 'font-awesome.min.css' },
+            { path: 'assets/css/flaticon.css', name: 'flaticon.css' },
+            { path: 'assets/css/owl.carousel.min.css', name: 'owl.carousel.min.css' },
+            { path: 'assets/css/animate.css', name: 'animate.css' },
+            { path: 'assets/css/bootsnav.css', name: 'bootsnav.css' },
+            { path: 'assets/css/style.css', name: 'style.css' },
+            { path: 'assets/css/responsive.css', name: 'responsive.css' }
+        ];
+
+        await Promise.all(cssFiles.map(async ({ path, name }) => {
+            const response = await fetch(path);
+            let content = await response.text();
+            if(name === 'flaticon.css') {
+                content = content.replace(/url\(['"]?fonts\//g, 'url("../fonts/');
+            }
+            if(name === 'font-awesome.min.css') {
+                content = content.replace(/url\(['"]?\.\.\/fonts\//g, 'url("../fonts/');
+            }
+            css.file(name, content);
+        }));
+
+        // Gestion des polices
+        const fontFiles = [
+            'assets/fonts/flaticon.ttf',
+            'assets/fonts/flaticon.woff',
+            'assets/fonts/FontAwesome.otf',
+            'assets/fonts/fontawesome-webfont.woff',
+            'assets/fonts/fontawesome-webfont.ttf'
+        ];
+
+        await Promise.all(fontFiles.map(async path => {
+            const response = await fetch(path);
+            const blob = await response.blob();
+            fonts.file(path.split('/').pop(), blob);
+        }));
+
+        // Nettoyage profond
+        const cleanEditableElements = (element) => {
+            element.classList.remove(
+                'editable-section',
+                'editable-image', 
+                'editable-icon',
+                'editable'
+            );
+            element.removeAttribute('data-editable-background');
+            element.style.border = '';
+            element.style.cursor = '';
+            element.style.outline = '';
+            element.style.boxShadow = '';
+            Array.from(element.children).forEach(cleanEditableElements);
+        };
+
+        cleanEditableElements(docClone.documentElement);
+
+        // Suppression des éléments UI
+        const elementsToRemove = [
+            ...docClone.querySelectorAll(
+                '#color-popup, #editModal, #imageEditModal, #iconEditModal'
+            ),
+            docClone.querySelector('nav.navbar.navbar-publish-only'),
+            ...docClone.querySelectorAll('script')
+        ];
+        elementsToRemove.forEach(el => el?.remove());
+
+        // CSS correctif
+        const antiEditCSS = `
+            [class*="editable"], 
+            [data-editable-background], 
+            .editable-section {
+                all: unset !important;
+                border: none !important;
+                cursor: default !important;
+                outline: none !important;
+                background-image: none !important;
+            }
+            [data-editable-background] {
+                background-size: cover !important;
+                background-position: center !important;
+            }
+        `;
+
+        const style = docClone.createElement('style');
+        style.textContent = antiEditCSS;
+        docClone.head.appendChild(style);
+
+        // Gestion des images dynamiques
+        const handleDynamicImages = async () => {
+            const imagesElements = docClone.querySelectorAll('img');
+            for (const img of imagesElements) {
+                if (img.src.startsWith('data:')) {
+                    const match = img.src.match(/^data:image\/(\w+);base64,(.*)$/);
+                    if (match) {
+                        const [_, type, data] = match;
+                        const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+                        const filename = `dynamic-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
+                        await images.file(filename, buffer);
+                        img.src = `images/${filename}`;
+                    }
+                } else if (img.src.includes('assets/images/')) {
+                    img.src = `images/${img.src.split('/').pop()}`;
+                }
+            }
+
+            const bgSections = docClone.querySelectorAll('[data-editable-background], .editable-section');
+            for (const section of bgSections) {
+                const bg = section.style.backgroundImage;
+                if (bg) {
+                    const urlMatch = bg.match(/url\(["']?(.*?)["']?\)/);
+                    if (urlMatch && urlMatch[1].startsWith('data:')) {
+                        const match = urlMatch[1].match(/^data:image\/(\w+);base64,(.*)$/);
+                        if (match) {
+                            const [_, type, data] = match;
+                            const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+                            const filename = `bg-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
+                            await images.file(filename, buffer);
+                            section.style.backgroundImage = `url(images/${filename})`;
+                        }
+                    } else if (urlMatch && urlMatch[1].includes('assets/images/')) {
+                        section.style.backgroundImage = `url(images/${urlMatch[1].split('/').pop()})`;
+                    }
+                }
+            }
+        };
+
+        await handleDynamicImages();
+
+        // Gestion des JS
+        const jsFiles = [
+            { path: 'assets/js/jquery.js', name: 'jquery.js' },
+            { path: 'assets/js/bootstrap.bundle.min.js', name: 'bootstrap.bundle.min.js' },
+            { path: 'assets/js/owl.carousel.min.js', name: 'owl.carousel.min.js' },
+            { path: 'assets/js/jquery.sticky.js', name: 'jquery.sticky.js' },
+            { path: 'assets/js/bootsnav.js', name: 'bootsnav.js' },
+            { path: 'assets/js/progressbar.js', name: 'progressbar.js' },
+            { path: 'assets/js/jquery.appear.js', name: 'jquery.appear.js' },
+            { path: 'assets/js/custom.js', name: 'custom.js' }
+        ];
+
+        await Promise.all(jsFiles.map(async ({ path, name }) => {
+            const response = await fetch(path);
+            const content = await response.text();
+            js.file(name, content);
+        }));
+
+        // Mise à jour des références
+        const updateReferences = (el, attr) => {
+            const value = el.getAttribute(attr);
+            if(value.includes('assets/css/')) el.setAttribute(attr, `css/${value.split('/').pop()}`);
+            if(value.includes('assets/js/')) el.setAttribute(attr, `js/${value.split('/').pop()}`);
+            if(value.includes('assets/images/')) el.setAttribute(attr, `images/${value.split('/').pop()}`);
+        };
+
+        docClone.querySelectorAll('link').forEach(link => {
+            if(!link.href.includes('css/')) link.remove();
+            else updateReferences(link, 'href');
+        });
+
+        docClone.querySelectorAll('script').forEach(script => script.remove());
+
+        // Génération du HTML
+        const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Browny</title>
+    <style>
+        [data-editable-background], .editable-section {
+            background-size: cover !important;
+            background-position: center !important;
+        }
+        .header-area > .navbar.navbar-expand-lg {
+            z-index: 1040 !important;
+        }
+        body {
+            position: relative;
+            z-index: 0;
+            transform: none;
+        }
+        ${[...docClone.querySelectorAll('.editable-section, [data-editable-background]')].map(section => {
+            const styles = window.getComputedStyle(section);
+            return `#${section.id} {
+                background-color: ${styles.backgroundColor};
+                background-image: ${styles.backgroundImage};
+                background-size: ${styles.backgroundSize};
+                background-position: ${styles.backgroundPosition};
+            }`;
+        }).join('\n')}
+    </style>
+    ${[...docClone.querySelectorAll('link')].map(l => l.outerHTML).join('\n  ')}
+</head>
+<body>
+    ${docClone.querySelector('body').innerHTML}
+    <script src="js/jquery.js"><\/script>
+    <script src="js/bootstrap.bundle.min.js"><\/script>
+    <script src="js/owl.carousel.min.js"><\/script>
+    <script src="js/jquery.sticky.js"><\/script>
+    <script src="js/bootsnav.js"><\/script>
+    <script src="js/progressbar.js"><\/script>
+    <script src="js/jquery.appear.js"><\/script>
+    <script src="js/custom.js"><\/script>
+</body>
+</html>`;
+
+        zip.file('index.html', htmlContent);
+
+        // Générer et télécharger le ZIP
+        const content = await zip.generateAsync({ type: 'blob' });
+        saveAs(content, 'website.zip');
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la génération. Vérifiez la console.');
+    }
+}
+
+// Gestion du paiement
+document.getElementById('confirmPayment').addEventListener('click', async function() {
+    const inputs = ['#cardNumber', '#expiryDate', '#cvv', '#cardName'];
+    let isValid = true;
+    
+    inputs.forEach(selector => {
+        const input = document.querySelector(selector);
+        if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add('is-invalid');
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+
+    if (!isValid) {
+        alert('Veuillez remplir tous les champs !');
+        return;
+    }
+
+    this.disabled = true;
+    this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Traitement...';
+
+    try {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await generateAndDownloadZip();
+        new bootstrap.Modal(document.getElementById('paymentModal')).hide();
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors du traitement du paiement.');
+    } finally {
+        this.disabled = false;
+        this.innerHTML = 'Payer maintenant (9.99€)';
+        document.getElementById('paymentForm').reset();
+    }
+});

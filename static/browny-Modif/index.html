@@ -17,7 +17,9 @@
 
         <!-- For favicon png -->
 		<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
-       
+       <!-- Ajoutez ces CDN dans le <head> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <!--font-awesome.min.css-->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
@@ -216,6 +218,65 @@
   cursor: pointer;
 }
 
+.nav-tabs{border:none !important}
+.nav-tabs .nav-link.active{
+    color: #495057;
+    background-color: #fff;
+    border-color: #ffffff #ffffff #fff;
+    border-top: 3px solid blue !important
+}
+.nav-tabs .nav-link{
+    margin-bottom: -1px;
+    border: 1px solid transparent;
+    border-top-left-radius: 0rem;
+    border-top-right-radius: 0rem;
+    border-top: 3px solid #eee;
+    font-size: 20px
+}
+.nav-tabs .nav-link:hover{border-color: #e9ecef #ffffff #ffffff}
+.nav-tabs{display: table !important;width: 100%}
+.nav-item{display: table-cell}
+.form-control{
+    border-bottom: 1px solid #eee !important;
+    border:none;
+    font-weight: 600
+}
+.form-control:focus{
+    color: #495057;
+    background-color: #fff;
+    border-color: #8bbafe;
+    outline: 0;
+    box-shadow: none
+}
+.inputbox{
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%
+}
+.inputbox span{
+    position: absolute;
+    top:7px;
+    left: 11px;
+    transition: 0.5s
+}
+.inputbox i{
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    transition: 0.5s;
+    color: #3F51B5
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0
+}
+.inputbox input:focus~span,
+.inputbox input:valid~span{
+    transform: translateX(-0px) translateY(-15px);
+    font-size: 12px
+}
+.pay button{height: 47px; border-radius: 37px}
 #imageEditModal .modal-body {
     display: flex;
     flex-direction: column;
@@ -432,6 +493,91 @@
             width: auto;
             height: auto;
         }
+        #staticBackdrop .modal-body {
+        height: 450px;
+        padding: 20px;
+    }
+    #staticBackdrop .close {
+        font-size: 21px;
+        cursor: pointer;
+    }
+    #staticBackdrop .nav-tabs {
+        border: none !important;
+        display: table !important;
+        width: 100%;
+    }
+    #staticBackdrop .nav-item {
+        display: table-cell;
+    }
+    #staticBackdrop .nav-link {
+        margin-bottom: -1px;
+        border: 1px solid transparent;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-top: 3px solid #eee;
+        font-size: 20px;
+        text-align: center;
+    }
+    #staticBackdrop .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #ffffff #ffffff #fff;
+        border-top: 3px solid blue !important;
+    }
+    #staticBackdrop .nav-link:hover {
+        border-color: #e9ecef #ffffff #ffffff;
+    }
+    #staticBackdrop .form-control {
+        border-bottom: 1px solid #eee !important;
+        border: none;
+        font-weight: 600;
+        background: transparent;
+    }
+    #staticBackdrop .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #8bbafe;
+        outline: 0;
+        box-shadow: none;
+    }
+    #staticBackdrop .inputbox {
+        position: relative;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    #staticBackdrop .inputbox span {
+        position: absolute;
+        top: 7px;
+        left: 11px;
+        transition: 0.5s;
+        color: #6c757d;
+    }
+    #staticBackdrop .inputbox i {
+        position: absolute;
+        top: 13px;
+        right: 8px;
+        transition: 0.5s;
+        color: #3F51B5;
+    }
+    #staticBackdrop .inputbox input:focus~span,
+    #staticBackdrop .inputbox input:valid~span {
+        transform: translateX(0) translateY(-15px);
+        font-size: 12px;
+    }
+    #staticBackdrop .pay button {
+        height: 47px;
+        border-radius: 37px;
+        width: 100%;
+    }
+    #staticBackdrop input::-webkit-outer-spin-button,
+    #staticBackdrop input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #staticBackdrop .launch {
+        height: 50px;
+        border-radius: 25px;
+    }
         .editable-image:hover {
             border-color: #0056b3;
             opacity: 0.8;
@@ -1203,7 +1349,7 @@ body {
         </footer><!--/.footer-copyright-->
 		<!--footer-copyright end-->
     <!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<!--div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
@@ -1238,7 +1384,70 @@ body {
           </div>
       </div>
   </div>
+</div-->
+
+<div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-body">
+              <div class="text-right">
+                  <i class="fa fa-xmark close" data-bs-dismiss="modal" style="cursor: pointer;"></i>
+              </div>
+              <div class="tabs mt-3">
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      
+                      <li class="nav-item" role="presentation">
+                          
+                        <img src="assets/images/visa.jpg" width="250" alt="Visa" class="mx-auto d-block">
+                        
+                      </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                      <!-- Credit Card Tab -->
+                      <div class="tab-pane fade show active" id="visa" role="tabpanel" aria-labelledby="visa-tab">
+                          <div class="mt-4 mx-4">
+                              <div class="text-center">
+                                  <h5>Credit Card</h5>
+                              </div>
+                              <div class="form mt-3">
+                                  <div class="inputbox">
+                                      <input type="text" name="cardName" class="form-control" id="cardName" required>
+                                      <span>Cardholder Name</span>
+                                  </div>
+                                  <div class="inputbox">
+                                      <input type="text" name="cardNumber" class="form-control" id="cardNumber" required>
+                                      <span>Card Number</span>
+                                      <i class="fa fa-eye"></i>
+                                  </div>
+                                  <div class="d-flex flex-row">
+                                      <div class="inputbox me-2">
+                                          <input type="text" name="expiryDate" class="form-control" id="expiryDate" required>
+                                          <span>Expiration Date</span>
+                                      </div>
+                                      <div class="inputbox">
+                                          <input type="text" name="cvv" class="form-control" id="cvv" required>
+                                          <span>CVV</span>
+                                      </div>
+                                  </div>
+                                  <div class="px-5 pay">
+                                      <button type="button" class="btn btn-success btn-block" id="confirmPayment">Pay now ($9.99)</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- PayPal Tab -->
+                    
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
+
+
+<!-- Ajoutez ces scripts à la fin du body -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 		
 		<!-- Include all js compiled plugins (below), or include individual files as needed -->
 
@@ -1576,317 +1785,230 @@ document.addEventListener('DOMContentLoaded', function() {
     if (colorPopup) colorPopup.style.zIndex = '1055';
 });
   </script>
-<script>
-  document.getElementById('publishBtn').addEventListener('click', async () => {
-    try {
-        // Cloner le document
-        const docClone = document.cloneNode(true);
-        
-        const preserveElements = [
-            '#welcome-hero',
-            '#welcome-hero-title',
-            '#welcome-hero-subtitle',
-            '#profileImage'
-        ].map(sel => {
-            const original = document.querySelector(sel);
-            const clone = docClone.querySelector(sel);
-            if(original && clone) {
-                // Copier tous les styles inline et les classes
-                clone.style.cssText = original.style.cssText;
-                clone.className = original.className;
-            }
-            return clone;
-        });
-
-        
-  
-        
-        docClone.querySelectorAll('*').forEach(element => {
-    if (!element.closest('[data-editable-background]') && 
-        !element.classList.contains('editable') && 
-        !element.classList.contains('editable-section')) { // Ajout de editable-section
-        element.removeAttribute('style');
-    }
-    element.classList.remove('editable-section', 'editable-image', 'editable-icon');
-});
-// Copier les styles de fond des sections modifiables
-// Copier les styles de fond des sections modifiables
-docClone.querySelectorAll('.editable-section').forEach(section => {
-    const originalSection = document.querySelector(`#${section.id}`);
-    if (originalSection) {
-        section.style.backgroundColor = originalSection.style.backgroundColor;
-        section.style.backgroundImage = originalSection.style.backgroundImage;
-        section.style.backgroundSize = originalSection.style.backgroundSize;
-        section.style.backgroundPosition = originalSection.style.backgroundPosition;
-    }
-});
-  
-        // Créer le ZIP avec structure de dossiers
-        const zip = new JSZip();
-        const css = zip.folder('css');
-        const js = zip.folder('js');
-        const images = zip.folder('images');
-        const fonts = zip.folder('fonts');
-  
-        // 1. Gestion des CSS (ordre critique)
-        const cssFiles = [
-            { path: 'assets/css/bootstrap.min.css', name: 'bootstrap.min.css' },
-            { path: 'assets/css/font-awesome.min.css', name: 'font-awesome.min.css' },
-            { path: 'assets/css/flaticon.css', name: 'flaticon.css' },
-            { path: 'assets/css/owl.carousel.min.css', name: 'owl.carousel.min.css' },
-            { path: 'assets/css/animate.css', name: 'animate.css' },
-            { path: 'assets/css/bootsnav.css', name: 'bootsnav.css' },
-            { path: 'assets/css/style.css', name: 'style.css' },
-            { path: 'assets/css/responsive.css', name: 'responsive.css' }
-        ];
-  
-        await Promise.all(cssFiles.map(async ({ path, name }) => {
-            const response = await fetch(path);
-            let content = await response.text();
-            
-            // Corriger les chemins des polices
-            if(name === 'flaticon.css') {
-                content = content.replace(/url\(['"]?fonts\//g, 'url("../fonts/');
-            }
-            if(name === 'font-awesome.min.css') {
-                content = content.replace(/url\(['"]?\.\.\/fonts\//g, 'url("../fonts/');
-            }
-            
-            css.file(name, content);
-        }));
-  
-        // 2. Gestion des polices
-        const fontFiles = [
-            'assets/fonts/flaticon.ttf',
-            'assets/fonts/flaticon.woff',
-            'assets/fonts/FontAwesome.otf',
-            'assets/fonts/fontawesome-webfont.woff',
-            'assets/fonts/fontawesome-webfont.ttf'
-        ];
-  
-        await Promise.all(fontFiles.map(async path => {
-            const response = await fetch(path);
-            const blob = await response.blob();
-            fonts.file(path.split('/').pop(), blob);
-        }));
-  
-        // 3. Gestion des images
-        const imageFiles = [
-            'assets/images/about/profile_image.jpg',
-            'assets/logo/favicon.png',
-            'images/logo copy.png'
-        ];
-
-    // 1. Nettoyage profond des styles et attributs d'édition
-    const cleanEditableElements = (element) => {
-            // Supprimer les classes
-            element.classList.remove(
-                'editable-section',
-                'editable-image', 
-                'editable-icon',
-                'editable'
-            );
-            
-            // Supprimer les attributs data
-            element.removeAttribute('data-editable-background');
-            
-            // Réinitialiser les styles inline
-            element.style.border = '';
-            element.style.cursor = '';
-            element.style.outline = '';
-            element.style.boxShadow = '';
-
-            // Nettoyer les enfants
-            Array.from(element.children).forEach(cleanEditableElements);
-        };
-
-        // Appliquer à tout le document
-        cleanEditableElements(docClone.documentElement);
-
-        // 2. Suppression des éléments UI d'édition
-        const elementsToRemove = [
-            ...docClone.querySelectorAll(
-                '#color-popup, #editModal, #imageEditModal, #iconEditModal'
-            ),
-            docClone.querySelector('nav.navbar.navbar-publish-only'),
-            ...docClone.querySelectorAll('script')
-        ];
-        elementsToRemove.forEach(el => el?.remove());
-
-        // 3. CSS correctif global
-        const antiEditCSS = `
-            [class*="editable"], 
-            [data-editable-background], 
-            .editable-section {
-                all: unset !important;
-                border: none !important;
-                cursor: default !important;
-                outline: none !important;
-                background-image: none !important;
-            }
-            
-            /* Réappliquer les styles de fond utiles */
-            [data-editable-background] {
-                background-size: cover !important;
-                background-position: center !important;
-            }
-        `;
-
-        const style = docClone.createElement('style');
-        style.textContent = antiEditCSS;
-        docClone.head.appendChild(style);
-  
-  // Nouvelle fonction améliorée pour gérer les images dynamiques
-  const handleDynamicImages = async () => {
-    // Gestion des images normales
-    const imagesElements = docClone.querySelectorAll('img');
-    for (const img of imagesElements) {
-        if (img.src.startsWith('data:')) {
-            const match = img.src.match(/^data:image\/(\w+);base64,(.*)$/);
-            if (match) {
-                const [_, type, data] = match;
-                const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
-                const filename = `dynamic-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
-                await images.file(filename, buffer);
-                img.src = `images/${filename}`;
-            }
-        } else if (img.src.includes('assets/images/')) {
-            img.src = `images/${img.src.split('/').pop()}`;
-        }
-    }
-
-            // Gestion des arrière-plans
-            const bgSections = docClone.querySelectorAll('[data-editable-background], .editable-section');
-    for (const section of bgSections) {
-        const bg = section.style.backgroundImage;
-        if (bg) {
-            const urlMatch = bg.match(/url\(["']?(.*?)["']?\)/);
-            if (urlMatch && urlMatch[1].startsWith('data:')) {
-                const match = urlMatch[1].match(/^data:image\/(\w+);base64,(.*)$/);
-                if (match) {
-                    const [_, type, data] = match;
-                    const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
-                    const filename = `bg-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
-                    await images.file(filename, buffer);
-                    section.style.backgroundImage = `url(images/${filename})`;
-                }
-            } else if (urlMatch && urlMatch[1].includes('assets/images/')) {
-                section.style.backgroundImage = `url(images/${urlMatch[1].split('/').pop()})`;
-            }
-        }
-    }
-};
-
-        // Appeler la fonction de gestion des images
-        await handleDynamicImages();
-      
-  
-        // 4. Gestion des JS (ordre critique)
-        const jsFiles = [
-            { path: 'assets/js/jquery.js', name: 'jquery.js' },
-            { path: 'assets/js/bootstrap.bundle.min.js', name: 'bootstrap.bundle.min.js' },
-            { path: 'assets/js/owl.carousel.min.js', name: 'owl.carousel.min.js' },
-            { path: 'assets/js/jquery.sticky.js', name: 'jquery.sticky.js' },
-            { path: 'assets/js/bootsnav.js', name: 'bootsnav.js' },
-            { path: 'assets/js/progressbar.js', name: 'progressbar.js' },
-            { path: 'assets/js/jquery.appear.js', name: 'jquery.appear.js' },
-            { path: 'assets/js/custom.js', name: 'custom.js' }
-        ];
-  
-        await Promise.all(jsFiles.map(async ({ path, name }) => {
-            const response = await fetch(path);
-            const content = await response.text();
-            js.file(name, content);
-        }));
-    // Conserver les éléments dynamiques
-  
-    
-
-        // 5. Préparation du HTML final
-        const updateReferences = (el, attr) => {
-            const value = el.getAttribute(attr);
-            if(value.includes('assets/css/')) el.setAttribute(attr, `css/${value.split('/').pop()}`);
-            if(value.includes('assets/js/')) el.setAttribute(attr, `js/${value.split('/').pop()}`);
-            if(value.includes('assets/images/')) el.setAttribute(attr, `images/${value.split('/').pop()}`);
-        };
-  
-        // Nettoyer les balises link
-        docClone.querySelectorAll('link').forEach(link => {
-            if(!link.href.includes('css/')) link.remove();
-            else updateReferences(link, 'href');
-        });
-  
-        // Nettoyer les balises script
-        docClone.querySelectorAll('script').forEach(script => script.remove());
-        // Nouveau code pour gérer le paiement
-const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-let paymentProcessed = false;
-
+  <script>
 document.getElementById('publishBtn').addEventListener('click', () => {
-    if (!paymentProcessed) {
-        paymentModal.show();
-    }
+  const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+  paymentModal.show();
 });
 
-document.getElementById('confirmPayment').addEventListener('click', async function() {
-    // Validation simple
-    const inputs = ['#cardNumber', '#expiryDate', '#cvv', '#cardName'];
-    let isValid = true;
-    
-    inputs.forEach(selector => {
-        const input = document.querySelector(selector);
-        if (!input.value.trim()) {
-            isValid = false;
-            input.classList.add('is-invalid');
-        } else {
-            input.classList.remove('is-invalid');
-        }
-    });
-
-    if (!isValid) {
-        alert('Please fill all payment fields!');
-        return;
-    }
-
-    // Simulation de paiement
-    this.disabled = true;
-    this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Processing...';
-
-    // Simuler un délai de traitement
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    // Marquer le paiement comme réussi
-    paymentProcessed = true;
-    paymentModal.hide();
-    
-    // Lancer la génération du ZIP
-    await generateAndDownloadZip();
-    
-    // Réinitialiser le formulaire
-    this.disabled = false;
-    this.innerHTML = 'Pay Now ($9.99)';
-    document.getElementById('paymentForm').reset();
-    paymentProcessed = false;
-});
-
-// Renommez la fonction existante et retirez-la du gestionnaire de clic original
 async function generateAndDownloadZip() {
-    try {
-        // ... (le code existant de la fonction de génération ZIP ici) ...
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Generation error. Please check console.');
-    }
-}
-  
-        // Générer le HTML
-        const htmlContent = `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Browny</title>
-    <style>
+  try {
+      // Cloner le document
+      const docClone = document.cloneNode(true);
+      
+      const preserveElements = [
+          '#welcome-hero',
+          '#welcome-hero-title',
+          '#welcome-hero-subtitle',
+          '#profileImage'
+      ].map(sel => {
+          const original = document.querySelector(sel);
+          const clone = docClone.querySelector(sel);
+          if(original && clone) {
+              clone.style.cssText = original.style.cssText;
+              clone.className = original.className;
+          }
+          return clone;
+      });
+
+      // Nettoyage des styles et attributs
+      docClone.querySelectorAll('*').forEach(element => {
+          if (!element.closest('[data-editable-background]') && 
+              !element.classList.contains('editable') && 
+              !element.classList.contains('editable-section')) {
+              element.removeAttribute('style');
+          }
+          element.classList.remove('editable-section', 'editable-image', 'editable-icon');
+      });
+
+      // Copier les styles de fond
+      docClone.querySelectorAll('.editable-section').forEach(section => {
+          const originalSection = document.querySelector(`#${section.id}`);
+          if (originalSection) {
+              section.style.backgroundColor = originalSection.style.backgroundColor;
+              section.style.backgroundImage = originalSection.style.backgroundImage;
+              section.style.backgroundSize = originalSection.style.backgroundSize;
+              section.style.backgroundPosition = originalSection.style.backgroundPosition;
+          }
+      });
+
+      // Créer le ZIP
+      const zip = new JSZip();
+      const css = zip.folder('css');
+      const js = zip.folder('js');
+      const images = zip.folder('images');
+      const fonts = zip.folder('fonts');
+
+      // Gestion des CSS
+      const cssFiles = [
+          { path: 'assets/css/bootstrap.min.css', name: 'bootstrap.min.css' },
+          { path: 'assets/css/font-awesome.min.css', name: 'font-awesome.min.css' },
+          { path: 'assets/css/flaticon.css', name: 'flaticon.css' },
+          { path: 'assets/css/owl.carousel.min.css', name: 'owl.carousel.min.css' },
+          { path: 'assets/css/animate.css', name: 'animate.css' },
+          { path: 'assets/css/bootsnav.css', name: 'bootsnav.css' },
+          { path: 'assets/css/style.css', name: 'style.css' },
+          { path: 'assets/css/responsive.css', name: 'responsive.css' }
+      ];
+
+      await Promise.all(cssFiles.map(async ({ path, name }) => {
+          const response = await fetch(path);
+          let content = await response.text();
+          if(name === 'flaticon.css') {
+              content = content.replace(/url\(['"]?fonts\//g, 'url("../fonts/');
+          }
+          if(name === 'font-awesome.min.css') {
+              content = content.replace(/url\(['"]?\.\.\/fonts\//g, 'url("../fonts/');
+          }
+          css.file(name, content);
+      }));
+
+      // Gestion des polices
+      const fontFiles = [
+          'assets/fonts/flaticon.ttf',
+          'assets/fonts/flaticon.woff',
+          'assets/fonts/FontAwesome.otf',
+          'assets/fonts/fontawesome-webfont.woff',
+          'assets/fonts/fontawesome-webfont.ttf'
+      ];
+
+      await Promise.all(fontFiles.map(async path => {
+          const response = await fetch(path);
+          const blob = await response.blob();
+          fonts.file(path.split('/').pop(), blob);
+      }));
+
+      // Nettoyage profond
+      const cleanEditableElements = (element) => {
+          element.classList.remove(
+              'editable-section',
+              'editable-image', 
+              'editable-icon',
+              'editable'
+          );
+          element.removeAttribute('data-editable-background');
+          element.style.border = '';
+          element.style.cursor = '';
+          element.style.outline = '';
+          element.style.boxShadow = '';
+          Array.from(element.children).forEach(cleanEditableElements);
+      };
+
+      cleanEditableElements(docClone.documentElement);
+
+      // Suppression des éléments UI
+      const elementsToRemove = [
+          ...docClone.querySelectorAll(
+              '#color-popup, #editModal, #imageEditModal, #iconEditModal'
+          ),
+          docClone.querySelector('nav.navbar.navbar-publish-only'),
+          ...docClone.querySelectorAll('script')
+      ];
+      elementsToRemove.forEach(el => el?.remove());
+
+      // CSS correctif
+      const antiEditCSS = `
+          [class*="editable"], 
+          [data-editable-background], 
+          .editable-section {
+              all: unset !important;
+              border: none !important;
+              cursor: default !important;
+              outline: none !important;
+              background-image: none !important;
+          }
+          [data-editable-background] {
+              background-size: cover !important;
+              background-position: center !important;
+          }
+      `;
+
+      const style = docClone.createElement('style');
+      style.textContent = antiEditCSS;
+      docClone.head.appendChild(style);
+
+      // Gestion des images dynamiques
+      const handleDynamicImages = async () => {
+          const imagesElements = docClone.querySelectorAll('img');
+          for (const img of imagesElements) {
+              if (img.src.startsWith('data:')) {
+                  const match = img.src.match(/^data:image\/(\w+);base64,(.*)$/);
+                  if (match) {
+                      const [_, type, data] = match;
+                      const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+                      const filename = `dynamic-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
+                      await images.file(filename, buffer);
+                      img.src = `images/${filename}`;
+                  }
+              } else if (img.src.includes('assets/images/')) {
+                  img.src = `images/${img.src.split('/').pop()}`;
+              }
+          }
+
+          const bgSections = docClone.querySelectorAll('[data-editable-background], .editable-section');
+          for (const section of bgSections) {
+              const bg = section.style.backgroundImage;
+              if (bg) {
+                  const urlMatch = bg.match(/url\(["']?(.*?)["']?\)/);
+                  if (urlMatch && urlMatch[1].startsWith('data:')) {
+                      const match = urlMatch[1].match(/^data:image\/(\w+);base64,(.*)$/);
+                      if (match) {
+                          const [_, type, data] = match;
+                          const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+                          const filename = `bg-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
+                          await images.file(filename, buffer);
+                          section.style.backgroundImage = `url(images/${filename})`;
+                      }
+                  } else if (urlMatch && urlMatch[1].includes('assets/images/')) {
+                      section.style.backgroundImage = `url(images/${urlMatch[1].split('/').pop()})`;
+                  }
+              }
+          }
+      };
+
+      await handleDynamicImages();
+
+      // Gestion des JS
+      const jsFiles = [
+          { path: 'assets/js/jquery.js', name: 'jquery.js' },
+          { path: 'assets/js/bootstrap.bundle.min.js', name: 'bootstrap.bundle.min.js' },
+          { path: 'assets/js/owl.carousel.min.js', name: 'owl.carousel.min.js' },
+          { path: 'assets/js/jquery.sticky.js', name: 'jquery.sticky.js' },
+          { path: 'assets/js/bootsnav.js', name: 'bootsnav.js' },
+          { path: 'assets/js/progressbar.js', name: 'progressbar.js' },
+          { path: 'assets/js/jquery.appear.js', name: 'jquery.appear.js' },
+          { path: 'assets/js/custom.js', name: 'custom.js' }
+      ];
+
+      await Promise.all(jsFiles.map(async ({ path, name }) => {
+          const response = await fetch(path);
+          const content = await response.text();
+          js.file(name, content);
+      }));
+
+      // Mise à jour des références
+      const updateReferences = (el, attr) => {
+          const value = el.getAttribute(attr);
+          if(value.includes('assets/css/')) el.setAttribute(attr, `css/${value.split('/').pop()}`);
+          if(value.includes('assets/js/')) el.setAttribute(attr, `js/${value.split('/').pop()}`);
+          if(value.includes('assets/images/')) el.setAttribute(attr, `images/${value.split('/').pop()}`);
+      };
+
+      docClone.querySelectorAll('link').forEach(link => {
+          if(!link.href.includes('css/')) link.remove();
+          else updateReferences(link, 'href');
+      });
+
+      docClone.querySelectorAll('script').forEach(script => script.remove());
+
+      // Génération du HTML
+      const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Browny</title>
+  <style>
       [data-editable-background], .editable-section {
           background-size: cover !important;
           background-position: center !important;
@@ -1899,6 +2021,11 @@ async function generateAndDownloadZip() {
           z-index: 0;
           transform: none;
       }
+
+      .modal-backdrop, .modal-backdrop.show {
+    display: none !important;
+    opacity: 0 !important;
+}
       ${[...docClone.querySelectorAll('.editable-section, [data-editable-background]')].map(section => {
           const styles = window.getComputedStyle(section);
           return `#${section.id} {
@@ -1911,33 +2038,67 @@ async function generateAndDownloadZip() {
   </style>
   ${[...docClone.querySelectorAll('link')].map(l => l.outerHTML).join('\n  ')}
 </head>
-  <body>
-    ${docClone.querySelector('body').innerHTML}
+<body>
+  ${docClone.querySelector('body').innerHTML}
+  <script src="js/jquery.js"><\/script>
+  <script src="js/bootstrap.bundle.min.js"><\/script>
+  <script src="js/owl.carousel.min.js"><\/script>
+  <script src="js/jquery.sticky.js"><\/script>
+  <script src="js/bootsnav.js"><\/script>
+  <script src="js/progressbar.js"><\/script>
+  <script src="js/jquery.appear.js"><\/script>
+  <script src="js/custom.js"><\/script>
+</body>
+</html>`;
+
+      zip.file('index.html', htmlContent);
+
+      // Générer et télécharger le ZIP
+      const content = await zip.generateAsync({ type: 'blob' });
+      saveAs(content, 'website.zip');
+  } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de la génération. Vérifiez la console.');
+  }
+}
+
+// Gestion du paiement
+document.getElementById('confirmPayment').addEventListener('click', async function() {
+  const inputs = ['#cardNumber', '#expiryDate', '#cvv', '#cardName'];
+  let isValid = true;
   
-    <!-- Scripts -->
-    <script src="js/jquery.js"><\/script>
-    <script src="js/bootstrap.bundle.min.js"><\/script>
-    <script src="js/owl.carousel.min.js"><\/script>
-    <script src="js/jquery.sticky.js"><\/script>
-    <script src="js/bootsnav.js"><\/script>
-    <script src="js/progressbar.js"><\/script>
-    <script src="js/jquery.appear.js"><\/script>
-    <script src="js/custom.js"><\/script>
-  </body>
-  </html>`;
-  
-        zip.file('index.html', htmlContent);
-  
-        // Générer le ZIP
-        const content = await zip.generateAsync({ type: 'blob' });
-        saveAs(content, 'website.zip');
-  
-    } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur lors de la génération. Vérifiez la console.');
-    }
+  inputs.forEach(selector => {
+      const input = document.querySelector(selector);
+      if (!input.value.trim()) {
+          isValid = false;
+          input.classList.add('is-invalid');
+      } else {
+          input.classList.remove('is-invalid');
+      }
   });
-  </script>
+
+  if (!isValid) {
+      alert('Veuillez remplir tous les champs !');
+      return;
+  }
+
+  this.disabled = true;
+  this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Traitement...';
+
+  try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      await generateAndDownloadZip();
+      new bootstrap.Modal(document.getElementById('paymentModal')).hide();
+  } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors du traitement du paiement.');
+  } finally {
+      this.disabled = false;
+      this.innerHTML = 'Payer maintenant (9.99€)';
+      document.getElementById('paymentForm').reset();
+  }
+});
+</script>
   </script>
     </body>
 	
