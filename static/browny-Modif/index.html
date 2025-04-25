@@ -1,0 +1,1434 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+    <head>
+      
+        <!-- meta data -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!--font-family-->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet">
+        
+        <!-- title of site -->
+        <title>Browny</title>
+
+        <!-- For favicon png -->
+		<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+       
+        <!--font-awesome.min.css-->
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+		<!--flat icon css-->
+		<link rel="stylesheet" href="assets/css/flaticon.css">
+
+		<!--animate.css-->
+        <link rel="stylesheet" href="assets/css/animate.css">
+
+        <!--owl.carousel.css-->
+        <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+		<link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+		
+        <!--bootstrap.min.css-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css">		
+		<!-- bootsnav -->
+		<link rel="stylesheet" href="assets/css/bootsnav.css" >	
+        
+        <!--style.css-->
+        <link rel="stylesheet" href="assets/css/style.css">
+        
+        <!--responsive.css-->
+        <link rel="stylesheet" href="assets/css/responsive.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		
+        <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- CKEditor pour l'édition de texte -->
+
+    </head>
+  
+    <style>
+      .editable {
+        border: 2px dashed #0d6efd;
+        padding: 10px;
+        cursor: pointer;
+        margin: 5px 0;
+      }
+      .editable:hover {
+        border: 1px solid #007bff;
+      }
+      .editable-image {
+        cursor: pointer;
+        border: 2px dashed #007bff;
+        transition: border 0.3s ease;
+        width: auto;
+        height: auto;
+      }
+      .editable-image:hover {
+        border-color: #0056b3;
+      }
+      #color-popup {
+        position: absolute;
+        display: none;
+        z-index: 2000;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .popup-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 60%;
+        height: 80%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        width: 300px;
+      }
+      .popup-content input {
+        width: 80%;
+        height: 200px;
+        padding: 8px;
+        margin: 10px 0;
+      }
+      .popup-content button {
+        margin: 5px;
+        padding: 8px 85px;
+      }
+      .modal-dialog {
+        max-width: 600px;
+      }
+      .modal-content {
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .modal-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      textarea#editor {
+        width: 100%;
+        height: 700px !important; /* Hauteur augmentée */
+        resize: vertical; /* Laisser l'utilisateur ajuster si besoin */
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+      .modal-footer {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+        margin-right: 18px !important;
+      }
+      .modal-footer .btn {
+      font-size: 0.9rem;            /* Réduit la taille du texte */
+      padding: 0.3rem 0.6rem !important;  /* Réduit l'espace intérieur */
+     }
+     .ck.ck-editor_main>.ck-editor_editable:not(.ck-focused) {
+     border-color: var(--ck-color-base-border);
+     height: 150px !important;
+     }
+     .color-picker-container {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 20px rgba(0,0,0,0.2);
+          z-index: 1050;
+          display: none;
+      }
+      
+      .color-picker-actions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 15px;
+      }
+      #editable-text700, #editable-text-200 {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+     /* Permettre le changement de couleur sur toutes les sections */
+.arrival_section, 
+.footer_section, 
+.box {
+  position: relative;
+  cursor: pointer;
+}
+
+#imageEditModal .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#imageEditModal .form-label {
+    font-weight: 500;
+    color: #333;
+}
+
+#imageEditModal .form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+#imageEditModal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.single-about-img {
+    position: relative;
+    background-image: url('assets/images/about/background-placeholder.jpg'); /* Remplacez par une image de votre choix */
+    background-size: cover;
+    background-position: center;
+    padding: 20px; /* Ajoutez un padding pour voir l'image de fond */
+    border-radius: 10px; /* Optionnel : pour un meilleur rendu visuel */
+}
+
+/* Assurez-vous que l'image à l'intérieur ne masque pas complètement le fond */
+.single-about-img .editable-image {
+    display: block;
+    margin: 0 auto; /* Centrer l'image */
+    max-width: 100%;
+    height: auto;
+}
+
+[data-editable-background] {
+    border: 3px dashed #a9b1b7;
+    cursor: pointer;
+}
+
+[data-editable-background]:hover {
+    border-color: #007bff;
+}
+
+
+/* Ajoutez plutôt ces règles */
+.editable {
+  position: relative;
+  z-index: 10;
+}
+
+.editable-section, 
+.arrival_section, 
+.footer_section, 
+.box {
+  position: relative;
+  cursor: pointer;
+}
+
+#color-popup {
+  z-index: 10000;
+  padding: 15px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+.editable-image {
+  cursor: pointer;
+  border: 2px dashed #007bff;
+  transition: all 0.3s ease;
+}
+.editable-image:hover {
+  border-color: #0056b3;
+  opacity: 0.8;
+}
+.editable-icon {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.editable-icon:hover {
+  transform: scale(1.1);
+  color: #007bff;
+}
+.editable-icon::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px dashed #007bff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.editable-icon:hover::after {
+  opacity: 1;
+}
+ /* Styles pour la barre de navigation Bootstrap 5 */
+/* Styles améliorés pour la barre de navigation */
+.navbar {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff !important; /* Fond blanc */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            padding: 15px 0; /* Espacement vertical */
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #333 !important; /* Couleur sombre pour contraster avec le fond blanc */
+            transition: color 0.3s ease;
+        }
+        .navbar-brand:hover {
+            color: #0d6efd !important; /* Couleur d'accent au survol */
+        }
+        .navbar-nav .nav-link {
+            color: #333 !important; /* Couleur sombre pour les liens */
+            font-weight: 500;
+            padding: 10px 15px; /* Espacement des liens */
+            position: relative; /* Pour l'effet de soulignement */
+            transition: color 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-item.active .nav-link {
+            color: #f1c40f !important; /* Couleur d'accent au survol/actif */
+        }
+        /* Effet de soulignement au survol */
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #f1c40f;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-item.active .nav-link::after {
+            width: 100%;
+            left: 0;
+        }
+        .navbar-toggler {
+            border: none;
+            padding: 10px;
+        }
+        .navbar-toggler .fas.fa-bars {
+            font-size: 24px;
+            color: #333; /* Couleur sombre pour contraster avec le fond blanc */
+            transition: color 0.3s ease;
+        }
+        .navbar-toggler:hover .fas.fa-bars {
+            color: #0d6efd; /* Couleur d'accent au survol */
+        }
+        /* Animation pour les liens */
+        .navbar-nav .nav-item {
+            animation: fadeInDown 0.5s ease-in-out;
+        }
+        /* Délai pour chaque lien */
+        .navbar-nav .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .navbar-nav .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .navbar-nav .nav-item:nth-child(3) { animation-delay: 0.3s; }
+        .navbar-nav .nav-item:nth-child(4) { animation-delay: 0.4s; }
+        .navbar-nav .nav-item:nth-child(5) { animation-delay: 0.5s; }
+        .navbar-nav .nav-item:nth-child(6) { animation-delay: 0.6s; }
+        .navbar-nav .nav-item:nth-child(7) { animation-delay: 0.7s; }
+        .navbar-nav .nav-item:nth-child(8) { animation-delay: 0.8s; }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Style responsive pour le menu hamburger */
+        @media (max-width: 991px) {
+            .navbar-nav {
+                background-color: #fff; /* Fond blanc pour le menu déroulant */
+                padding: 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .navbar-nav .nav-link {
+                padding: 10px 20px;
+                text-align: center;
+            }
+            .navbar-nav .nav-link::after {
+                display: none; /* Désactiver le soulignement dans le menu hamburger */
+            }
+        }
+
+        
+        .editable {
+            border: 2px dashed #0d6efd;
+            padding: 10px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .editable:hover {
+            border: 1px solid #007bff;
+        }
+        .editable-image {
+            cursor: pointer;
+            border: 2px dashed #007bff;
+            transition: all 0.3s ease;
+            width: auto;
+            height: auto;
+        }
+        .editable-image:hover {
+            border-color: #0056b3;
+            opacity: 0.8;
+        }
+        #color-popup {
+            position: absolute;
+            display: none;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .modal.fade .modal-dialog {
+            transition: transform 0.3s ease-out;
+            transform: translate(0, -50px);
+        }
+        .modal.show .modal-dialog {
+            transform: translate(0, 0);
+        }
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .modal-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .modal-footer {
+            border-top: 1px solid #e5e5e5;
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #333;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .single-about-img {
+            position: relative;
+            box-shadow: 0 5px 20px rgba(14,25,80,.30);
+        }
+        .single-about-img img {
+            max-width: 500px;
+            height: 468px;
+            object-fit: cover;
+        }
+        .about-list-icon {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .about-list-icon ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .about-list-icon ul li {
+            margin: 0 10px;
+        }
+        .about-list-icon ul li a {
+            color: #333;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .about-list-icon ul li a:hover {
+            color: #007bff;
+        }
+        .navbar {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        /* Add other navbar styles as per your original code */
+    
+
+        .navbar.editable-section {
+    border: 3px dashed #a9b1b7;
+    cursor: pointer;
+    padding: 15px 0;
+}
+.navbar.editable-section:hover {
+    border-color: #007bff;
+}
+
+      
+  
+
+
+
+.item .editable-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.item[data-editable-background] {
+    position: relative;
+    cursor: pointer;
+}
+
+.item[data-editable-background] img {
+    pointer-events: none; /* Permet de cliquer à travers l'image */
+}
+
+
+    
+    </style>
+</head>
+<body>
+    <!-- top-area Start -->
+    <header class="top-area">
+        <div class="header-area">
+            <!-- Start Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-dark fixed-top editable-section"  style="cursor: pointer; border: 3px dashed #a9b1b7;">
+              <div class="container">
+                  <a class="navbar-brand editable" href="index.html" id="navbar-brand">browny</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                      <i class="fas fa-bars"></i>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbar-menu">
+                      <ul class="navbar-nav ms-auto">
+                          <li class="nav-item active">
+                              <a class="nav-link editable" href="#home" id="nav-home"></a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link editable" href="#education" id="nav-education">education</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link editable" href="#skills" id="nav-skills">skills</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link editable" href="#profiles" id="nav-profiles">profile</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link editable" href="#portfolio" id="nav-portfolio">portfolio</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link editable" href="#clients" id="nav-clients">clients</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link editable" href="#contact" id="nav-contact">contact</a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+            <!-- End Navigation -->
+        </div>
+        <div class="clearfix"></div>
+    </header>
+    <!-- top-area End -->
+
+    <!--welcome-hero start -->
+    <section id="welcome-hero" class="welcome-hero editable-section" data-editable-background>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12 text-center">
+                  <div class="header-text">
+                      <h2 class="editable" id="welcome-hero-title">hi <span>,</span> i am <br> browny <br> star <span>.</span></h2>
+                      <p class="editable" id="welcome-hero-subtitle">ui/ux designer and web developer</p>
+                      <a href="assets/download/browney.txt" download>download resume</a>
+                  </div><!--/.header-text-->
+              </div><!--/.col-->
+          </div><!-- /.row-->
+      </div><!-- /.container-->
+  </section><!--/.welcome-hero-->
+<!--welcome-hero end -->
+
+<!--about start -->
+<section id="about" class="editable-section inner_page_head" style="cursor: pointer; border: 3px dashed #a9b1b7;">
+    <div class="section-heading text-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="full">
+                        <h2 class="editable" id="editable-text-1" style="cursor: pointer; border: 3px dashed #d9e0e5;">about me</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="about-content">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="single-about-txt">
+                        <h3 class="editable" id="about-description-title">
+                            I am a Professional UI/UX Designer and Web developer. Consectetur an adipisi elita, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud.
+                        </h3>
+                        <p class="editable" id="about-description-text">
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspi unde omnis iste natus error sit voluptatem accusantium doloremque lauda ntium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam vo luptatem quia voluptas sit aspernatur aut odit aut fugit,
+                        </p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="single-about-add-info">
+                                    <h3 class="editable" id="about-phone-label">phone</h3>
+                                    <p class="editable" id="about-phone-value">987-123-6547</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="single-about-add-info">
+                                    <h3 class="editable" id="about-email-label">email</h3>
+                                    <p class="editable" id="about-email-value">browny@info.com</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="single-about-add-info">
+                                    <h3 class="editable" id="about-website-label">website</h3>
+                                    <p class="editable" id="about-website-value">www.brownsine.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-offset-1 col-sm-5">
+                  <div >
+                      <img src="assets/images/about/profile_image.jpg" alt="profile_image" id="profileImage" class="editable-image">
+                      <div class="about-list-icon">
+                          
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section><!--/.about-->
+<!--about end -->
+
+<!--education start -->
+<section id="education" class="education editable-section" style="cursor: pointer; border: 3px dashed #a9b1b7;">
+    <div class="section-heading text-center">
+        <h2 class="editable" id="education-title">education</h2>
+    </div>
+    <div class="container">
+        <div class="education-horizontal-timeline">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="single-horizontal-timeline">
+                        <div class="experience-time">
+                            <h2 class="editable" id="education-1-years">2008 - 2010</h2>
+                            <h3 class="editable" id="education-1-degree">master <span>of </span> computer science</h3>
+                        </div><!--/.experience-time-->
+                        <div class="timeline-horizontal-border">
+                            <i class="fas fa-circle" aria-hidden="true"></i>
+                            <span class="single-timeline-horizontal"></span>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-content">
+                                <h4 class="title editable" id="education-1-university">
+                                    university of north carolina
+                                </h4>
+                                <h5 class="editable" id="education-1-location">north carolina, USA</h5>
+                                <p class="description editable" id="education-1-description">
+                                    Duis aute irure dolor in reprehenderit in vol patate velit esse cillum dolore eu fugiat nulla pari. Excepteur sint occana inna tecat cupidatat non proident.
+                                </p>
+                            </div><!--/.timeline-content-->
+                        </div><!--/.timeline-->
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="single-horizontal-timeline">
+                        <div class="experience-time">
+                            <h2 class="editable" id="education-2-years">2004 - 2008</h2>
+                            <h3 class="editable" id="education-2-degree">bachelor <span>of </span> computer science</h3>
+                        </div><!--/.experience-time-->
+                        <div class="timeline-horizontal-border">
+                            <i class="fas fa-circle" aria-hidden="true"></i>
+                            <span class="single-timeline-horizontal"></span>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-content">
+                                <h4 class="title editable" id="education-2-university">
+                                    university of north carolina
+                                </h4>
+                                <h5 class="editable" id="education-2-location">north carolina, USA</h5>
+                                <p class="description editable" id="education-2-description">
+                                    Duis aute irure dolor in reprehenderit in vol patate velit esse cillum dolore eu fugiat nulla pari. Excepteur sint occana inna tecat cupidatat non proident.
+                                </p>
+                            </div><!--/.timeline-content-->
+                        </div><!--/.timeline-->
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="single-horizontal-timeline">
+                        <div class="experience-time">
+                            <h2 class="editable" id="education-3-years">2004 - 2008</h2>
+                            <h3 class="editable" id="education-3-degree">bachelor <span>of </span> creative design</h3>
+                        </div><!--/.experience-time-->
+                        <div class="timeline-horizontal-border">
+                            <i class="fas fa-circle" aria-hidden="true"></i>
+                            <span class="single-timeline-horizontal spacial-horizontal-line"></span>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-content">
+                                <h4 class="title editable" id="education-3-university">
+                                    university of bolton
+                                </h4>
+                                <h5 class="editable" id="education-3-location">bolton, united kingdom</h5>
+                                <p class="description editable" id="education-3-description">
+                                    Duis aute irure dolor in reprehenderit in vol patate velit esse cillum dolore eu fugiat nulla pari. Excepteur sint occana inna tecat cupidatat non proident.
+                                </p>
+                            </div><!--/.timeline-content-->
+                        </div><!--/.timeline-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/.education-->
+<!--education end -->
+
+<!--skills start -->
+<section id="skills" class="skills editable-section" style="cursor: pointer; border: 3px dashed #a9b1b7;">
+    <div class="skill-content">
+        <div class="section-heading text-center">
+            <h2 class="editable" id="skills-title">skills</h2>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="single-skill-content">
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-1-name">adobe photoshop</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-1-value">90%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-2-name">adobe illustrator</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-2-value">85%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-3-name">adobe after effects</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="97" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-3-value">97%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-4-name">sketch</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-4-value">90%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="single-skill-content">
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-5-name">html 5</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-5-value">90%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-6-name">css 3 animation</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-6-value">85%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-7-name">communication</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="97" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-7-value">97%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                        <div class="barWrapper">
+                            <span class="progressText editable" id="skill-8-name">creativity</span>
+                            <div class="single-progress-txt">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="10" aria-valuemax="100" style=""></div>
+                                </div>
+                                <h3 class="editable" id="skill-8-value">90%</h3>
+                            </div>
+                        </div><!-- /.barWrapper -->
+                    </div>
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.skill-content-->
+</section><!--/.skills-->
+<!--skills end -->
+
+<!--experience start -->
+
+<!--experience end -->
+
+<!--profiles start -->
+<section id="profiles" class="profiles editable-section" style="cursor: pointer; border: 3px dashed #a9b1b7;">
+    <div class="profiles-details">
+        <div class="section-heading text-center">
+            <h2 class="editable" id="profiles-title">profiles</h2>
+        </div>
+        <div class="container">
+            <div class="profiles-content">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="single-profile">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-themeforest editable-icon fa-brands" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i></a>
+                                <div class="profile-icon-name editable" id="profile-1-name">themeforest</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-themeforest editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-1-name-overlay">themeforest</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-profile">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-dribbble editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-2-name">dribbble</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-dribbble editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-2-name-overlay">dribbble</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-profile">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-behance-logo editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-3-name">behance</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-behance-logo editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-3-name-overlay">behance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-profile profile-no-border">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-github-logo editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-4-name">github</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-github-logo editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-4-name-overlay">github</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-border"></div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="single-profile">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-flickr-website-logo-silhouette editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-5-name">flickR</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-flickr-website-logo-silhouette editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-5-name-overlay">flickR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-profile">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-smug editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-6-name">smungMung</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-smug editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-6-name-overlay">smungMung</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-profile">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-squarespace-logo editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-7-name">squareSpace</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-squarespace-logo editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-7-name-overlay">squareSpace</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-profile profile-no-border">
+                            <div class="profile-txt">
+                                <a href=""><i class="flaticon-bitbucket-logotype-camera-lens-in-perspective editable-icon fa-brands"></i></a>
+                                <div class="profile-icon-name editable" id="profile-8-name">bitBucket</div>
+                            </div>
+                            <div class="single-profile-overlay">
+                                <div class="profile-txt">
+                                    <a href=""><i class="flaticon-bitbucket-logotype-camera-lens-in-perspective editable-icon fa-brands"></i></a>
+                                    <div class="profile-icon-name editable" id="profile-8-name-overlay">bitBucket</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/.profiles-->
+<!--profiles end -->
+
+<!--portfolio start -->
+
+<!--portfolio end -->
+
+
+<!--clients end -->
+<div class="modal fade" id="iconEditModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Choisir une icône</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                  <input type="text" id="icon-search" class="form-control" placeholder="Rechercher une icône...">
+              </div>
+              <div class="icon-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-height: 400px; overflow-y: auto;">
+                  <!-- Les icônes seront chargées ici par JavaScript -->
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-primary" id="save-icon-changes">Enregistrer</button>
+          </div>
+      </div>
+  </div>
+</div>
+<!--contact start -->
+<section id="contact" class="contact editable-section" style="cursor: pointer; border: 3px dashed #a9b1b7;" >
+    <div class="section-heading text-center">
+        <h2 class="editable" id="contact-title">contact me</h2>
+    </div>
+    <div class="container">
+        <div class="contact-content">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-5 col-sm-6">
+                    <div class="single-contact-box">
+                        <div class="contact-form">
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="name" placeholder="Name*" name="name">
+                                        </div><!--/.form-group-->
+                                    </div><!--/.col-->
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" id="email" placeholder="Email*" name="email">
+                                        </div><!--/.form-group-->
+                                    </div><!--/.col-->
+                                </div><!--/.row-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="subject" placeholder="Subject" name="subject">
+                                        </div><!--/.form-group-->
+                                    </div><!--/.col-->
+                                </div><!--/.row-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <textarea class="form-control" rows="8" id="comment" placeholder="Message"></textarea>
+                                        </div><!--/.form-group-->
+                                    </div><!--/.col-->
+                                </div><!--/.row-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="single-contact-btn">
+                                            <a class="contact-btn" href="#" role="button">submit</a>
+                                        </div><!--/.single-contact-btn-->
+                                    </div><!--/.col-->
+                                </div><!--/.row-->
+                            </form><!--/form-->
+                        </div><!--/.contact-form-->
+                    </div><!--/.single-contact-box-->
+                </div><!--/.col-->
+                <div class="col-md-offset-1 col-md-5 col-sm-6">
+                    <div class="single-contact-box">
+                        <div class="contact-adress">
+                            <div class="contact-add-head">
+                                <h3 class="editable" id="contact-name">browny star</h3>
+                                <p class="editable" id="contact-position">uI/uX designer</p>
+                            </div>
+                            <div class="contact-add-info">
+                                <div class="single-contact-add-info">
+                                    <h3 class="editable" id="contact-phone-label">phone</h3>
+                                    <p class="editable" id="contact-phone-value">987-123-6547</p>
+                                </div>
+                                <div class="single-contact-add-info">
+                                    <h3 class="editable" id="contact-email-label">email</h3>
+                                    <p class="editable" id="contact-email-value">browny@info.com</p>
+                                </div>
+                                <div class="single-contact-add-info">
+                                    <h3 class="editable" id="contact-website-label">website</h3>
+                                    <p class="editable" id="contact-website-value">www.brownsine.com</p>
+                                </div>
+                            </div>
+                        </div><!--/.contact-adress-->
+                        <div class="hm-foot-icon">
+                            <ul>
+                                <li><a href="#"><i class="editable-icon fa-brands fa-facebook"></i></a></li><!--/li-->
+                                <li><a href="#"><i class="fab fa-dribbble editable-icon fa-brands"></i></a></li><!--/li-->
+                                <li><a href="#"><i class="fab fa-twitter editable-icon fa-brands"></i></a></li><!--/li-->
+                                <li><a href="#"><i class="fab fa-linkedin-in editable-icon fa-brands"></i></a></li><!--/li-->
+                                <li><a href="#"><i class="fab fa-instagram editable-icon fa-brands"></i></a></li><!--/li-->
+                            </ul><!--/ul-->
+                        </div><!--/.hm-foot-icon-->
+                    </div><!--/.single-contact-box-->
+                </div><!--/.col-->
+            </div><!--/.row-->
+        </div><!--/.contact-content-->
+    </div><!--/.container-->
+</section><!--/.contact-->
+
+		<!--footer-copyright start-->
+		<footer id="footer-copyright" class="footer-copyright">
+			<div class="container">
+				<div class="hm-footer-copyright text-center">
+					<p>
+						&copy; copyright yourname. design and developed by <a href="https://www.themesine.com/">themesine</a>
+					</p><!--/p-->
+				</div><!--/.text-center-->
+			</div><!--/.container-->
+
+			<div id="scroll-Top">
+				<div class="return-to-top">
+					<i class="fa fa-angle-up " id="scroll-top" ></i>
+				</div>
+				
+			</div><!--/.scroll-Top-->
+			
+        </footer><!--/.footer-copyright-->
+		<!--footer-copyright end-->
+		
+		<!-- Include all js compiled plugins (below), or include individual files as needed -->
+
+		<script src="assets/js/jquery.js"></script>
+        
+        <!--modernizr.min.js-->
+		
+		<!--bootstrap.min.js-->
+        <script src="assets/js/bootstrap.min.js"></script>
+		
+		<!-- bootsnav js -->
+		<script src="assets/js/bootsnav.js"></script>
+		
+		<!-- jquery.sticky.js -->
+		<script src="assets/js/jquery.sticky.js"></script>
+		
+		<!-- for progress bar start-->
+
+		<!-- progressbar js -->
+		<script src="assets/js/progressbar.js"></script>
+
+		<!-- appear js -->
+		<script src="assets/js/jquery.appear.js"></script>
+		<!-- for progress bar end -->
+
+		<!--owl.carousel.js-->
+        <script src="assets/js/owl.carousel.min.js"></script>
+
+        <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+  
+		
+        
+        <!--Custom JS-->
+        <script src="assets/js/custom.js"></script>
+
+        <!-- Modal pour éditer le texte -->
+
+
+<!-- Modal pour éditer les images -->
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Éditer le texte</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea id="editor"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" id="saveChanges">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="imageEditModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Modifier l'image</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                  <label for="image-url-input" class="form-label">URL de l'image</label>
+                  <input type="text" class="form-control" id="image-url-input">
+              </div>
+              <div class="mb-3">
+                  <label class="form-label">Ou télécharger une image</label>
+                  <input type="file" class="form-control" id="image-upload-input" accept="image/*">
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-primary" id="save-image-changes">Enregistrer</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- Modal pour choisir les icônes -->
+
+
+
+
+<!-- Sélecteur de couleur -->
+<div id="color-popup" style="display: none; position: absolute; z-index: 1000; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2)">
+  <input type="color" id="color-picker">
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+      const imageModal = new bootstrap.Modal(document.getElementById('imageEditModal'));
+      console.log('imageModal initialisée:', imageModal); // Débogage
+      const saveButton = document.getElementById('saveChanges');
+      const saveImageBtn = document.getElementById('save-image-changes');
+      const imageInput = document.getElementById('image-url-input');
+      const imageUploadInput = document.getElementById('image-upload-input');
+  
+      let editorInstance = null;
+      let currentEditableElement = null;
+      let currentImageElement = null;
+      let currentBackgroundSection = null;
+  
+      function initializeEditor(content) {
+          if (editorInstance) {
+              editorInstance.destroy().then(() => {
+                  editorInstance = null;
+                  createEditor(content);
+              }).catch(error => {
+                  console.error('Erreur lors de la destruction de CKEditor:', error);
+                  createEditor(content);
+              });
+          } else {
+              createEditor(content);
+          }
+      }
+  
+      function createEditor(content) {
+          ClassicEditor
+              .create(document.querySelector('#editor'))
+              .then(editor => {
+                  editorInstance = editor;
+                  editor.setData(content);
+              })
+              .catch(error => {
+                  console.error('Erreur CKEditor:', error);
+                  document.querySelector('#editor').value = content;
+              });
+      }
+  
+      document.querySelectorAll('.editable, [id^="editable-text"]').forEach(element => {
+          element.addEventListener('click', function(e) {
+              e.stopPropagation();
+              e.preventDefault();
+              
+              currentEditableElement = element;
+              initializeEditor(currentEditableElement.innerHTML);
+              editModal.show();
+          });
+      });
+  
+      saveButton.addEventListener('click', function() {
+          if (editorInstance && currentEditableElement) {
+              currentEditableElement.innerHTML = editorInstance.getData();
+          }
+          editModal.hide();
+      });
+  
+      // Utilisation de la délégation d'événements pour .editable-image
+      document.body.addEventListener('click', function(e) {
+          const img = e.target.closest('.editable-image');
+          if (img) {
+              e.stopPropagation();
+              e.preventDefault();
+  
+              console.log('Image cliquée (via délégation):', img);
+              currentImageElement = img;
+              currentBackgroundSection = null;
+              imageInput.value = img.src;
+              imageUploadInput.value = '';
+              imageModal.show();
+          }
+      });
+  
+      document.querySelectorAll('[data-editable-background]').forEach(section => {
+          section.addEventListener('click', function(e) {
+              if (e.target.classList.contains('editable-image') || e.target.closest('.editable')) {
+                  return;
+              }
+  
+              e.stopPropagation();
+              currentBackgroundSection = this;
+              currentImageElement = null;
+  
+              const bgImage = window.getComputedStyle(this).backgroundImage;
+              const urlMatch = bgImage.match(/url\(["']?(.*?)["']?\)/);
+              imageInput.value = urlMatch ? urlMatch[1] : '';
+              imageUploadInput.value = '';
+  
+              console.log('Section de fond cliquée:', this);
+              imageModal.show();
+          });
+      });
+  
+      imageUploadInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                  imageInput.value = event.target.result;
+              };
+              reader.readAsDataURL(file);
+          }
+      });
+  
+      saveImageBtn.addEventListener('click', function() {
+          const newImageUrl = imageInput.value;
+          if (newImageUrl) {
+              if (currentImageElement) {
+                  currentImageElement.src = newImageUrl;
+                  console.log('Image mise à jour:', newImageUrl);
+              } else if (currentBackgroundSection) {
+                  currentBackgroundSection.style.backgroundImage = `url(${newImageUrl})`;
+                  console.log('Arrière-plan mis à jour:', newImageUrl);
+              }
+          } else {
+              console.warn('Aucune URL d\'image fournie');
+          }
+          imageModal.hide();
+      });
+  
+      const colorPopup = document.getElementById('color-popup');
+      const colorPicker = document.getElementById('color-picker');
+      let currentSection = null;
+  
+      document.querySelectorAll('.editable-section').forEach(section => {
+          section.addEventListener('click', function(e) {
+              if (e.target.closest('.editable') || 
+                  e.target.closest('[id^="editable-text"]') || 
+                  e.target.closest('.editable-image') ||
+                  e.target.closest('[data-editable-background]')) {
+                  return;
+              }
+  
+              currentSection = this;
+              console.log('Affichage du popup de couleur');
+              colorPopup.style.display = 'block';
+              colorPopup.style.top = `${e.pageY}px`;
+              colorPopup.style.left = `${e.pageX}px`;
+              e.stopPropagation();
+          });
+      });
+  
+      document.addEventListener('click', function(e) {
+          if (!colorPopup.contains(e.target)) {
+              colorPopup.style.display = 'none';
+          }
+      });
+  
+      colorPicker.addEventListener('input', function(e) {
+          if (currentSection) {
+              currentSection.style.backgroundColor = e.target.value;
+          }
+      });
+  });
+
+  // Gestion des icônes
+const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
+const iconSearch = document.getElementById('icon-search');
+const iconGrid = document.querySelector('.icon-grid');
+const saveIconBtn = document.getElementById('save-icon-changes');
+let currentIconElement;
+
+// Liste des icônes Font Awesome à afficher (vous pouvez la personnaliser)
+const popularIcons = [
+    'fa-car', 'fa-truck', 'fa-star', 'fa-check', 'fa-heart',
+    'fa-bolt', 'fa-rocket', 'fa-gem', 'fa-plane', 'fa-ship',
+    'fa-bicycle', 'fa-motorcycle', 'fa-bus', 'fa-train', 'fa-subway',
+    'fa-shield-alt', 'fa-trophy', 'fa-medal', 'fa-crown', 'fa-award',
+    'fa-lightbulb', 'fa-bell', 'fa-gift', 'fa-umbrella', 'fa-leaf'
+];
+
+// Charger les icônes dans le modal
+function loadIcons(searchTerm = '') {
+    iconGrid.innerHTML = '';
+    const filteredIcons = popularIcons.filter(icon => 
+        icon.includes(searchTerm.toLowerCase())
+    );
+    
+    filteredIcons.forEach(icon => {
+        const iconElement = document.createElement('div');
+        iconElement.className = 'text-center p-2';
+        iconElement.style.cursor = 'pointer';
+        iconElement.innerHTML =  `<i class="fas ${icon} fa-2x"></i><div class="small mt-1">${icon.replace('fa-', '')}</div> `;
+        
+        iconElement.addEventListener('click', () => {
+            document.querySelectorAll('.icon-grid div').forEach(el => {
+                el.style.backgroundColor = '';
+            });
+            iconElement.style.backgroundColor = '#e9f5ff';
+            currentIconElement.dataset.iconClass = icon;
+        });
+        
+        iconGrid.appendChild(iconElement);
+    });
+}
+
+// Gestion du clic sur les icônes
+document.querySelectorAll('.editable-icon').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        
+        currentIconElement = this;
+        loadIcons();
+        iconModal.show();
+    });
+});
+
+// Recherche d'icônes
+iconSearch.addEventListener('input', (e) => {
+    loadIcons(e.target.value);
+});
+
+// Sauvegarde des changements
+saveIconBtn.addEventListener('click', function() {
+    if (currentIconElement) {
+        const newIconClass = currentIconElement.dataset.iconClass;
+        currentIconElement.className = `editable-icon fas ${newIconClass}`;
+    }
+    iconModal.hide();
+});
+  </script>
+    </body>
+	
+</html>
