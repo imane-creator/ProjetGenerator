@@ -316,13 +316,51 @@
 .icon-item i {
     pointer-events: none; /* Permet de cliquer sur toute la zone */
 }
+.navbar-publish-only {
+            background-color: #000 !important; /* Fond noir pour correspondre à l'ancienne navbar */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+        }
+
+        .navbar-publish-only .btn-publish {
+            background-color: #ffc107; /* Couleur jaune du bouton warning */
+            border-color: #ffc107;
+            color: #000;
+            font-weight: bold;
+            padding: 8px 24px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-publish-only .btn-publish:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .navbar-publish-only .btn-publish {
+    font-size: 1.5rem; /* Texte encore plus grand */
+    padding: 16px 40px; /* Padding encore plus large */
+}
+.navbar-publish-only .btn-publish {
+    min-width: 200px; /* Largeur minimale */
+}
+
+
     </style>
 </head>
 
 <body>
     <section class="top-area editable-section">
         <div class="header-area">
-            <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <nav class="navbar navbar-publish-only">
+                <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold" id="publishBtn">
+                    <i class="fas fa-download me-2"></i> 
+                    Generate
+                </button>
+            </nav>
+            <nav class="navbar navbar-expand-lg navbar-dark ">
                 <div class="container">
                     <a class="navbar-brand editable" href="index.html">list<span>race</span></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
@@ -336,9 +374,7 @@
                             <li class="nav-item"><a class="nav-link editable" href="#reviews">review</a></li>
                             <li class="nav-item"><a class="nav-link editable" href="#blog">blog</a></li>
                             <li class="nav-item"><a class="nav-link editable" href="#contact">contact</a></li>
-                            <li class="nav-item">
-                                <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold" id="publishBtn">Publier</button>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>
