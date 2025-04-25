@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Directory Landing Page</title>
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/linearicons.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+
+    <style>
+        .navbar {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+            transition: all 0.3s ease;
+            z-index: 99999 !important;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #333 !important;
+            transition: color 0.3s ease;
+        }
+        .navbar-brand span {
+            color: #f44336;
+        }
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 10px 20px !important;
+            margin: 0 5px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-item.active .nav-link {
+            color: #f44336 !important;
+        }
+        .navbar-toggler {
+            border: none;
+            padding: 10px;
+        }
+        .navbar-toggler .fa-bars {
+            font-size: 24px;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        @media (max-width: 991px) {
+            .navbar-nav {
+                background-color: #fff;
+                padding: 15px;
+                text-align: center;
+            }
+            .navbar-nav .nav-link {
+                padding: 12px 0 !important;
+                margin: 5px 0;
+            }
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+        .statistics {
+            padding: 80px 0;
+            background-color: #1a1a1a;
+            font-family: 'Poppins', sans-serif;
+        }
+        .statistics-counter {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .single-ststistics-box {
+            text-align: center;
+            position: relative;
+        }
+        .statistics-content {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+        .counter {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+        .statistics-content span {
+            font-size: 24px;
+            color: #fff;
+            opacity: 0.8;
+        }
+        .single-ststistics-box h3 {
+            color: #fff;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 12px;
+            font-weight: 300;
+        }
+        @media (max-width: 768px) {
+            .statistics-counter {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+            .single-ststistics-box:not(:last-child)::after {
+                display: none;
+            }
+            .counter {
+                font-size: 36px;
+            }
+            .statistics-content span {
+                font-size: 20px;
+            }
+            .single-ststistics-box h3 {
+                font-size: 14px;
+            }
+        }
+        .statistics * {
+            color: #fff !important;
+        }
+        .editable {
+            border: 2px dashed #0d6efd;
+            padding: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .editable-image {
+            pointer-events: auto !important;
+            cursor: pointer;
+            border: 2px dashed #007bff;
+            transition: all 0.3s ease;
+        }
+        .editable-image:hover {
+            opacity: 0.8;
+        }
+        #color-popup {
+            position: fixed;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 10000;
+            display: none;
+        }
+        .editable-icon::before {
+    display: inline-block;
+    width: var(--icon-width, auto);
+    height: var(--icon-height, auto);
+}
+        .editable-icon {
+            transition: all 0.2s ease !important;
+            cursor: pointer;
+            position: relative;
+        }
+        .editable-icon:hover {
+            transform: scale(1.1);
+            color: #007bff;
+        }
+        .editable-icon::after {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px dashed #007bff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .editable-icon:hover::after {
+            opacity: 1;
+        }
+        .editable-section {
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px dashed #007bff;
+        }
+        #works.works {
+            display: block;
+        }
+        .modal-dialog {
+            max-width: 600px;
+            margin: 1.75rem auto;
+            position: relative;
+        }
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        textarea#editor {
+            width: 100%;
+            height: 200px !important;
+            resize: vertical;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .modal-footer {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: 18px !important;
+        }
+        .modal-footer .btn {
+            font-size: 0.9rem;
+            padding: 0.3rem 0.6rem !important;
+        }
+        #home.welcome-hero.editable-section:hover {
+            background-color: transparent !important;
+            filter: brightness(100%) !important;
+        }
+        #home.welcome-hero.editable-section::after {
+            content: "🖼️ Click to change background";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #home.welcome-hero.editable-section:hover::after {
+            opacity: 1;
+        }
+        #home.welcome-hero.editable-section {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-color: transparent !important;
+        }
+        .editable-section {
+            pointer-events: none !important;
+        }
+        .editable-section *:not(.editable-image) {
+            pointer-events: auto !important;
+        }
+        .editable-image {
+            pointer-events: auto !important;
+            position: relative;
+            z-index: 9999;
+        }
+        .modal {
+            z-index: 100000 !important;
+        }
+        .modal-backdrop {
+            z-index: 99999 !important;
+        }
+        #publishBtn {
+            position: relative;
+            z-index: 100000;
+            transition: all 0.3s ease;
+        }
+        #publishBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+        /* Ajouter ce style */
+.icon-grid i.fa {
+    pointer-events: auto !important;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.icon-grid i.fa:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.2);
+}
+/* Dans la section <style> */
+    .icon-item {
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    padding: 10px !important;
+}
+
+.icon-item:hover {
+    background: #f0f8ff !important;
+    transform: scale(1.1);
+}
+
+.icon-item i {
+    pointer-events: none; /* Permet de cliquer sur toute la zone */
+}
+    </style>
+</head>
+
+<body>
+    <section class="top-area editable-section">
+        <div class="header-area">
+            <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+                <div class="container">
+                    <a class="navbar-brand editable" href="index.html">list<span>race</span></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+                        <i class="fas fa-bars editable-icon"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link editable" href="#home">home</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#works">how it works</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#explore">explore</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#reviews">review</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#blog">blog</a></li>
+                            <li class="nav-item"><a class="nav-link editable" href="#contact">contact</a></li>
+                            <li class="nav-item">
+                                <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold" id="publishBtn">Publier</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="clearfix"></div>
+    </section>
+
+    <section id="home" class="welcome-hero editable-section">
+        <div>
+            <img class="editable-image" src="assets/images/welcome-hero/banner.jpg" alt="Background Image" style="display: none;" data-image-id="welcome-hero-bg">
+            <div class="container">
+                <div class="welcome-hero-txt">
+                    <h2 class="editable">best place to find and explore <br> that all you need</h2>
+                    <p class="editable">Find Best Place, Restaurant, Hotel, Real State and many more think in just One click</p>
+                </div>
+                <div class="welcome-hero-serch-box">
+                    <div class="welcome-hero-form">
+                        <div class="single-welcome-hero-form">
+                            <h3 class="editable">what?</h3>
+                            <form action="index.html">
+                                <input type="text" placeholder="Ex: palce, resturent, food, automobile" />
+                            </form>
+                            <div class="welcome-hero-form-icon">
+                                <i class="flaticon-list-with-dots editable-icon"></i>
+                            </div>
+                        </div>
+                        <div class="single-welcome-hero-form">
+                            <h3 class="editable">location</h3>
+                            <form action="index.html">
+                                <input type="text" placeholder="Ex: london, newyork, rome" />
+                            </form>
+                            <div class="welcome-hero-form-icon">
+                                <i class="flaticon-gps-fixed-indicator editable-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="welcome-hero-serch">
+                        <button class="welcome-hero-btn" onclick="window.location.href='#'">
+                            search <i data-feather="search" class="editable-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="works editable-section" >
+        <div class="container" style="margin-top: 100px;">
+            <div class="section-header">
+                <h2 class="editable">how it works</h2>
+                <p class="editable">Learn More about how our website works</p>
+            </div>
+            <div class="works-content">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-how-works editable-section" >
+                            <div class="single-how-works-icon">
+                                <i class="flaticon-lightbulb-idea editable-icon"></i>
+                            </div>
+                            <h2><a href="#" class="editable">choose <span> what to</span> do</a></h2>
+                            <p class="editable">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua.</p>
+                            <button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">read more</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-how-works editable-section" data-color-editable>
+                            <div class="single-how-works-icon">
+                                <i class="flaticon-networking editable-icon"></i>
+                            </div>
+                            <h2><a href="#" class="editable">find <span> what you want</span></a></h2>
+                            <p class="editable">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua.</p>
+                            <button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">read more</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-how-works editable-section" data-color-editable>
+                            <div class="single-how-works-icon">
+                                <i class="flaticon-location-on-road editable-icon"></i>
+                            </div>
+                            <h2><a href="#" class="editable">explore <span> amazing</span> place</a></h2>
+                            <p class="editable">Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmod tempor incididunt ut laboremagna aliqua.</p>
+                            <button class="welcome-hero-btn how-work-btn" onclick="window.location.href='#'">read more</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="explore" class="explore editable-section" data-color-editable>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="editable">explore</h2>
+                <p class="editable">Explore New place, food, culture around the world and many more</p>
+            </div>
+            <div class="explore-content">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e1.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-1">
+                                <h2><a href="#" class="editable">tommy helfinger bar</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">10 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">5$-300$</span></span>
+                                    <a href="#" class="editable">resturent</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e2.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-2">
+                                <h2><a href="#" class="editable">swim and dine resort</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">4.5</span>
+                                    <a href="#" class="editable">8 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">50$-500$</span></span>
+                                    <a href="#" class="editable">hotel</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e3.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-3">
+                                <h2><a href="#" class="editable">europe tour</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">15 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">5k$-10k$</span></span>
+                                    <a href="#" class="editable">destination</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e4.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-4">
+                                <h2><a href="#" class="editable">banglow with swiming pool</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">10 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">10k$-15k$</span></span>
+                                    <a href="#" class="editable">real estate</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e5.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-2">
+                                <h2><a href="#" class="editable">vintage car expo</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">4.2</span>
+                                    <a href="#" class="editable">8 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">500$-1200$</span></span>
+                                    <a href="#" class="editable">automotion</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-explore-item">
+                            <div class="single-explore-img">
+                                <img src="assets/images/explore/e6.jpg" alt="explore image" class="editable-image">
+                            </div>
+                            <div class="single-explore-txt bg-theme-5">
+                                <h2><a href="#" class="editable">thailand tour</a></h2>
+                                <p class="explore-rating-price">
+                                    <span class="explore-rating editable">5.0</span>
+                                    <a href="#" class="editable">15 ratings</a>
+                                    <span class="explore-price-box">form <span class="explore-price editable">5k$-10k$</span></span>
+                                    <a href="#" class="editable">destination</a>
+                                </p>
+                                <div class="explore-person">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="explore-person-img">
+                                                <a href="#"><img src="assets/images/explore/person.png" alt="explore person" class="editable-image"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p class="editable">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incid ut labore et dolore magna aliqua....</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <section id="blog" class="blog editable-section" data-color-editable>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="editable">news and articles</h2>
+                <p class="editable">Always upto date with our latest News and Articles</p>
+            </div>
+            <div class="blog-content">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-blog-item">
+                            <div class="single-blog-item-img">
+                                <img src="assets/images/blog/b1.jpg" alt="blog image" class="editable-image">
+                            </div>
+                            <div class="single-blog-item-txt">
+                                <h2><a href="#" class="editable">How to find your Desired Place more quickly</a></h2>
+                                <h4 class="editable">posted <span>by</span> <a href="#">admin</a> march 2018</h4>
+                                <p class="editable">Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-blog-item">
+                            <div class="single-blog-item-img">
+                                <img src="assets/images/blog/b2.jpg" alt="blog image" class="editable-image">
+                            </div>
+                            <div class="single-blog-item-txt">
+                                <h2><a href="#" class="editable">How to find your Desired Place more quickly</a></h2>
+                                <h4 class="editable">posted <span>by</span> <a href="#">admin</a> march 2018</h4>
+                                <p class="editable">Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-blog-item">
+                            <div class="single-blog-item-img">
+                                <img src="assets/images/blog/b3.jpg" alt="blog image" class="editable-image">
+                            </div>
+                            <div class="single-blog-item-txt">
+                                <h2><a href="#" class="editable">How to find your Desired Place more quickly</a></h2>
+                                <h4 class="editable">posted <span>by</span> <a href="#">admin</a> march 2018</h4>
+                                <p class="editable">Lorem ipsum dolor sit amet, consectetur de adipisicing elit, sed do eiusmod tempore incididunt ut labore et dolore magna.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="subscription editable-section" data-color-editable>
+        <div class="container">
+            <div class="subscribe-title text-center">
+                <h2 class="editable">do you want to add your business listing with us?</h2>
+                <p class="editable">Listrace offer you to list your business with us and we very much able to promote your Business.</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="subscription-input-group">
+                        <form action="#">
+                            <input type="email" class="subscription-input-form" placeholder="Enter your email here">
+                            <button class="appsLand-btn subscribe-btn editable" onclick="window.location.href='#'">creat account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="footer editable-section">
+        <div class="container">
+            <div class="footer-menu">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="navbar-header">
+                            <a class="navbar-brand editable" href="index.html">list<span>race</span></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <ul class="footer-menu-item">
+                            <li class="scroll"><a href="#works" class="editable">how it works</a></li>
+                            <li class="scroll"><a href="#explore" class="editable">explore</a></li>
+                            <li class="scroll"><a href="#reviews" class="editable">review</a></li>
+                            <li class="scroll"><a href="#blog" class="editable">blog</a></li>
+                            <li class="scroll"><a href="#contact" class="editable">contact</a></li>
+                            <li class="scroll"><a href="#contact" class="editable">my account</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="hm-footer-copyright">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <p class="editable">©copyright. designed and developed by <a href="https://www.themesine.com/">themesine</a></p>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="footer-social">
+                            <a href="#"><i class="fa-brands fa-facebook-f editable-icon"></i></a>
+<a href="#"><i class="fa-brands fa-twitter editable-icon"></i></a>
+<a href="#"><i class="fa-brands fa-linkedin-in editable-icon"></i></a>
+<a href="#"><i class="fa-brands fa-google-plus-g editable-icon"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="scroll-Top">
+            <div class="return-to-top">
+                <i class="fa fa-angle-up editable-icon" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Text</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="editor"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-text-changes">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="imageEditModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="image-url-input" class="form-label">Image URL</label>
+                        <input type="text" class="form-control" id="image-url-input">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Or Upload Image</label>
+                        <input type="file" class="form-control" id="image-upload-input" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-image-changes">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="iconEditModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choose Icon</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" id="icon-search" class="form-control" placeholder="Search icons...">
+                    </div>
+                    <div class="icon-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-height: 400px; overflow-y: auto;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-icon-changes">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="color-popup">
+        <input type="color" id="color-picker">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Fix pour jQuery 3.6+ (load event handler)
+        if (typeof jQuery.fn.load === 'undefined') {
+            jQuery.fn.load = function(callback) {
+                return this.on('load', callback);
+            };
+        }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/BootsNav/1.1/bootsnav.min.js"></script>    
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // Configuration de l'éditeur
+        let editorInstance;
+        let currentEditable;
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        const saveTextButton = document.getElementById('save-text-changes');
+        
+        // Initialisation CKEditor
+        function initEditor(content) {
+            if (editorInstance) {
+                editorInstance.destroy().then(() => {
+                    ClassicEditor
+                        .create(document.querySelector('#editor'))
+                        .then(editor => {
+                            editorInstance = editor;
+                            editor.setData(content);
+                        })
+                        .catch(console.error);
+                });
+            } else {
+                ClassicEditor
+                    .create(document.querySelector('#editor'))
+                    .then(editor => {
+                        editorInstance = editor;
+                        editor.setData(content);
+                    })
+                    .catch(console.error);
+            }
+        }
+    
+        // Gestion du texte éditable
+        document.querySelectorAll('.editable').forEach(el => {
+            el.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                currentEditable = this;
+                initEditor(this.innerHTML);
+                editModal.show();
+            });
+        });
+    
+        saveTextButton.addEventListener('click', function() {
+            if (editorInstance && currentEditable) {
+                currentEditable.innerHTML = editorInstance.getData();
+                editModal.hide();
+            }
+        });
+    
+        // Gestion des couleurs (désactivée pour welcome-hero)
+        const colorPopup = document.getElementById('color-popup');
+        const colorPicker = document.getElementById('color-picker');
+        let currentColorElement;
+    
+    // Gestion des couleurs (modifié)
+    document.querySelectorAll('.editable-section').forEach(el => {
+        el.addEventListener('click', function(e) {
+            // Ignorer si c'est une image ou un élément éditable
+            if (e.target.closest('.editable-image') || 
+                e.target.closest('.editable') || 
+                this.closest('#home.welcome-hero')) return;
+            
+            currentColorElement = this;
+            colorPopup.style.display = 'block';
+            colorPopup.style.top = `${e.clientY}px`;
+            colorPopup.style.left = `${e.clientX}px`;
+            e.stopPropagation();
+        });
+    });
+    
+        colorPicker.addEventListener('input', function(e) {
+            if (currentColorElement) {
+                currentColorElement.style.backgroundColor = e.target.value;
+            }
+        });
+    
+        document.addEventListener('click', function(e) {
+            if (!colorPopup.contains(e.target)) {
+                colorPopup.style.display = 'none';
+            }
+        });
+    
+        // Gestion des images
+       // Gestion des images
+    const imageModal = new bootstrap.Modal(document.getElementById('imageEditModal'));
+    const imageInput = document.getElementById('image-url-input');
+    const saveImageBtn = document.getElementById('save-image-changes');
+    let currentImageElement;
+    
+    // Gestion des images (version corrigée)
+    document.querySelectorAll('.editable-image').forEach(img => {
+        img.addEventListener('click', function(e) {
+            e.stopImmediatePropagation(); // Changé de stopPropagation()
+            e.preventDefault();
+            currentImageElement = img;
+            imageInput.value = img.src;
+            imageModal.show();
+        });
+    });
+    
+    saveImageBtn.addEventListener('click', function() {
+        if (currentImageElement && imageInput.value) {
+            // Mettre à jour la source de l'image
+            currentImageElement.src = imageInput.value;
+    
+            // Si l'image est celle de welcome-hero, mettre à jour le background
+            if (currentImageElement.dataset.imageId === 'welcome-hero-bg') {
+                const welcomeHeroSection = document.querySelector('.welcome-hero');
+                if (welcomeHeroSection) {
+                    welcomeHeroSection.style.backgroundImage = `url(${imageInput.value})`;
+                }
+            }
+        }
+        imageModal.hide();
+    });
+    
+    document.getElementById('image-upload-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('image-url-input').value = event.target.result;
+                if (currentImageElement) {
+                    currentImageElement.src = event.target.result;
+                    // Si c'est l'image de fond de welcome-hero, mettre à jour le background
+                    if (currentImageElement.dataset.imageId === 'welcome-hero-bg') {
+                        const welcomeHeroSection = document.querySelector('.welcome-hero');
+                        if (welcomeHeroSection) {
+                            welcomeHeroSection.style.backgroundImage = `url(${event.target.result})`;
+                        }
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Gérer le clic sur la section welcome-hero pour ouvrir la modale d'image
+    document.querySelectorAll('.welcome-hero.editable-section').forEach(section => {
+        section.addEventListener('click', function(e) {
+            // Vérifier que le clic n'est pas sur un élément éditable (texte ou autre)
+            if (e.target.closest('.editable') || e.target.closest('[id^="editable-text"]')) return;
+    
+            // Trouver l'image editable-image dans la section
+            const bgImage = section.querySelector('.editable-image[data-image-id="welcome-hero-bg"]');
+            if (bgImage) {
+                currentImageElement = bgImage;
+                imageInput.value = bgImage.src;
+                imageModal.show();
+            }
+            e.stopPropagation();
+        });
+    });
+                // Gestion des icônes
+                // Gestion des icônes
+                const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
+const iconSearch = document.getElementById('icon-search');
+const iconGrid = document.querySelector('.icon-grid');
+const saveIconBtn = document.getElementById('save-icon-changes');
+let currentIconElement;
+const popularIcons = [
+    'fa-solid fa-car', 'fa-solid fa-truck', 'fa-solid fa-star',
+    'fa-solid fa-check', 'fa-solid fa-heart', 'fa-solid fa-bolt',
+    'fa-solid fa-rocket', 'fa-solid fa-gem', 'fa-solid fa-plane',
+    'fa-solid fa-ship', 'fa-solid fa-bicycle', 'fa-solid fa-motorcycle',
+    'fa-solid fa-bus', 'fa-solid fa-train', 'fa-solid fa-subway',
+    'fa-solid fa-shield', 'fa-solid fa-trophy', 'fa-solid fa-medal',
+    'fa-solid fa-crown', 'fa-solid fa-award', 'fa-solid fa-lightbulb',
+    'fa-solid fa-bell', 'fa-solid fa-gift', 'fa-solid fa-umbrella',
+    'fa-solid fa-leaf'
+];
+
+function loadIcons(searchTerm = '') {
+    iconGrid.innerHTML = '';
+    const filteredIcons = popularIcons.filter(icon => 
+        icon.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Récupérer les styles de l'icône originale
+    const originalStyles = currentIconElement ? {
+        fontSize: window.getComputedStyle(currentIconElement).fontSize,
+        color: window.getComputedStyle(currentIconElement).color,
+        margin: window.getComputedStyle(currentIconElement).margin,
+        padding: window.getComputedStyle(currentIconElement).padding
+    } : null;
+
+    filteredIcons.forEach(iconClass => {
+        const iconElement = document.createElement('div');
+        iconElement.className = 'text-center p-2 icon-item';
+        
+        iconElement.innerHTML = `
+            <i class="${iconClass}" style="
+                font-size: ${originalStyles?.fontSize || 'inherit'} !important;
+                color: ${originalStyles?.color || 'inherit'} !important;
+                margin: ${originalStyles?.margin || '0'} !important;
+                padding: ${originalStyles?.padding || '0'} !important;
+            "></i>
+            <div class="small mt-1">${iconClass.replace('fa-solid fa-', '')}</div>
+        `;
+
+        iconElement.addEventListener('click', () => {
+            document.querySelectorAll('.icon-item').forEach(el => 
+                el.style.backgroundColor = ''
+            );
+            iconElement.style.backgroundColor = '#e9f5ff';
+            currentIconElement.dataset.iconClass = iconClass;
+        });
+        
+        iconGrid.appendChild(iconElement);
+    });
+}
+
+document.querySelectorAll('.editable-icon').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+        // Sauvegarder les styles avant ouverture de la modale
+        currentIconElement = this;
+        currentIconElement.dataset.originalStyles = JSON.stringify({
+            fontSize: this.style.fontSize,
+            color: this.style.color,
+            margin: this.style.margin,
+            padding: this.style.padding
+        });
+
+        loadIcons();
+        iconModal.show();
+        e.stopPropagation();
+        e.preventDefault();
+    });
+});
+
+iconSearch.addEventListener('input', (e) => loadIcons(e.target.value));
+
+saveIconBtn.addEventListener('click', function() {
+    if (currentIconElement && currentIconElement.dataset.iconClass) {
+        // Restaurer les styles originaux
+        const originalStyles = JSON.parse(currentIconElement.dataset.originalStyles || '{}');
+        
+        currentIconElement.className = `editable-icon ${currentIconElement.dataset.iconClass}`;
+        
+        // Appliquer les styles
+        currentIconElement.style.fontSize = originalStyles.fontSize;
+        currentIconElement.style.color = originalStyles.color;
+        currentIconElement.style.margin = originalStyles.margin;
+        currentIconElement.style.padding = originalStyles.padding;
+    }
+    iconModal.hide();
+});
+});
+            
+    
+        </script>
+    <script>
+       publishBtn.addEventListener('click', async () => {
+    try {
+        const docClone = document.cloneNode(true);
+        const elementsToRemove = [
+            '#publishBtn', '#editModal', '#imageEditModal', '#iconEditModal',
+            '#color-popup', '.modal-backdrop'
+        ];
+        elementsToRemove.forEach(selector => {
+            docClone.querySelectorAll(selector).forEach(el => el?.remove());
+        });
+
+        docClone.querySelectorAll('*').forEach(el => {
+            if (el.classList) {
+                el.classList.remove('editable', 'editable-image', 'editable-icon', 'editable-section');
+            }
+            if (el.style) {
+                el.style.removeProperty('border');
+                el.style.removeProperty('cursor');
+            }
+        });
+
+        const zip = new JSZip();
+        const assets = zip.folder("assets");
+        const cssFolder = assets.folder("css");
+        const cssFiles = [
+            'font-awesome.min.css', 'linearicons.css', 'animate.css', 'flaticon.css',
+            'slick.css', 'slick-theme.css', 'bootsnav.css', 'style.css', 'responsive.css'
+        ];
+        for (const file of cssFiles) {
+            try {
+                const response = await fetch(`assets/css/${file}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${file}`);
+                const content = await response.text();
+                cssFolder.file(file, content);
+            } catch (error) {
+                console.warn(`CSS not found: ${file}`, error);
+            }
+        }
+
+        const jsFolder = assets.folder("js");
+        const jsFiles = [
+            'bootstrap.min.js', 'bootsnav.js', 'feather.min.js',
+            'jquery.counterup.min.js', 'slick.min.js', 'custom.js'
+        ];
+        for (const file of jsFiles) {
+            try {
+                const response = await fetch(`assets/js/${file}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${file}`);
+                const content = await response.text();
+                jsFolder.file(file, content);
+            } catch (error) {
+                console.warn(`JS not found: ${file}`, error);
+            }
+        }
+
+        const imagesFolder = assets.folder("images");
+        const imagePaths = [
+            'welcome-hero/banner.jpg',
+            'explore/e1.jpg', 'explore/e2.jpg', 'explore/e3.jpg',
+            'explore/e4.jpg', 'explore/e5.jpg', 'explore/e6.jpg',
+            'explore/person.png',
+            'blog/b1.jpg', 'blog/b2.jpg', 'blog/b3.jpg'
+        ];
+        for (const path of imagePaths) {
+            const filename = path.split('/').pop();
+            const folder = path.includes('explore') ? imagesFolder.folder("explore") :
+                          path.includes('blog') ? imagesFolder.folder("blog") :
+                          path.includes('welcome-hero') ? imagesFolder.folder("welcome-hero") : imagesFolder;
+            try {
+                const response = await fetch(`assets/images/${path}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${path}`);
+                const blob = await response.blob();
+                folder.file(filename, blob);
+            } catch (error) {
+                console.warn(`Image not found: assets/images/${path}`, error);
+            }
+        }
+
+        const logoFolder = assets.folder("logo");
+        try {
+            const response = await fetch('assets/logo/favicon.png');
+            if (!response.ok) throw new Error('Failed to fetch favicon.png');
+            const blob = await response.blob();
+            logoFolder.file('favicon.png', blob);
+        } catch (error) {
+            console.warn('Favicon not found', error);
+        }
+
+        // Add font files for icons
+        const fontsFolder = assets.folder("fonts");
+        const fontFiles = [
+            'fontawesome-webfont.woff2', 'fontawesome-webfont.woff', // Font Awesome
+            'flaticon.woff', 'flaticon.woff2',                      // Flaticon
+            'Linearicons-Free.woff', 'Linearicons-Free.woff2'       // Linearicons
+        ];
+        for (const file of fontFiles) {
+            try {
+                const response = await fetch(`assets/fonts/${file}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${file}`);
+                const blob = await response.blob();
+                fontsFolder.file(file, blob);
+            } catch (error) {
+                console.warn(`Font not found: assets/fonts/${file}`, error);
+            }
+        }
+
+        const bodyContent = DOMPurify.sanitize(docClone.querySelector('body').innerHTML, {
+            ADD_TAGS: ['script'],
+            ADD_ATTR: ['style', 'class', 'id']
+        });
+
+        const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Directory Landing Page</title>
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/linearicons.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+</head>
+<body>
+${bodyContent}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"><\/script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"><\/script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"><\/script>
+    <script src="assets/js/bootstrap.min.js"><\/script>
+    <script src="assets/js/bootsnav.js"><\/script>
+    <script src="assets/js/feather.min.js"><\/script>
+    <script src="assets/js/jquery.counterup.min.js"><\/script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"><\/script>
+    <script src="assets/js/slick.min.js"><\/script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"><\/script>
+    <script src="assets/js/custom.js"><\/script>
+</body>
+</html>
+        `.trim();
+
+        zip.file("index.html", htmlContent);
+        const content = await zip.generateAsync({ type: "blob" });
+        saveAs(content, "site-final.zip");
+    } catch (error) {
+        console.error('Error generating ZIP:', error);
+        alert('An error occurred: ' + error.message);
+    }
+});
+    </script>
+</body>
+</html>
