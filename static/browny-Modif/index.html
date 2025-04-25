@@ -75,16 +75,53 @@
       .editable-image:hover {
         border-color: #0056b3;
       }
+      .navbar-publish-only {
+            background-color: #000 !important; /* Fond noir pour correspondre à l'ancienne navbar */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+        }
+
+        .navbar-publish-only .btn-publish {
+            background-color: #ffc107; /* Couleur jaune du bouton warning */
+            border-color: #ffc107;
+            color: #000;
+            min-width: 300px;
+            font-size: 1.5rem; /* Texte encore plus grand */
+            padding: 20px 50px;
+            min-height: 300px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+        }
+        #publishBtn {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+}
+
+#publishBtn .fa-download {
+    font-size: 2.5rem;
+}
+
+        .navbar-publish-only .btn-publish:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+    
       #color-popup {
-        position: absolute;
-        display: none;
-        z-index: 2000;
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
+    position: fixed; /* Changé de absolute à fixed */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 1055; /* Augmenter le z-index */
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
       .popup-modal {
         display: none;
         position: fixed;
@@ -286,8 +323,7 @@
  /* Styles pour la barre de navigation Bootstrap 5 */
 /* Styles améliorés pour la barre de navigation */
 .navbar {
-            font-family: 'Poppins', sans-serif;
-            background-color: #fff !important; /* Fond blanc */
+            font-family: 'Poppins', sans-serif;  /* Fond blanc */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
             padding: 15px 0; /* Espacement vertical */
         }
@@ -304,7 +340,7 @@
             color: #333 !important; /* Couleur sombre pour les liens */
             font-weight: 500;
             padding: 10px 15px; /* Espacement des liens */
-            position: relative; /* Pour l'effet de soulignement */
+             /* Pour l'effet de soulignement */
             transition: color 0.3s ease;
         }
         .navbar-nav .nav-link:hover,
@@ -314,7 +350,7 @@
         /* Effet de soulignement au survol */
         .navbar-nav .nav-link::after {
             content: '';
-            position: absolute;
+            
             width: 0;
             height: 2px;
             bottom: 0;
@@ -520,7 +556,7 @@
 }
 
       
-  
+
 
 
 
@@ -539,21 +575,79 @@
     pointer-events: none; /* Permet de cliquer à travers l'image */
 }
 
+/* ===== CORRECTION DU Z-INDEX ===== */
+/* Navbar principale */
+.header-area > .navbar.bg-black {
+  z-index: 9998 !important;
+    position: relative;
+}
+
+/* Navbar secondaire */
+.header-area > .navbar.navbar-expand-lg {
+    z-index: 1040 !important;
+    position: relative;
+}
+
+/* Modals - doit être au-dessus des deux navbars */
+.modal {
+  z-index: 9999 !important; /* Bootstrap default is 1050, we need higher */
+}
+
+.modal-backdrop {
+    z-index: 1040 !important; /* Bootstrap default */
+}
+
+/* Color picker - doit être entre les deux */
+#color-popup {
+  z-index: 9997 !important; 
+    position: fixed !important;
+}
+
+
+/* Reset du body pour éviter les conflits de contexte d'empilement */
+body {
+    position: relative;
+    z-index: 0;
+    transform: none;
+}
+.btn-publish {
+    transition: all 0.3s ease;
+}
+
+.btn-publish:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.fa-download {
+    transition: transform 0.3s ease;
+}
+
+.btn-publish:hover .fa-download {
+    transform: translateY(2px);
+}
+
 
     
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>   
 </head>
 <body>
     <!-- top-area Start -->
     <header class="top-area">
         <div class="header-area">
+          <nav class="navbar navbar-publish-only">
+            <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold" id="publishBtn">
+                <i class="fas fa-download me-2"></i> <!-- Icône Font Awesome -->
+                Generate
+            </button>
+        </nav>
             <!-- Start Navigation -->
-            <nav class="navbar navbar-expand-lg navbar-dark fixed-top editable-section"  style="cursor: pointer; border: 3px dashed #a9b1b7;">
+            <nav class="navbar navbar-expand-lg">
               <div class="container">
                   <a class="navbar-brand editable" href="index.html" id="navbar-brand">browny</a>
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-                      <i class="fas fa-bars"></i>
-                  </button>
+            
                   <div class="collapse navbar-collapse" id="navbar-menu">
                       <ul class="navbar-nav ms-auto">
                           <li class="nav-item active">
@@ -594,8 +688,7 @@
               <div class="col-md-12 text-center">
                   <div class="header-text">
                       <h2 class="editable" id="welcome-hero-title">hi <span>,</span> i am <br> browny <br> star <span>.</span></h2>
-                      <p class="editable" id="welcome-hero-subtitle">ui/ux designer and web developer</p>
-                      <a href="assets/download/browney.txt" download>download resume</a>
+                    
                   </div><!--/.header-text-->
               </div><!--/.col-->
           </div><!-- /.row-->
@@ -857,12 +950,12 @@
                         <div class="single-profile">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-themeforest editable-icon fa-brands" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i></a>
-                                <div class="profile-icon-name editable" id="profile-1-name">themeforest</div>
+                                <div class="profile-icon-name" id="profile-1-name">themeforest</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-themeforest editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-1-name-overlay">themeforest</div>
+                                    <div class="profile-icon-name" id="profile-1-name-overlay">themeforest</div>
                                 </div>
                             </div>
                         </div>
@@ -871,12 +964,12 @@
                         <div class="single-profile">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-dribbble editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-2-name">dribbble</div>
+                                <div class="profile-icon-name" id="profile-2-name">dribbble</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-dribbble editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-2-name-overlay">dribbble</div>
+                                    <div class="profile-icon-name" id="profile-2-name-overlay">dribbble</div>
                                 </div>
                             </div>
                         </div>
@@ -885,12 +978,12 @@
                         <div class="single-profile">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-behance-logo editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-3-name">behance</div>
+                                <div class="profile-icon-name" id="profile-3-name">behance</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-behance-logo editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-3-name-overlay">behance</div>
+                                    <div class="profile-icon-name" id="profile-3-name-overlay">behance</div>
                                 </div>
                             </div>
                         </div>
@@ -899,12 +992,12 @@
                         <div class="single-profile profile-no-border">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-github-logo editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-4-name">github</div>
+                                <div class="profile-icon-name" id="profile-4-name">github</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-github-logo editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-4-name-overlay">github</div>
+                                    <div class="profile-icon-name" id="profile-4-name-overlay">github</div>
                                 </div>
                             </div>
                         </div>
@@ -916,12 +1009,12 @@
                         <div class="single-profile">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-flickr-website-logo-silhouette editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-5-name">flickR</div>
+                                <div class="profile-icon-name" id="profile-5-name">flickR</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-flickr-website-logo-silhouette editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-5-name-overlay">flickR</div>
+                                    <div class="profile-icon-name" id="profile-5-name-overlay">flickR</div>
                                 </div>
                             </div>
                         </div>
@@ -930,12 +1023,12 @@
                         <div class="single-profile">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-smug editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-6-name">smungMung</div>
+                                <div class="profile-icon-name" id="profile-6-name">smungMung</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-smug editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-6-name-overlay">smungMung</div>
+                                    <div class="profile-icon-name" id="profile-6-name-overlay">smungMung</div>
                                 </div>
                             </div>
                         </div>
@@ -944,12 +1037,12 @@
                         <div class="single-profile">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-squarespace-logo editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-7-name">squareSpace</div>
+                                <div class="profile-icon-name" id="profile-7-name">squareSpace</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-squarespace-logo editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-7-name-overlay">squareSpace</div>
+                                    <div class="profile-icon-name" id="profile-7-name-overlay">squareSpace</div>
                                 </div>
                             </div>
                         </div>
@@ -958,12 +1051,12 @@
                         <div class="single-profile profile-no-border">
                             <div class="profile-txt">
                                 <a href=""><i class="flaticon-bitbucket-logotype-camera-lens-in-perspective editable-icon fa-brands"></i></a>
-                                <div class="profile-icon-name editable" id="profile-8-name">bitBucket</div>
+                                <div class="profile-icon-name" id="profile-8-name">bitBucket</div>
                             </div>
                             <div class="single-profile-overlay">
                                 <div class="profile-txt">
                                     <a href=""><i class="flaticon-bitbucket-logotype-camera-lens-in-perspective editable-icon fa-brands"></i></a>
-                                    <div class="profile-icon-name editable" id="profile-8-name-overlay">bitBucket</div>
+                                    <div class="profile-icon-name" id="profile-8-name-overlay">bitBucket</div>
                                 </div>
                             </div>
                         </div>
@@ -1109,6 +1202,43 @@
 			
         </footer><!--/.footer-copyright-->
 		<!--footer-copyright end-->
+    <!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="paymentModalLabel">Complete Payment</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="paymentForm">
+                  <div class="mb-3">
+                      <label for="cardNumber" class="form-label">Card Number</label>
+                      <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6 mb-3">
+                          <label for="expiryDate" class="form-label">Expiration Date</label>
+                          <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="cvv" class="form-label">CVV</label>
+                          <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="cardName" class="form-label">Name on Card</label>
+                      <input type="text" class="form-control" id="cardName" placeholder="John Doe" required>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="confirmPayment">Pay Now ($9.99)</button>
+          </div>
+      </div>
+  </div>
+</div>
 		
 		<!-- Include all js compiled plugins (below), or include individual files as needed -->
 
@@ -1332,22 +1462,21 @@
       let currentSection = null;
   
       document.querySelectorAll('.editable-section').forEach(section => {
-          section.addEventListener('click', function(e) {
-              if (e.target.closest('.editable') || 
-                  e.target.closest('[id^="editable-text"]') || 
-                  e.target.closest('.editable-image') ||
-                  e.target.closest('[data-editable-background]')) {
-                  return;
-              }
-  
-              currentSection = this;
-              console.log('Affichage du popup de couleur');
-              colorPopup.style.display = 'block';
-              colorPopup.style.top = `${e.pageY}px`;
-              colorPopup.style.left = `${e.pageX}px`;
-              e.stopPropagation();
-          });
+        console.log('Clic sur section éditable:', this.id, 'Target:', e.target);
+        if (e.target.closest('.editable, .editable-image, [data-editable-background]')) {
+            console.log('Clic ignoré (élément enfant éditable)');
+            return;
+        }
+
+        e.stopPropagation();
+        currentSection = this;
+        colorPopup.style.display = 'block';
+        console.log('Popup affiché, z-index:', colorPopup.style.zIndex);
+    });
       });
+      window.addEventListener('scroll', () => {
+    colorPopup.style.display = 'none';
+});
   
       document.addEventListener('click', function(e) {
           if (!colorPopup.contains(e.target)) {
@@ -1360,7 +1489,7 @@
               currentSection.style.backgroundColor = e.target.value;
           }
       });
-  });
+  
 
   // Gestion des icônes
 const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
@@ -1428,7 +1557,388 @@ saveIconBtn.addEventListener('click', function() {
     }
     iconModal.hide();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Force l'ordre des z-index au chargement
+    const mainNav = document.querySelector('.header-area > .navbar.bg-black');
+    const secondNav = document.querySelector('.header-area > .navbar.navbar-expand-lg');
+    
+    if (mainNav) mainNav.style.zIndex = '1050';
+    if (secondNav) secondNav.style.zIndex = '1040';
+    
+    const sections = document.querySelectorAll('.editable-section, .arrival_section, .footer_section, .box');
+    const colorPopup = document.getElementById('color-popup');
+    const colorPicker = document.getElementById('color-picker');
+    let currentSection = null;
+    
+    // Correction pour le color picker
+  
+    if (colorPopup) colorPopup.style.zIndex = '1055';
+});
+  </script>
+<script>
+  document.getElementById('publishBtn').addEventListener('click', async () => {
+    try {
+        // Cloner le document
+        const docClone = document.cloneNode(true);
+        
+        const preserveElements = [
+            '#welcome-hero',
+            '#welcome-hero-title',
+            '#welcome-hero-subtitle',
+            '#profileImage'
+        ].map(sel => {
+            const original = document.querySelector(sel);
+            const clone = docClone.querySelector(sel);
+            if(original && clone) {
+                // Copier tous les styles inline et les classes
+                clone.style.cssText = original.style.cssText;
+                clone.className = original.className;
+            }
+            return clone;
+        });
+
+        
+  
+        
+        docClone.querySelectorAll('*').forEach(element => {
+    if (!element.closest('[data-editable-background]') && 
+        !element.classList.contains('editable') && 
+        !element.classList.contains('editable-section')) { // Ajout de editable-section
+        element.removeAttribute('style');
+    }
+    element.classList.remove('editable-section', 'editable-image', 'editable-icon');
+});
+// Copier les styles de fond des sections modifiables
+// Copier les styles de fond des sections modifiables
+docClone.querySelectorAll('.editable-section').forEach(section => {
+    const originalSection = document.querySelector(`#${section.id}`);
+    if (originalSection) {
+        section.style.backgroundColor = originalSection.style.backgroundColor;
+        section.style.backgroundImage = originalSection.style.backgroundImage;
+        section.style.backgroundSize = originalSection.style.backgroundSize;
+        section.style.backgroundPosition = originalSection.style.backgroundPosition;
+    }
+});
+  
+        // Créer le ZIP avec structure de dossiers
+        const zip = new JSZip();
+        const css = zip.folder('css');
+        const js = zip.folder('js');
+        const images = zip.folder('images');
+        const fonts = zip.folder('fonts');
+  
+        // 1. Gestion des CSS (ordre critique)
+        const cssFiles = [
+            { path: 'assets/css/bootstrap.min.css', name: 'bootstrap.min.css' },
+            { path: 'assets/css/font-awesome.min.css', name: 'font-awesome.min.css' },
+            { path: 'assets/css/flaticon.css', name: 'flaticon.css' },
+            { path: 'assets/css/owl.carousel.min.css', name: 'owl.carousel.min.css' },
+            { path: 'assets/css/animate.css', name: 'animate.css' },
+            { path: 'assets/css/bootsnav.css', name: 'bootsnav.css' },
+            { path: 'assets/css/style.css', name: 'style.css' },
+            { path: 'assets/css/responsive.css', name: 'responsive.css' }
+        ];
+  
+        await Promise.all(cssFiles.map(async ({ path, name }) => {
+            const response = await fetch(path);
+            let content = await response.text();
+            
+            // Corriger les chemins des polices
+            if(name === 'flaticon.css') {
+                content = content.replace(/url\(['"]?fonts\//g, 'url("../fonts/');
+            }
+            if(name === 'font-awesome.min.css') {
+                content = content.replace(/url\(['"]?\.\.\/fonts\//g, 'url("../fonts/');
+            }
+            
+            css.file(name, content);
+        }));
+  
+        // 2. Gestion des polices
+        const fontFiles = [
+            'assets/fonts/flaticon.ttf',
+            'assets/fonts/flaticon.woff',
+            'assets/fonts/FontAwesome.otf',
+            'assets/fonts/fontawesome-webfont.woff',
+            'assets/fonts/fontawesome-webfont.ttf'
+        ];
+  
+        await Promise.all(fontFiles.map(async path => {
+            const response = await fetch(path);
+            const blob = await response.blob();
+            fonts.file(path.split('/').pop(), blob);
+        }));
+  
+        // 3. Gestion des images
+        const imageFiles = [
+            'assets/images/about/profile_image.jpg',
+            'assets/logo/favicon.png',
+            'images/logo copy.png'
+        ];
+
+    // 1. Nettoyage profond des styles et attributs d'édition
+    const cleanEditableElements = (element) => {
+            // Supprimer les classes
+            element.classList.remove(
+                'editable-section',
+                'editable-image', 
+                'editable-icon',
+                'editable'
+            );
+            
+            // Supprimer les attributs data
+            element.removeAttribute('data-editable-background');
+            
+            // Réinitialiser les styles inline
+            element.style.border = '';
+            element.style.cursor = '';
+            element.style.outline = '';
+            element.style.boxShadow = '';
+
+            // Nettoyer les enfants
+            Array.from(element.children).forEach(cleanEditableElements);
+        };
+
+        // Appliquer à tout le document
+        cleanEditableElements(docClone.documentElement);
+
+        // 2. Suppression des éléments UI d'édition
+        const elementsToRemove = [
+            ...docClone.querySelectorAll(
+                '#color-popup, #editModal, #imageEditModal, #iconEditModal'
+            ),
+            docClone.querySelector('nav.navbar.navbar-publish-only'),
+            ...docClone.querySelectorAll('script')
+        ];
+        elementsToRemove.forEach(el => el?.remove());
+
+        // 3. CSS correctif global
+        const antiEditCSS = `
+            [class*="editable"], 
+            [data-editable-background], 
+            .editable-section {
+                all: unset !important;
+                border: none !important;
+                cursor: default !important;
+                outline: none !important;
+                background-image: none !important;
+            }
+            
+            /* Réappliquer les styles de fond utiles */
+            [data-editable-background] {
+                background-size: cover !important;
+                background-position: center !important;
+            }
+        `;
+
+        const style = docClone.createElement('style');
+        style.textContent = antiEditCSS;
+        docClone.head.appendChild(style);
+  
+  // Nouvelle fonction améliorée pour gérer les images dynamiques
+  const handleDynamicImages = async () => {
+    // Gestion des images normales
+    const imagesElements = docClone.querySelectorAll('img');
+    for (const img of imagesElements) {
+        if (img.src.startsWith('data:')) {
+            const match = img.src.match(/^data:image\/(\w+);base64,(.*)$/);
+            if (match) {
+                const [_, type, data] = match;
+                const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+                const filename = `dynamic-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
+                await images.file(filename, buffer);
+                img.src = `images/${filename}`;
+            }
+        } else if (img.src.includes('assets/images/')) {
+            img.src = `images/${img.src.split('/').pop()}`;
+        }
+    }
+
+            // Gestion des arrière-plans
+            const bgSections = docClone.querySelectorAll('[data-editable-background], .editable-section');
+    for (const section of bgSections) {
+        const bg = section.style.backgroundImage;
+        if (bg) {
+            const urlMatch = bg.match(/url\(["']?(.*?)["']?\)/);
+            if (urlMatch && urlMatch[1].startsWith('data:')) {
+                const match = urlMatch[1].match(/^data:image\/(\w+);base64,(.*)$/);
+                if (match) {
+                    const [_, type, data] = match;
+                    const buffer = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+                    const filename = `bg-${Date.now()}-${Math.random().toString(36).substring(7)}.${type}`;
+                    await images.file(filename, buffer);
+                    section.style.backgroundImage = `url(images/${filename})`;
+                }
+            } else if (urlMatch && urlMatch[1].includes('assets/images/')) {
+                section.style.backgroundImage = `url(images/${urlMatch[1].split('/').pop()})`;
+            }
+        }
+    }
+};
+
+        // Appeler la fonction de gestion des images
+        await handleDynamicImages();
+      
+  
+        // 4. Gestion des JS (ordre critique)
+        const jsFiles = [
+            { path: 'assets/js/jquery.js', name: 'jquery.js' },
+            { path: 'assets/js/bootstrap.bundle.min.js', name: 'bootstrap.bundle.min.js' },
+            { path: 'assets/js/owl.carousel.min.js', name: 'owl.carousel.min.js' },
+            { path: 'assets/js/jquery.sticky.js', name: 'jquery.sticky.js' },
+            { path: 'assets/js/bootsnav.js', name: 'bootsnav.js' },
+            { path: 'assets/js/progressbar.js', name: 'progressbar.js' },
+            { path: 'assets/js/jquery.appear.js', name: 'jquery.appear.js' },
+            { path: 'assets/js/custom.js', name: 'custom.js' }
+        ];
+  
+        await Promise.all(jsFiles.map(async ({ path, name }) => {
+            const response = await fetch(path);
+            const content = await response.text();
+            js.file(name, content);
+        }));
+    // Conserver les éléments dynamiques
+  
+    
+
+        // 5. Préparation du HTML final
+        const updateReferences = (el, attr) => {
+            const value = el.getAttribute(attr);
+            if(value.includes('assets/css/')) el.setAttribute(attr, `css/${value.split('/').pop()}`);
+            if(value.includes('assets/js/')) el.setAttribute(attr, `js/${value.split('/').pop()}`);
+            if(value.includes('assets/images/')) el.setAttribute(attr, `images/${value.split('/').pop()}`);
+        };
+  
+        // Nettoyer les balises link
+        docClone.querySelectorAll('link').forEach(link => {
+            if(!link.href.includes('css/')) link.remove();
+            else updateReferences(link, 'href');
+        });
+  
+        // Nettoyer les balises script
+        docClone.querySelectorAll('script').forEach(script => script.remove());
+        // Nouveau code pour gérer le paiement
+const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+let paymentProcessed = false;
+
+document.getElementById('publishBtn').addEventListener('click', () => {
+    if (!paymentProcessed) {
+        paymentModal.show();
+    }
+});
+
+document.getElementById('confirmPayment').addEventListener('click', async function() {
+    // Validation simple
+    const inputs = ['#cardNumber', '#expiryDate', '#cvv', '#cardName'];
+    let isValid = true;
+    
+    inputs.forEach(selector => {
+        const input = document.querySelector(selector);
+        if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add('is-invalid');
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+
+    if (!isValid) {
+        alert('Please fill all payment fields!');
+        return;
+    }
+
+    // Simulation de paiement
+    this.disabled = true;
+    this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Processing...';
+
+    // Simuler un délai de traitement
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Marquer le paiement comme réussi
+    paymentProcessed = true;
+    paymentModal.hide();
+    
+    // Lancer la génération du ZIP
+    await generateAndDownloadZip();
+    
+    // Réinitialiser le formulaire
+    this.disabled = false;
+    this.innerHTML = 'Pay Now ($9.99)';
+    document.getElementById('paymentForm').reset();
+    paymentProcessed = false;
+});
+
+// Renommez la fonction existante et retirez-la du gestionnaire de clic original
+async function generateAndDownloadZip() {
+    try {
+        // ... (le code existant de la fonction de génération ZIP ici) ...
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Generation error. Please check console.');
+    }
+}
+  
+        // Générer le HTML
+        const htmlContent = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Browny</title>
+    <style>
+      [data-editable-background], .editable-section {
+          background-size: cover !important;
+          background-position: center !important;
+      }
+      .header-area > .navbar.navbar-expand-lg {
+          z-index: 1040 !important;
+      }
+      body {
+          position: relative;
+          z-index: 0;
+          transform: none;
+      }
+      ${[...docClone.querySelectorAll('.editable-section, [data-editable-background]')].map(section => {
+          const styles = window.getComputedStyle(section);
+          return `#${section.id} {
+              background-color: ${styles.backgroundColor};
+              background-image: ${styles.backgroundImage};
+              background-size: ${styles.backgroundSize};
+              background-position: ${styles.backgroundPosition};
+          }`;
+      }).join('\n')}
+  </style>
+  ${[...docClone.querySelectorAll('link')].map(l => l.outerHTML).join('\n  ')}
+</head>
+  <body>
+    ${docClone.querySelector('body').innerHTML}
+  
+    <!-- Scripts -->
+    <script src="js/jquery.js"><\/script>
+    <script src="js/bootstrap.bundle.min.js"><\/script>
+    <script src="js/owl.carousel.min.js"><\/script>
+    <script src="js/jquery.sticky.js"><\/script>
+    <script src="js/bootsnav.js"><\/script>
+    <script src="js/progressbar.js"><\/script>
+    <script src="js/jquery.appear.js"><\/script>
+    <script src="js/custom.js"><\/script>
+  </body>
+  </html>`;
+  
+        zip.file('index.html', htmlContent);
+  
+        // Générer le ZIP
+        const content = await zip.generateAsync({ type: 'blob' });
+        saveAs(content, 'website.zip');
+  
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la génération. Vérifiez la console.');
+    }
+  });
+  </script>
   </script>
     </body>
 	
-</html>
+</html>     

@@ -709,82 +709,162 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script>
-document.getElementById('publishBtn').addEventListener('click', async () => {
-    try {
-        // Cloner le document
-        const docClone = document.cloneNode(true);
-
-        // Supprimer les éléments d'édition
-        const elementsToRemove = [
-            ...docClone.querySelectorAll('#color-popup, #editModal, #imageEditModal, #iconEditModal'),
-            docClone.querySelector('nav.navbar')
-        ];
-        elementsToRemove.forEach(el => el?.remove());
-
-        // Nettoyer les classes et styles
-        docClone.querySelectorAll('*').forEach(element => {
-            if (element.nodeType === Node.ELEMENT_NODE) {
-                if (element.className && typeof element.className === 'string') {
-                    element.className = element.className
-                        .replace(/(^|\s)(editable|editable-image|editable-icon)(\s|$)/g, ' ')
-                        .trim();
-                }
-                if (element.style) {
-                    element.style.removeProperty('border');
-                    element.style.removeProperty('cursor');
-                }
-            }
-        });
-
-        // Récupérer le HTML final
-        const htmlContent = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Site Final</title>
-    ${[...docClone.querySelectorAll('link[rel="stylesheet"]')]
-        .map(link => `<link rel="stylesheet" href="${link.getAttribute('href')}">`)
-        .join('\n    ')}
-</head>
-<body>
-    ${docClone.querySelector('body').innerHTML}
-</body>
-</html>`;
-
-        // Créer le ZIP
-        const zip = new JSZip();
-        zip.file("index.html", htmlContent);
-
-        // Ajouter les fichiers CSS
-        const cssFolder = zip.folder("css");
-        const cssFiles = [...docClone.querySelectorAll('link[rel="stylesheet"][href^="css/"]')];
-        await Promise.all(cssFiles.map(async link => {
-            const href = link.getAttribute('href');
-            const response = await fetch(href);
-            const cssContent = await response.text();
-            cssFolder.file(href.split('/').pop(), cssContent);
-        }));
-
-        // Ajouter les images externes
-        const imgFolder = zip.folder("images");
-        const images = [...docClone.querySelectorAll('img[src^="images/"]')];
-        await Promise.all(images.map(async img => {
-            const src = img.getAttribute('src');
-            const response = await fetch(src);
-            const blob = await response.blob();
-            imgFolder.file(src.split('/').pop(), blob);
-        }));
-
-        // Générer le ZIP
-        const content = await zip.generateAsync({ type: "blob" });
-        saveAs(content, "site-final.zip");
-
-    } catch (error) {
-        console.error("Erreur :", error);
-        alert("Erreur lors de la génération du site. Vérifiez la console.");
-    }
-});
-   </script>
+  document.getElementById('publishBtn').addEventListener('click', async () => {
+      try {
+          // Cloner le document
+          const docClone = document.cloneNode(true);
+  
+          // Supprimer les éléments d'édition
+          const elementsToRemove = [
+              ...docClone.querySelectorAll('#color-popup, #editModal, #imageEditModal, #iconEditModal'),
+              docClone.querySelector('nav.navbar') // Supprime la navbar d'édition si nécessaire
+          ];
+          elementsToRemove.forEach(el => el?.remove());
+  
+          // Nettoyer les classes et styles
+          docClone.querySelectorAll('*').forEach(element => {
+              if (element.nodeType === Node.ELEMENT_NODE) {
+                  if (element.className && typeof element.className === 'string') {
+                      element.className = element.className
+                          .replace(/(^|\s)(editable|editable-image|editable-icon|editable-section)(\s|$)/g, ' ')
+                          .trim();
+                  }
+                  if (element.style) {
+                      element.style.removeProperty('border');
+                      element.style.removeProperty('cursor');
+                  }
+              }
+          });
+  
+          // Créer le ZIP
+          const zip = new JSZip();
+  
+          // Gestion des ressources externes (Bootstrap, Font Awesome, etc.)
+          const externalStyles = [
+              { url: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css', name: 'bootstrap.min.css' },
+              { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css', name: 'font-awesome.min.css' }
+          ];
+  
+          const cssFolder = zip.folder('css');
+          const externalPromises = externalStyles.map(async ({ url, name }) => {
+              try {
+                  const response = await fetch(url);
+                  const cssContent = await response.text();
+                  cssFolder.file(name, cssContent);
+              } catch (error) {
+                  console.warn(`Erreur lors du téléchargement de ${url}:`, error);
+              }
+          });
+  
+          await Promise.all(externalPromises);
+  
+          // Ajouter les fichiers CSS locaux
+          const localCssFiles = [
+              'assets/css/font-awesome.min.css',
+              'assets/css/flaticon.css',
+              'assets/css/animate.css',
+              'assets/css/owl.carousel.min.css',
+              'assets/css/owl.theme.default.min.css',
+              'assets/css/bootsnav.css',
+              'assets/css/style.css',
+              'assets/css/responsive.css'
+          ];
+  
+          const localCssPromises = localCssFiles.map(async file => {
+              try {
+                  const response = await fetch(file);
+                  const cssContent = await response.text();
+                  cssFolder.file(file.split('/').pop(), cssContent);
+              } catch (error) {
+                  console.warn(`Erreur lors du téléchargement de ${file}:`, error);
+              }
+          });
+  
+          await Promise.all(localCssPromises);
+  
+          // Ajouter les images locales
+          const imgFolder = zip.folder('images');
+          const images = [
+              'assets/logo/favicon.png',
+              'assets/images/about/profile_image.jpg',
+              'images/logo copy.png' // Ajout de l'image du logo
+              // Ajoutez ici d'autres images si nécessaire
+          ];
+  
+          const imgPromises = images.map(async src => {
+              try {
+                  const response = await fetch(src);
+                  const blob = await response.blob();
+                  imgFolder.file(src.split('/').pop(), blob);
+              } catch (error) {
+                  console.warn(`Erreur lors du téléchargement de ${src}:`, error);
+              }
+          });
+  
+          await Promise.all(imgPromises);
+  
+          // Mettre à jour les chemins dans le HTML
+          const htmlDoc = docClone.querySelector('html');
+          htmlDoc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+              const href = link.getAttribute('href');
+              if (href.startsWith('https://cdnjs.cloudflare.com/ajax/libs/bootstrap')) {
+                  link.setAttribute('href', 'css/bootstrap.min.css');
+              } else if (href.startsWith('https://cdnjs.cloudflare.com/ajax/libs/font-awesome')) {
+                  link.setAttribute('href', 'css/font-awesome.min.css');
+              } else if (href.startsWith('assets/css/')) {
+                  link.setAttribute('href', `css/${href.split('/').pop()}`);
+              } else {
+                  link.remove(); // Supprime les liens non gérés
+              }
+          });
+  
+          // Mettre à jour les chemins des images
+          htmlDoc.querySelectorAll('img').forEach(img => {
+              const src = img.getAttribute('src');
+              if (src.startsWith('assets/logo/')) {
+                  img.setAttribute('src', `images/${src.split('/').pop()}`);
+              } else if (src.startsWith('assets/images/')) {
+                  img.setAttribute('src', `images/${src.split('/').pop()}`);
+              } else if (src.startsWith('images/')) {
+                  img.setAttribute('src', `images/${src.split('/').pop()}`);
+              }
+          });
+  
+          // Récupérer le HTML final
+          const htmlContent = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Browny</title>
+      <link rel="shortcut icon" type="image/icon" href="images/favicon.png"/>
+      ${[...htmlDoc.querySelectorAll('link[rel="stylesheet"]')]
+          .map(link => `<link rel="stylesheet" href="${link.getAttribute('href')}">`)
+          .join('\n    ')}
+      <style>
+          ${htmlDoc.querySelector('style')?.innerHTML || ''}
+      </style>
+  </head>
+  <body>
+      ${htmlDoc.querySelector('body').innerHTML}
+  
+  </body>
+  </html>`;
+  
+          // Ajouter le fichier HTML au ZIP
+          zip.file('index.html', htmlContent);
+  
+          // Générer le ZIP
+          const content = await zip.generateAsync({ type: 'blob' });
+          saveAs(content, 'site-final.zip');
+  
+      } catch (error) {
+          console.error('Erreur lors de la génération du site:', error);
+          alert('Erreur lors de la génération du site. Vérifiez la console pour plus de détails.');
+      }
+  });
+  </script>
       
       
    </body>
