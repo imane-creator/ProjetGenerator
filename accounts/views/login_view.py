@@ -10,7 +10,7 @@ def login(request):
             user = form.get_user()
             auth_login(request, user)
             messages.success(request, "Connexion réussie !")
-            return redirect('/famm1/about')  # Remplacez 'home' par le nom de votre vue d'accueil
+            return redirect('/famm1/about') 
         else:
             # Si le formulaire est invalide, affiche les erreurs
             print("Formulaire invalide :", form.errors)

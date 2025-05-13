@@ -299,6 +299,112 @@ input::-webkit-inner-spin-button{
     gap: 10px;
 }
 
+#paymentModal .modal-body {
+        height: 450px;
+        padding: 20px;
+    }
+    #paymentModal .close {
+        font-size: 21px;
+        cursor: pointer;
+    }
+    #paymentModal .nav-tabs {
+        border: none !important;
+        display: table !important;
+        width: 100%;
+    }
+    #paymentModal .nav-item {
+        display: table-cell;
+        text-align: center;
+    }
+    #paymentModal .nav-link {
+        margin-bottom: -1px;
+        border: 1px solid transparent;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-top: 3px solid #eee;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    #paymentModal .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #ffffff #ffffff #fff;
+        border-top: 3px solid blue !important;
+    }
+    #paymentModal .nav-link:hover {
+        border-color: #e9ecef #ffffff #ffffff;
+    }
+    #paymentModal .nav-link img {
+        margin: 0 auto;
+    }
+    #paymentModal .form-control {
+        border-bottom: 1px solid #eee !important;
+        border: none;
+        font-weight: 600;
+        background: transparent;
+    }
+    #paymentModal .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #8bbafe;
+        outline: 0;
+        box-shadow: none;
+    }
+    #paymentModal .inputbox {
+        position: relative;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    #paymentModal .inputbox span {
+        position: absolute;
+        top: 7px;
+        left: 11px;
+        transition: 0.5s;
+        color: #6c757d;
+    }
+    #paymentModal .inputbox i {
+        position: absolute;
+        top: 13px;
+        right: 8px;
+        transition: 0.5s;
+        color: #3F51B5;
+    }
+    #paymentModal .inputbox input:focus~span,
+    #paymentModal .inputbox input:valid~span {
+        transform: translateX(0) translateY(-15px);
+        font-size: 12px;
+    }
+    #paymentModal .pay button {
+        height: 47px;
+        border-radius: 37px;
+        width: 100%;
+    }
+    #paymentModal input::-webkit-outer-spin-button,
+    #paymentModal input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #paymentModal .launch {
+        height: 50px;
+        border-radius: 25px;
+    }
+    @media (max-width: 576px) {
+        #paymentModal .nav-item {
+            display: block;
+            width: 50%;
+        }
+        #paymentModal .d-flex {
+            flex-direction: column;
+        }
+        #paymentModal .inputbox.me-2 {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+    }
+
 .single-about-img {
     position: relative;
     background-image: url('assets/images/about/background-placeholder.jpg'); /* Remplacez par une image de votre choix */

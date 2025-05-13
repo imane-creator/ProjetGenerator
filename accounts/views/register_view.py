@@ -13,7 +13,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Votre compte a été créé avec succès !")
-            return redirect('accounts:login')  # Rediriger vers la page de connexion
+            return redirect('accounts:login') 
         else:
             print("Formulaire invalide :", form.errors)
             messages.error(request, f"Erreurs : {form.errors}")

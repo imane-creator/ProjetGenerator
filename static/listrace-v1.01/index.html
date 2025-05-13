@@ -348,6 +348,113 @@
 }
 
 
+#paymentModal .modal-body {
+        height: 450px;
+        padding: 20px;
+    }
+    #paymentModal .close {
+        font-size: 21px;
+        cursor: pointer;
+    }
+    #paymentModal .nav-tabs {
+        border: none !important;
+        display: table !important;
+        width: 100%;
+    }
+    #paymentModal .nav-item {
+        display: table-cell;
+        text-align: center;
+    }
+    #paymentModal .nav-link {
+        margin-bottom: -1px;
+        border: 1px solid transparent;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-top: 3px solid #eee;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    #paymentModal .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #ffffff #ffffff #fff;
+        border-top: 3px solid blue !important;
+    }
+    #paymentModal .nav-link:hover {
+        border-color: #e9ecef #ffffff #ffffff;
+    }
+    #paymentModal .nav-link img {
+        margin: 0 auto;
+    }
+    #paymentModal .form-control {
+        border-bottom: 1px solid #eee !important;
+        border: none;
+        font-weight: 600;
+        background: transparent;
+    }
+    #paymentModal .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #8bbafe;
+        outline: 0;
+        box-shadow: none;
+    }
+    #paymentModal .inputbox {
+        position: relative;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    #paymentModal .inputbox span {
+        position: absolute;
+        top: 7px;
+        left: 11px;
+        transition: 0.5s;
+        color: #6c757d;
+    }
+    #paymentModal .inputbox i {
+        position: absolute;
+        top: 13px;
+        right: 8px;
+        transition: 0.5s;
+        color: #3F51B5;
+    }
+    #paymentModal .inputbox input:focus~span,
+    #paymentModal .inputbox input:valid~span {
+        transform: translateX(0) translateY(-15px);
+        font-size: 12px;
+    }
+    #paymentModal .pay button {
+        height: 47px;
+        border-radius: 37px;
+        width: 100%;
+    }
+    #paymentModal input::-webkit-outer-spin-button,
+    #paymentModal input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #paymentModal .launch {
+        height: 50px;
+        border-radius: 25px;
+    }
+    @media (max-width: 576px) {
+        #paymentModal .nav-item {
+            display: block;
+            width: 50%;
+        }
+        #paymentModal .d-flex {
+            flex-direction: column;
+        }
+        #paymentModal .inputbox.me-2 {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+    }
+
+
     </style>
 </head>
 
@@ -760,6 +867,64 @@
         </div>
     </footer>
 
+    <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-body">
+                  <div class="text-right">
+                      <i class="fa fa-xmark close" data-bs-dismiss="modal" style="cursor: pointer;"></i>
+                  </div>
+                  <div class="tabs mt-3">
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          
+                          <li class="nav-item" role="presentation">
+                              
+                            <img src="assets/images/visa.jpg" width="250" alt="Visa" class="mx-auto d-block">
+                            
+                          </li>
+                      </ul>
+                      <div class="tab-content" id="myTabContent">
+                          <!-- Credit Card Tab -->
+                          <div class="tab-pane fade show active" id="visa" role="tabpanel" aria-labelledby="visa-tab">
+                              <div class="mt-4 mx-4">
+                                  <div class="text-center">
+                                      <h5>Credit Card</h5>
+                                  </div>
+                                  <div class="form mt-3">
+                                      <div class="inputbox">
+                                          <input type="text" name="cardName" class="form-control" id="cardName" required>
+                                          <span>Cardholder Name</span>
+                                      </div>
+                                      <div class="inputbox">
+                                          <input type="text" name="cardNumber" class="form-control" id="cardNumber" required>
+                                          <span>Card Number</span>
+                                          <i class="fa fa-eye"></i>
+                                      </div>
+                                      <div class="d-flex flex-row">
+                                          <div class="inputbox me-2">
+                                              <input type="text" name="expiryDate" class="form-control" id="expiryDate" required>
+                                              <span>Expiration Date</span>
+                                          </div>
+                                          <div class="inputbox">
+                                              <input type="text" name="cvv" class="form-control" id="cvv" required>
+                                              <span>CVV</span>
+                                          </div>
+                                      </div>
+                                      <div class="px-5 pay">
+                                          <button type="button" class="btn btn-success btn-block" id="confirmPayment">Pay now ($9.99)</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- PayPal Tab -->
+                        
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1101,27 +1266,27 @@ saveIconBtn.addEventListener('click', function() {
     
         </script>
     <script>
-       publishBtn.addEventListener('click', async () => {
+    let paymentProcessed = false;
+
+async function generateAndDownloadZip() {
     try {
         const docClone = document.cloneNode(true);
+        // Nettoyage des éléments éditebles et UI
         const elementsToRemove = [
             '#publishBtn', '#editModal', '#imageEditModal', '#iconEditModal',
-            '#color-popup', '.modal-backdrop'
+            '#color-popup', '.modal-backdrop', '#paymentModal'
         ];
         elementsToRemove.forEach(selector => {
             docClone.querySelectorAll(selector).forEach(el => el?.remove());
         });
 
         docClone.querySelectorAll('*').forEach(el => {
-            if (el.classList) {
-                el.classList.remove('editable', 'editable-image', 'editable-icon', 'editable-section');
-            }
-            if (el.style) {
-                el.style.removeProperty('border');
-                el.style.removeProperty('cursor');
-            }
+            el.classList?.remove('editable', 'editable-image', 'editable-icon', 'editable-section');
+            el.style?.removeProperty('border');
+            el.style?.removeProperty('cursor');
         });
 
+        // Création de l'archive ZIP
         const zip = new JSZip();
         const assets = zip.folder("assets");
         const cssFolder = assets.folder("css");
@@ -1253,11 +1418,66 @@ ${bodyContent}
         zip.file("index.html", htmlContent);
         const content = await zip.generateAsync({ type: "blob" });
         saveAs(content, "site-final.zip");
+        paymentProcessed = false; // Reset du statut
     } catch (error) {
-        console.error('Error generating ZIP:', error);
-        alert('An error occurred: ' + error.message);
+        console.error('Erreur de génération :', error);
+        alert('Erreur : ' + error.message);
+    }
+}
+
+// Gestion du clic sur "Générer"
+document.getElementById('publishBtn').addEventListener('click', () => {
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    paymentModal.show();
+});
+
+// Gestion du paiement
+document.getElementById('confirmPayment').addEventListener('click', async function() {
+    if (paymentProcessed) return; // Évite les clics multiples
+    
+    // Validation du formulaire
+    const inputs = document.querySelectorAll('#paymentForm input');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+        if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add('is-invalid');
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+
+    if (!isValid) {
+        alert('Veuillez remplir tous les champs !');
+        return;
+    }
+
+    // Simulation de paiement
+    this.disabled = true;
+    this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Traitement...';
+    paymentProcessed = true;
+
+    try {
+        // Ici, vous devriez appeler votre API de paiement réelle
+        await new Promise(resolve => setTimeout(resolve, 2000)); 
+        
+        await generateAndDownloadZip(); // Génération après paiement
+        bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+    } catch (error) {
+        console.error('Erreur de paiement :', error);
+        alert('Paiement échoué !');
+    } finally {
+        this.disabled = false;
+        this.innerHTML = 'Payer maintenant (9.99€)';
     }
 });
-    </script>
-</body>
-</html>
+
+
+
+
+</script>
+  </script>
+    </body>
+	
+</html>     

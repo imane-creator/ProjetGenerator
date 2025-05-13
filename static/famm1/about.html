@@ -23,138 +23,237 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-      
 
       <style>
-        .editable {
-          border: 2px dashed #0d6efd;
-          padding: 10px;
-          cursor: pointer;
-          margin: 5px 0;
-        }
-        .editable:hover {
-          border: 1px solid #007bff;
-        }
-        .editable-image {
-          cursor: pointer;
-          border: 2px dashed #007bff;
-          transition: border 0.3s ease;
-          width: auto;
-          height: auto;
-        }
-        .editable-image:hover {
-          border-color: #0056b3;
-        }
-        #color-popup {
-          position: absolute;
-          display: none;
-          z-index: 1000;
-          background: white;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          padding: 10px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .popup-modal {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 60%;
-          height: 80%;
-          background-color: rgba(0, 0, 0, 0.5);
-          justify-content: center;
-          align-items: center;
-        }
-        .popup-content {
-          background-color: white;
-          padding: 20px;
-          border-radius: 5px;
-          text-align: center;
-          width: 300px;
-        }
-        .popup-content input {
-          width: 80%;
-          height: 200px;
-          padding: 8px;
-          margin: 10px 0;
-        }
-        .popup-content button {
-          margin: 5px;
-          padding: 8px 85px;
-        }
-        .modal-dialog {
-          max-width: 600px;
-        }
-        .modal-content {
-          border-radius: 10px;
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .modal-body {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        textarea#editor {
-          width: 100%;
-          height: 700px !important; /* Hauteur augmentée */
-          resize: vertical; /* Laisser l'utilisateur ajuster si besoin */
-          padding: 10px;
-          border-radius: 5px;
-          border: 1px solid #ccc;
-          font-size: 16px;
-        }
-        .modal-footer {
-          display: flex !important;
-          align-items: center;
-          justify-content: flex-end;
-          margin-right: 18px !important;
-        }
-        .modal-footer .btn {
-        font-size: 0.9rem;            /* Réduit la taille du texte */
-        padding: 0.3rem 0.6rem !important;  /* Réduit l'espace intérieur */
-       }
-       .ck.ck-editor_main>.ck-editor_editable:not(.ck-focused) {
-       border-color: var(--ck-color-base-border);
-       height: 150px !important;
-       }
-       .color-picker-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            z-index: 1050;
-            display: none;
-        }
-        
-        .color-picker-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-        #editable-text700, #editable-text-200 {
+#paymentModal .modal-body {
+    height: 450px;
+    padding: 20px;
+}
+#paymentModal .close {
+    font-size: 21px;
+    cursor: pointer;
+}
+#paymentModal .nav-tabs {
+    border: none !important;
+    display: table !important;
+    width: 100%;
+}
+#paymentModal .nav-item {
+    display: table-cell;
+    text-align: center;
+}
+#paymentModal .nav-link {
+    margin-bottom: -1px;
+    border: 1px solid transparent;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: 3px solid #eee;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+#paymentModal .nav-link.active {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ffffff #ffffff #fff;
+    border-top: 3px solid blue !important;
+}
+#paymentModal .nav-link:hover {
+    border-color: #e9ecef #ffffff #ffffff;
+}
+#paymentModal .nav-link img {
+    margin: 0 auto;
+}
+#paymentModal .form-control {
+    border-bottom: 1px solid #eee !important;
+    border: none;
+    font-weight: 600;
+    background: transparent;
+}
+#paymentModal .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #8bbafe;
+    outline: 0;
+    box-shadow: none;
+}
+#paymentModal .inputbox {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+#paymentModal .inputbox span {
+    position: absolute;
+    top: 7px;
+    left: 11px;
+    transition: 0.5s;
+    color: #6c757d;
+}
+#paymentModal .inputbox i {
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    transition: 0.5s;
+    color: #3F51B5;
+}
+#paymentModal .inputbox input:focus~span,
+#paymentModal .inputbox input:valid~span {
+    transform: translateX(0) translateY(-15px);
+    font-size: 12px;
+}
+#paymentModal .pay button {
+    height: 47px;
+    border-radius: 37px;
+    width: 100%;
+}
+#paymentModal input::-webkit-outer-spin-button,
+#paymentModal input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#paymentModal .launch {
+    height: 50px;
+    border-radius: 25px;
+}
+@media (max-width: 576px) {
+    #paymentModal .nav-item {
+        display: block;
+        width: 50%;
+    }
+    #paymentModal .d-flex {
+        flex-direction: column;
+    }
+    #paymentModal .inputbox.me-2 {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+.editable {
+    border: 2px dashed #0d6efd;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+.editable:hover {
+    border: 1px solid #007bff;
+}
+.editable-image {
+    cursor: pointer;
+    border: 2px dashed #007bff;
+    transition: border 0.3s ease;
+    width: auto;
+    height: auto;
+}
+.editable-image:hover {
+    border-color: #0056b3;
+}
+#color-popup {
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.popup-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 300px;
+}
+.popup-content input {
+    width: 80%;
+    height: 200px;
+    padding: 8px;
+    margin: 10px 0;
+}
+.popup-content button {
+    margin: 5px;
+    padding: 8px 85px;
+}
+.modal-dialog {
+    max-width: 600px;
+}
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+textarea#editor {
+    width: 100%;
+    height: 700px !important;
+    resize: vertical;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+.modal-footer {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 18px !important;
+}
+.modal-footer .btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem !important;
+}
+.ck.ck-editor_main>.ck-editor_editable:not(.ck-focused) {
+    border-color: var(--ck-color-base-border);
+    height: 150px !important;
+}
+.color-picker-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 1050;
+    display: none;
+}
+.color-picker-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+#editable-text700, #editable-text-200 {
     position: relative;
     z-index: 10;
     pointer-events: auto;
 }
-       /* Permettre le changement de couleur sur toutes les sections */
 .arrival_section, 
 .footer_section, 
 .box {
     position: relative;
     cursor: pointer;
 }
-
-/* Ajoutez plutôt ces règles */
 .editable {
     position: relative;
     z-index: 10;
 }
-
 .editable-section, 
 .arrival_section, 
 .footer_section, 
@@ -162,7 +261,6 @@
     position: relative;
     cursor: pointer;
 }
-
 #color-popup {
     z-index: 10000;
     padding: 15px;
@@ -204,265 +302,210 @@
     opacity: 1;
 }
 .navbar-publish-only {
-            background-color: #000 !important; /* Fond noir pour correspondre à l'ancienne navbar */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
-            display: flex;
-            justify-content: center; /* Centrer horizontalement */
-            align-items: center; /* Centrer verticalement */
-        }
-
-        .navbar-publish-only .btn-publish {
-            background-color: #ffc107; /* Couleur jaune du bouton warning */
-            border-color: #ffc107;
-            color: #000;
-            font-weight: bold;
-            padding: 8px 24px;
-            border-radius: 50px;
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar-publish-only .btn-publish:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
-        }
-        .navbar-publish-only .btn-publish {
-    font-size: 1.5rem; /* Texte encore plus grand */
-    padding: 16px 40px; /* Padding encore plus large */
+    background-color: #000 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .navbar-publish-only .btn-publish {
-    min-width: 200px; /* Largeur minimale */
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+    font-weight: bold;
+    padding: 8px 24px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
 }
-
-
-
+.navbar-publish-only .btn-publish:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+.navbar-publish-only .btn-publish {
+    font-size: 1.5rem;
+    padding: 16px 40px;
+    min-width: 200px;
+}
       </style>
-<!-- Après les autres liens CSS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>   
-
-</head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+   </head>
    <body class="sub_page">
-    <nav class="navbar navbar-publish-only">
-        <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold" id="publishBtn">
-            <i class="fas fa-download me-2"></i> <!-- Icône Font Awesome -->
+      <nav class="navbar navbar-publish-only">
+         <button class="btn btn-warning rounded-pill px-4 py-2 fw-bold btn-publish" id="publishBtn">
+            <i class="fas fa-download me-2"></i>
             Generate
-        </button>
-    </nav>
+         </button>
+      </nav>
 
-      
-         <!-- header section strats -->
-         <header class="header_section">
-            <div class="container">
-               <nav class="navbar navbar-expand-lg custom_nav-container ">
-                  <a class="navbar-brand" href="#"><img style="max-width: 7cm;  max-height: 3cm;" class="editable-image"  src="images/logo.png" alt="#" /></a>
-                  
-                  <!-- popup image -->
-                  <!-- Modal pour éditer les images -->
-<div class="modal fade" id="imageEditModal" tabindex="-1" aria-hidden="true">
-   <div class="modal-dialog">
-       <div class="modal-content">
-           <div class="modal-header">
-               <h5 class="modal-title">Modifier l'image</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-               <div class="mb-3">
-                   <label for="image-url-input" class="form-label">URL de l'image</label>
-                   <input type="text" class="form-control" id="image-url-input">
-               </div>
-               <div class="mb-3">
-                   <label class="form-label">Ou télécharger une image</label>
-                   <input type="file" class="form-control" id="image-upload-input" accept="image/*">
-               </div>
-           </div>
-           <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-               <button type="button" class="btn btn-primary" id="save-image-changes">Enregistrer</button>
-           </div>
-       </div>
-   </div>
-</div>
-                
-
-<!-- ============end popup image========== -->
-                  
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class=""> </span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                           <a class="nav-link editable" id="editable-text35"href="index.html">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item dropdown active">
-                           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label editable"  id="editable-text36">Pages <span class="caret"></span></a>
-                           <ul class="dropdown-menu">
-                              <li><a href="about.html" class="editable" id="editable-text37">About</a></li>
-                              <li><a href="testimonial.html" class="editable" id="editable-text38">Testimonial</a></li>
-                           </ul>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link editable" href="product.html"  id="editable-text25">Products</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link editable" href="blog_list.html"  id="editable-text25">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link editable" href="contact.html"  id="editable-text25">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="#">
-                              <i class=" editable-icon fas fa-shopping-cart" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
-                           </a>
-                        </li>
-                        <li class="nav-item">
-                           <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                           <i class="editable-icon fa fa-search" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
-                           </button>
-                        </li>
-                        
-                        
-       
-
-                     </ul>
-
-                     
+      <header class="header_section">
+         <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+               <a class="navbar-brand" href="#"><img style="max-width: 7cm; max-height: 3cm;" class="editable-image" src="images/logo.png" alt="#" /></a>
+               <div class="modal fade" id="imageEditModal" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title">Modifier l'image</h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                           <div class="mb-3">
+                              <label for="image-url-input" class="form-label">URL de l'image</label>
+                              <input type="text" class="form-control" id="image-url-input">
+                           </div>
+                           <div class="mb-3">
+                              <label class="form-label">Ou télécharger une image</label>
+                              <input type="file" class="form-control" id="image-upload-input" accept="image/*">
+                           </div>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                           <button type="button" class="btn btn-primary" id="save-image-changes">Enregistrer</button>
+                        </div>
+                     </div>
                   </div>
-               </nav>
-               
-            </div>
-         </header>
-         <!-- end header section -->
-      </div>
-     
-
- <section class="editable-section inner_page_head" style="background-color: #f7444e; color: white; cursor: pointer; border: 3px dashed #d9e0e5;">
-   <div class="container-fluid">
-       <div class="row">
-           <div class="col-md-12">
-               <div class="full">
-                   <h3 class="editable" id="editable-text-1">About us</h3>
                </div>
-           </div>
-       </div>
-   </div>
-</section>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class=""> </span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav">
+                     <li class="nav-item">
+                        <a class="nav-link editable" id="editable-text35" href="index.html">Home <span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label editable" id="editable-text36">Pages <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                           <li><a href="about.html" class="editable" id="editable-text37">About</a></li>
+                           <li><a href="testimonial.html" class="editable" id="editable-text38">Testimonial</a></li>
+                        </ul>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link editable" href="product.html" id="editable-text25">Products</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link editable" href="blog_list.html" id="editable-text25">Blog</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link editable" href="contact.html" id="editable-text25">Contact</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#">
+                           <i class="editable-icon fas fa-shopping-cart" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
+                           <i class="editable-icon fa fa-search" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </button>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+      </header>
 
-<!-- Popup pour le sélecteur de couleur -->
-<div id="color-popup">
-   <input type="color" id="color-picker" value="#3b82f6">
-</div>
-<!--  -->
+      <section class="editable-section inner_page_head" style="background-color: #f7444e; color: white; cursor: pointer; border: 3px dashed #d9e0e5;">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="full">
+                     <h3 class="editable" id="editable-text-1">About us</h3>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
 
-<!-- Popup Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>            
-                
-            </div>
-            <div class="modal-body">
-                <textarea id="editor"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" style="padding: 0.55rem 0.5rem;" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" style="padding: 0.55rem 0.5rem;"  id="saveChanges">Enregistrer</button>
-            </div>
-        </div>
-    </div>
-</div>
+      <div id="color-popup">
+         <input type="color" id="color-picker" value="#3b82f6">
+      </div>
 
-   
+      <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <textarea id="editor"></textarea>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" style="padding: 0.55rem 0.5rem;" data-bs-dismiss="modal">Annuler</button>
+                  <button type="button" class="btn btn-primary" style="padding: 0.55rem 0.5rem;" id="saveChanges">Enregistrer</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
       <section class="why_section layout_padding editable-section" style="cursor: pointer; border: 3px dashed #a9b1b7;">
          <div class="container-fluid">
-         <div class="container">
-            <div class="heading_container heading_center">
-               <h2 class="editable" id="editable-text-8">
-                  Why Shop With Us
-               </h2>
-            </div>
-            <div class="row">
-               <div class="col-md-4 ">
-                  <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
-                     <div class="img-box" style="font-size: 50px;">
-                        <i class="editable-icon fas fa-car" data-icon-class="fa-car" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
-                     </div>
-
-                     <div class="detail-box">
-                        <h5 class="editable" id="editable-text-2">
-                           Fast Delivery
-                        </h5>
-                        <p class="editable" id="editable-text-3">
-                           variations of passages of Lorem Ipsum available
-                        </p>
-                        
+            <div class="container">
+               <div class="heading_container heading_center">
+                  <h2 class="editable" id="editable-text-8">Why Shop With Us</h2>
+               </div>
+               <div class="row">
+                  <div class="col-md-4">
+                     <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
+                        <div class="img-box" style="font-size: 50px;">
+                           <i class="editable-icon fas fa-car" data-icon-class="fa-car" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
+                        <div class="detail-box">
+                           <h5 class="editable" id="editable-text-2">Fast Delivery</h5>
+                           <p class="editable" id="editable-text-3">variations of passages of Lorem Ipsum available</p>
+                        </div>
                      </div>
                   </div>
-               </div>
-               <div class="col-md-4">
-                  <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
-                     <div class="img-box" style="font-size: 50px;">
-                        <i class="editable-icon fas fa-truck-fast" data-icon-class="fa-truck-fast" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
-                     </div>
-                     <div class="detail-box">
-                        <h5 class="editable" id="editable-text-4">
-                           Free Shiping
-                        </h5>
-                        <p class="editable" id="editable-text-5">
-                           variations of passages of Lorem Ipsum available
-                        </p>
+                  <div class="col-md-4">
+                     <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
+                        <div class="img-box" style="font-size: 50px;">
+                           <i class="editable-icon fas fa-truck-fast" data-icon-class="fa-truck-fast" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
+                        <div class="detail-box">
+                           <h5 class="editable" id="editable-text-4">Free Shipping</h5>
+                           <p class="editable" id="editable-text-5">variations of passages of Lorem Ipsum available</p>
+                        </div>
                      </div>
                   </div>
-               </div>
-               <div class="col-md-4">
-                  <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
-                     <div class="img-box" style="font-size: 50px;">
-                        <i class="editable-icon fas fa-star" data-icon-class="fa-star" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
-                     </div>
-                     <div class="detail-box">
-                        <h5 class="editable" id="editable-text6">
-                           Best Quality
-                        </h5>
-                        <p class="editable" id="editable-text7">
-                           variations of passages of Lorem Ipsum available
-                        </p>
+                  <div class="col-md-4">
+                     <div class="box editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
+                        <div class="img-box" style="font-size: 50px;">
+                           <i class="editable-icon fas fa-star" data-icon-class="fa-star" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
+                        <div class="detail-box">
+                           <h5 class="editable" id="editable-text6">Best Quality</h5>
+                           <p class="editable" id="editable-text7">variations of passages of Lorem Ipsum available</p>
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-      </section>  
-      <!-- end why section -->
-       <!-- Modal pour choisir les icônes -->
-<div class="modal fade" id="iconEditModal" tabindex="-1" aria-hidden="true">
-   <div class="modal-dialog modal-lg">
-       <div class="modal-content">
-           <div class="modal-header">
-               <h5 class="modal-title">Choisir une icône</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-           </div>
-           <div class="modal-body">
-               <div class="mb-3">
-                   <input type="text" id="icon-search" class="form-control" placeholder="Rechercher une icône...">
+      </section>
+
+      <div class="modal fade" id="iconEditModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Choisir une icône</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
-               <div class="icon-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-height: 400px; overflow-y: auto;">
-                   <!-- Les icônes seront chargées ici par JavaScript -->
+               <div class="modal-body">
+                  <div class="mb-3">
+                     <input type="text" id="icon-search" class="form-control" placeholder="Rechercher une icône...">
+                  </div>
+                  <div class="icon-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-height: 400px; overflow-y: auto;"></div>
                </div>
-           </div>
-           <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-               <button type="button" class="btn btn-primary" id="save-icon-changes">Enregistrer</button>
-           </div>
-       </div>
-   </div>
-</div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  <button type="button" class="btn btn-primary" id="save-icon-changes">Enregistrer</button>
+               </div>
+            </div>
+         </div>
+      </div>
 
-
-
-
-      <!-- arrival section -->
       <section class="arrival_section editable-section" style="border: 2px dashed #007bff;">
          <div class="container">
             <div class="box">
@@ -472,9 +515,7 @@
                <div class="row">
                   <div class="col-md-6 ml-auto">
                      <div class="heading_container remove_line_bt">
-                        <h2 class="editable" id="editable-text700" style="position: relative; z-index: 10;">
-                           #NewArrivals
-                        </h2>
+                        <h2 class="editable" id="editable-text700" style="position: relative; z-index: 10;">#NewArrivals</h2>
                      </div>
                      <p style="margin-top: 20px;margin-bottom: 30px;" class="editable" id="editable-text-200" style="position: relative; z-index: 10;">
                         Vitae fugiat laboriosam officia perferendis provident aliquid voluptatibus dolorem, fugit ullam sit earum id eaque nisi hic? Tenetur commodi, nisi rem vel, ea eaque ab ipsa, autem similique ex unde!
@@ -484,43 +525,32 @@
             </div>
          </div>
       </section>
-      <!-- end arrival section -->
-      <!-- footer section -->
+
       <footer class="footer_section editable-section" style="cursor: pointer; border: 3px dashed #d9e0e5;">
-         <div class="container ">
+         <div class="container">
             <div class="row">
                <div class="col-md-4 footer-col">
                   <div class="footer_contact">
-                     <h4 class="editable" id="editable-text20">
-                        Reach at..
-                     </h4>
+                     <h4 class="editable" id="editable-text20">Reach at..</h4>
                      <div class="contact_link_box">
                         <p>
-                        <i class="editable-icon fa fa-map-marker" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;" ></i>
-                        <span class="editable" id="editable-text21">
-                        Location
-                        </span>
-                     </p>
+                           <i class="editable-icon fa fa-map-marker" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                           <span class="editable" id="editable-text21">Location</span>
+                        </p>
                         <p>
-                        <i class="editable-icon fa fa-phone" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
-                        <span class="editable" id="editable-text22">
-                        Call +01 1234567890
-                        </span>
-                     </p>
+                           <i class="editable-icon fa fa-phone" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                           <span class="editable" id="editable-text22">Call +01 1234567890</span>
+                        </p>
                         <p>
-                        <i class=" editable-icon fa fa-envelope" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;" ></i>
-                        <span class="editable" id="editable-text23">
-                        demo@gmail.com
-                        </span>
-                     </p>
+                           <i class="editable-icon fa fa-envelope" aria-hidden="true" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                           <span class="editable" id="editable-text23">demo@gmail.com</span>
+                        </p>
                      </div>
                   </div>
                </div>
                <div class="col-md-4 footer-col">
                   <div class="footer_detail">
-                     <p class="footer-logo editable"  id="editable-text24">
-                     Famms
-                     </p>
+                     <p class="footer-logo editable" id="editable-text24">Famms</p>
                      <p class="editable" id="editable-text25">
                         Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
                      </p>
@@ -529,13 +559,17 @@
                            <i class="editable-icon fa-brands fa-facebook" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
                         </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="editable-icon fa-brands fa-twitter" style="cursor: pointer; border: 1px dashed #d9e0e5;" ></i>                        </div>
+                           <i class="editable-icon fa-brands fa-twitter" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="editable-icon fa-brands fa-linkedin" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-linkedin" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="editable-icon fa-brands fa-instagram" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-instagram" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
                         <div style="font-size: 25px; margin-right: 10px;">
-                           <i class="editable-icon fa-brands fa-pinterest" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>                        </div>
+                           <i class="editable-icon fa-brands fa-pinterest" style="cursor: pointer; border: 1px dashed #d9e0e5;"></i>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -550,25 +584,76 @@
             <div class="footer-info">
                <div class="col-lg-7 mx-auto px-0">
                   <p class="editable" id="editable-text26">
-                     &copy; <span id="displayYear"></span> All Rights Reserved By
-                     <a href="https://html.design/" >Free Html Templates</a>
+                     © <span id="displayYear"></span> All Rights Reserved By
+                     <a href="https://html.design/">Free Html Templates</a>
                   </p>
                </div>
             </div>
          </div>
       </footer>
-      <!-- footer section -->
+
+      <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-body">
+                  <div class="text-right">
+                     <i class="fa fa-xmark close" data-bs-dismiss="modal" style="cursor: pointer;"></i>
+                  </div>
+                  <div class="tabs mt-3">
+                     <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                           <img src="images/visa.jpg" width="250" alt="Visa" class="mx-auto d-block">
+                        </li>
+                     </ul>
+                     <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="visa" role="tabpanel" aria-labelledby="visa-tab">
+                           <div class="mt-4 mx-4">
+                              <div class="text-center">
+                                 <h5>Credit Card</h5>
+                              </div>
+                              <form id="paymentForm" class="form mt-3">
+                                 <div class="inputbox">
+                                    <input type="text" name="cardName" class="form-control" id="cardName" required>
+                                    <span>Cardholder Name</span>
+                                 </div>
+                                 <div class="inputbox">
+                                    <input type="text" name="cardNumber" class="form-control" id="cardNumber" required>
+                                    <span>Card Number</span>
+                                    <i class="fa fa-eye"></i>
+                                 </div>
+                                 <div class="d-flex flex-row">
+                                    <div class="inputbox me-2">
+                                       <input type="text" name="expiryDate" class="form-control" id="expiryDate" required>
+                                       <span>Expiration Date</span>
+                                    </div>
+                                    <div class="inputbox">
+                                       <input type="text" name="cvv" class="form-control" id="cvv" required>
+                                       <span>CVV</span>
+                                    </div>
+                                 </div>
+                                 <div class="px-5 pay">
+                                    <button type="button" class="btn btn-success btn-block" id="confirmPayment">Pay now ($9.99)</button>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
       <script src="js/jquery-3.4.1.min.js"></script>
       <script src="js/popper.min.js"></script>
       <script src="js/bootstrap.js"></script>
       <script src="js/custom.js"></script>
       <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
-  		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 
       <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuration de l'éditeur de texte
     const editModal = new bootstrap.Modal(document.getElementById('editModal'));
     const saveButton = document.getElementById('saveChanges');
     let editorInstance;
@@ -590,7 +675,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Gestion des éléments éditables (texte)
     document.querySelectorAll('.editable, [id^="editable-text"]').forEach(element => {
         element.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -608,16 +692,11 @@ document.addEventListener('DOMContentLoaded', function() {
         editModal.hide();
     });
 
-    // Gestion des couleurs de section
     const sections = document.querySelectorAll('.editable-section, .arrival_section, .footer_section, .box');
     const colorPopup = document.getElementById('color-popup');
     const colorPicker = document.getElementById('color-picker');
     let currentSection = null;
 
-
-
-
-    
     sections.forEach((section) => {
         section.addEventListener('click', function(e) {
             if (e.target.closest('.editable') || e.target.closest('[id^="editable-text"]')) return;
@@ -637,10 +716,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!colorPopup.contains(e.target)) colorPopup.style.display = 'none';
     });
 
-    
-   
-
-    // Gestion des images
     const imageModal = new bootstrap.Modal(document.getElementById('imageEditModal'));
     const imageInput = document.getElementById('image-url-input');
     const saveImageBtn = document.getElementById('save-image-changes');
@@ -675,7 +750,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Gestion des icônes
     const iconModal = new bootstrap.Modal(document.getElementById('iconEditModal'));
     const iconSearch = document.getElementById('icon-search');
     const iconGrid = document.querySelector('.icon-grid');
@@ -723,180 +797,303 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         iconModal.hide();
     });
-
 });
-</script>
-<script>
-document.getElementById('publishBtn').addEventListener('click', async () => {
-    try {
-        // Cloner le document
-        const docClone = document.cloneNode(true);
-
-        // Supprimer les éléments d'édition
-        const elementsToRemove = [
-            ...docClone.querySelectorAll('#color-popup, #editModal, #imageEditModal, #iconEditModal'),
-            docClone.querySelector('nav.navbar') // Supprime la navbar d'édition
-        ];
-        elementsToRemove.forEach(el => el?.remove());
-
-        // Nettoyer les classes et styles
-        docClone.querySelectorAll('*').forEach(element => {
-            if (element.nodeType === Node.ELEMENT_NODE) {
-                if (element.className && typeof element.className === 'string') {
-                    element.className = element.className
-                        .replace(/(^|\s)(editable|editable-image|editable-icon|editable-section)(\s|$)/g, ' ')
-                        .trim();
-                }
-                if (element.style) {
-                    element.style.removeProperty('border');
-                    element.style.removeProperty('cursor');
-                }
-            }
-        });
-
-        // Créer le ZIP
-        const zip = new JSZip();
-
-        // Gestion des ressources externes (Bootstrap, Font Awesome, etc.)
-        const externalStyles = [
-            { url: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css', name: 'bootstrap.min.css' },
-            { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css', name: 'font-awesome.min.css' }
-        ];
-
-        const cssFolder = zip.folder('css');
-        const externalPromises = externalStyles.map(async ({ url, name }) => {
+      </script>
+      <script>
+        let paymentProcessed = false;
+        
+        async function generateAndDownloadZip() {
             try {
-                const response = await fetch(url);
-                const cssContent = await response.text();
-                cssFolder.file(name, cssContent);
-            } catch (error) {
-                console.warn(`Erreur lors du téléchargement de ${url}:`, error);
-            }
-        });
-
-        await Promise.all(externalPromises);
-
-        // Ajouter les fichiers CSS locaux
-        const localCssFiles = [
-            'css/bootstrap.css',
-            'css/font-awesome.min.css',
-            'css/style.css',
-            'css/responsive.css'
-        ];
-
-        const localCssPromises = localCssFiles.map(async file => {
-            try {
-                const response = await fetch(file);
-                const cssContent = await response.text();
-                cssFolder.file(file.split('/').pop(), cssContent);
-            } catch (error) {
-                console.warn(`Erreur lors du téléchargement de ${file}:`, error);
-            }
-        });
-
-        await Promise.all(localCssPromises);
-
-        // Ajouter les images locales
-        const imgFolder = zip.folder('images');
-        const images = [
-            'images/favicon.png',
-            'images/logo.png',
-            'images/logo copy.png',
-            'images/arrival-bg.png'
-        ];
-
-        const imgPromises = images.map(async src => {
-            try {
-                const response = await fetch(src);
-                const blob = await response.blob();
-                imgFolder.file(src.split('/').pop(), blob);
-            } catch (error) {
-                console.warn(`Erreur lors du téléchargement de ${src}:`, error);
-            }
-        });
-
-        await Promise.all(imgPromises);
-
-        // Mettre à jour les chemins dans le HTML
-        const htmlDoc = docClone.querySelector('html');
-        htmlDoc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-            const href = link.getAttribute('href');
-            if (href.startsWith('https://cdnjs.cloudflare.com/ajax/libs/bootstrap')) {
-                link.setAttribute('href', 'css/bootstrap.min.css');
-            } else if (href.startsWith('https://cdnjs.cloudflare.com/ajax/libs/font-awesome')) {
-                link.setAttribute('href', 'css/font-awesome.min.css');
-            } else if (href.startsWith('css/')) {
-                link.setAttribute('href', `css/${href.split('/').pop()}`);
-            } else {
-                link.remove();
-            }
-        });
-
-        // Mettre à jour les chemins des images
-        htmlDoc.querySelectorAll('img').forEach(img => {
-            const src = img.getAttribute('src');
-            if (src.startsWith('images/')) {
-                img.setAttribute('src', `images/${src.split('/').pop()}`);
-            }
-        });
-
-        // Conserver les styles dynamiques
-        htmlDoc.querySelectorAll('.editable-section, .arrival_section, .footer_section, .box').forEach(section => {
-            if (section.style.backgroundColor) {
-                section.setAttribute('style', `background-color: ${section.style.backgroundColor}`);
-            }
-        });
-
-        // Nettoyer les effets de survol
-        const styleElement = htmlDoc.querySelector('style');
-        if (styleElement) {
-            styleElement.innerHTML = styleElement.innerHTML
-                .replace(/\.editable-image:hover\s*{[^}]*}/g, '')
-                .replace(/\.editable-icon:hover\s*{[^}]*}/g, '')
-                .replace(/\.editable:hover\s*{[^}]*}/g, '');
-            styleElement.innerHTML += `
-                body, img, .editable-section, .arrival_section, .footer_section, .box {
-                    filter: brightness(100%) !important;
-                    opacity: 1 !important;
+                // Cloner le document
+                const docClone = document.cloneNode(true);
+        
+                // Supprimer les éléments d'édition, y compris la navbar et la modal de paiement
+                const elementsToRemove = [
+                    ...docClone.querySelectorAll('#color-popup, #editModal, #imageEditModal, #iconEditModal, #paymentModal, .modal-backdrop'),
+                    docClone.querySelector('nav.navbar-publish-only')
+                ];
+        
+                elementsToRemove.forEach(element => element && element.remove());
+        
+                // Supprimer les scripts liés à l'édition et au paiement
+                docClone.querySelectorAll('script').forEach(script => {
+                    if (
+                        script.src.includes('ckeditor') ||
+                        script.src.includes('jszip') ||
+                        script.src.includes('FileSaver') ||
+                        script.innerHTML.includes('editable') ||
+                        script.innerHTML.includes('paymentProcessed')
+                    ) {
+                        script.remove();
+                    }
+                });
+        
+                // Nettoyer les classes et styles
+                docClone.querySelectorAll('*').forEach(element => {
+                    if (element.nodeType === Node.ELEMENT_NODE) {
+                        if (element.className && typeof element.className === 'string') {
+                            element.className = element.className
+                                .replace(/(^|\s)(editable|editable-image|editable-icon|editable-section)(\s|$)/g, ' ')
+                                .trim();
+                        }
+                        if (element.style) {
+                            element.style.removeProperty('border');
+                            element.style.removeProperty('cursor');
+                        }
+                    }
+                });
+        
+                // Supprimer les styles spécifiques à l'édition et au paiement
+                const styleElement = docClone.querySelector('style');
+                if (styleElement) {
+                    styleElement.innerHTML = styleElement.innerHTML
+                        .replace(/#paymentModal[^}]*}/g, '')
+                        .replace(/\.navbar-publish-only[^}]*}/g, '')
+                        .replace(/\.editable-image:hover\s*{[^}]*}/g, '')
+                        .replace(/\.editable-icon:hover\s*{[^}]*}/g, '')
+                        .replace(/\.editable:hover\s*{[^}]*}/g, '')
+                        .replace(/#color-popup[^}]*}/g, '');
+                    styleElement.innerHTML += `
+                        body, img, .arrival_section, .footer_section, .box {
+                            filter: brightness(100%) !important;
+                            opacity: 1 !important;
+                        }
+                    `;
                 }
-            `;
+        
+                // Créer le ZIP
+                const zip = new JSZip();
+        
+                // Gestion des ressources externes (Bootstrap, Font Awesome)
+                const externalStyles = [
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css', name: 'bootstrap.min.css' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css', name: 'font-awesome.min.css' }
+                ];
+        
+                const cssFolder = zip.folder('css');
+                const webfontsFolder = cssFolder.folder('webfonts'); // Créer un dossier webfonts
+        
+                // Liste des fichiers de polices Font Awesome à inclure
+                const fontFiles = [
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2', name: 'fa-solid-900.woff2' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff', name: 'fa-solid-900.woff' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.ttf', name: 'fa-solid-900.ttf' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-regular-400.woff2', name: 'fa-regular-400.woff2' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-regular-400.woff', name: 'fa-regular-400.woff' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-regular-400.ttf', name: 'fa-regular-400.ttf' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.woff2', name: 'fa-brands-400.woff2' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.woff', name: 'fa-brands-400.woff' },
+                    { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.ttf', name: 'fa-brands-400.ttf' }
+                ];
+        
+                const externalPromises = externalStyles.map(async ({ url, name }) => {
+                    try {
+                        const response = await fetch(url);
+                        let cssContent = await response.text();
+                        // Modifier les chemins des polices dans le CSS Font Awesome
+                        if (name === 'font-awesome.min.css') {
+                            cssContent = cssContent.replace(/url\(['"]?\.\.\/webfonts\//g, 'url(./webfonts/');
+                        }
+                        cssFolder.file(name, cssContent);
+                    } catch (error) {
+                        console.warn(`Erreur lors du téléchargement de ${url}:`, error);
+                    }
+                });
+        
+                // Télécharger les fichiers de polices
+                const fontPromises = fontFiles.map(async ({ url, name }) => {
+                    try {
+                        const response = await fetch(url);
+                        const fontBlob = await response.blob();
+                        webfontsFolder.file(name, fontBlob);
+                    } catch (error) {
+                        console.warn(`Erreur lors du téléchargement de ${url}:`, error);
+                    }
+                });
+        
+                await Promise.all([...externalPromises, ...fontPromises]);
+        
+                // Ajouter les fichiers CSS locaux, en excluant le Font Awesome local pour éviter les conflits
+                const localCssFiles = [
+                    'css/bootstrap.css',
+                    'css/style.css',
+                    'css/responsive.css'
+                ];
+        
+                const localCssPromises = localCssFiles.map(async file => {
+                    try {
+                        const response = await fetch(file);
+                        const cssContent = await response.text();
+                        cssFolder.file(file.split('/').pop(), cssContent);
+                    } catch (error) {
+                        console.warn(`Erreur lors du téléchargement de ${file}:`, error);
+                    }
+                });
+        
+                await Promise.all(localCssPromises);
+        
+                // Ajouter les images locales
+                const imgFolder = zip.folder('images');
+                const images = [
+                    'images/favicon.png',
+                    'images/logo.png',
+                    'images/logo copy.png',
+                    'images/arrival-bg.png'
+                ];
+        
+                const imgPromises = images.map(async src => {
+                    try {
+                        const response = await fetch(src);
+                        const blob = await response.blob();
+                        imgFolder.file(src.split('/').pop(), blob);
+                    } catch (error) {
+                        console.warn(`Erreur lors du téléchargement de ${src}:`, error);
+                    }
+                });
+        
+                await Promise.all(imgPromises);
+        
+                // Mettre à jour les chemins dans le HTML
+                const htmlDoc = docClone.querySelector('html');
+                htmlDoc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href.startsWith('https://cdnjs.cloudflare.com/ajax/libs/bootstrap')) {
+                        link.setAttribute('href', 'css/bootstrap.min.css');
+                    } else if (href.startsWith('https://cdnjs.cloudflare.com/ajax/libs/font-awesome')) {
+                        link.setAttribute('href', 'css/font-awesome.min.css');
+                    } else if (href.startsWith('css/') && !href.includes('font-awesome.min.css')) {
+                        link.setAttribute('href', `css/${href.split('/').pop()}`);
+                    } else {
+                        link.remove();
+                    }
+                });
+        
+                // Mettre à jour les chemins des images
+                htmlDoc.querySelectorAll('img').forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (src && src.startsWith('images/')) {
+                        img.setAttribute('src', `images/${src.split('/').pop()}`);
+                    } else if (src && src.startsWith('assets/')) {
+                        img.remove();
+                    }
+                });
+        
+                // Conserver les styles dynamiques
+                htmlDoc.querySelectorAll('.arrival_section, .footer_section, .box').forEach(section => {
+                    if (section.style.backgroundColor) {
+                        section.setAttribute('style', `background-color: ${section.style.backgroundColor}`);
+                    }
+                });
+        
+                // Récupérer le HTML final
+                const htmlContent = `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Famms - Fashion HTML Template</title>
+            <link rel="shortcut icon" type="image/icon" href="images/favicon.png"/>
+            ${[...htmlDoc.querySelectorAll('link[rel="stylesheet"]')]
+                .map(link => `<link rel="stylesheet" href="${link.getAttribute('href')}">`)
+                .join('\n    ')}
+            <style>
+                ${htmlDoc.querySelector('style')?.innerHTML || ''}
+            </style>
+        </head>
+        <body>
+            ${htmlDoc.querySelector('body').innerHTML}
+            <script src="js/jquery-3.4.1.min.js"><\/script>
+            <script src="js/popper.min.js"><\/script>
+            <script src="js/bootstrap.js"><\/script>
+            <script src="js/custom.js"><\/script>
+        </body>
+        </html>`;
+        
+                // Ajouter le fichier HTML au ZIP
+                zip.file('index.html', htmlContent);
+        
+                // Ajouter les scripts locaux nécessaires
+                const jsFolder = zip.folder('js');
+                const localJsFiles = [
+                    'js/jquery-3.4.1.min.js',
+                    'js/popper.min.js',
+                    'js/bootstrap.js',
+                    'js/custom.js'
+                ];
+        
+                const jsPromises = localJsFiles.map(async file => {
+                    try {
+                        const response = await fetch(file);
+                        const jsContent = await response.text();
+                        jsFolder.file(file.split('/').pop(), jsContent);
+                    } catch (error) {
+                        console.warn(`Erreur lors du téléchargement de ${file}:`, error);
+                    }
+                });
+        
+                await Promise.all(jsPromises);
+        
+                // Générer le ZIP
+                const content = await zip.generateAsync({ type: 'blob' });
+                saveAs(content, 'site-final.zip');
+                paymentProcessed = false;
+        
+            } catch (error) {
+                console.error('Erreur lors de la génération du site:', error);
+                alert('Erreur lors de la génération du site. Vérifiez la console pour plus de détails.');
+            }
         }
-
-        // Récupérer le HTML final
-        const htmlContent = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Famms - Fashion HTML Template</title>
-    <link rel="shortcut icon" type="image/icon" href="images/favicon.png"/>
-    ${[...htmlDoc.querySelectorAll('link[rel="stylesheet"]')]
-        .map(link => `<link rel="stylesheet" href="${link.getAttribute('href')}">`)
-        .join('\n    ')}
-    <style>
-        ${htmlDoc.querySelector('style')?.innerHTML || ''}
-    </style>
-</head>
-<body>
-    ${htmlDoc.querySelector('body').innerHTML}
-</body>
-</html>`;
-
-        // Ajouter le fichier HTML au ZIP
-        zip.file('index.html', htmlContent);
-
-        // Générer le ZIP
-        const content = await zip.generateAsync({ type: 'blob' });
-        saveAs(content, 'site-final.zip');
-
-    } catch (error) {
-        console.error('Erreur lors de la génération du site:', error);
-        alert('Erreur lors de la génération du site. Vérifiez la console pour plus de détails.');
-    }
-});
-</script>
-      
-      
+        
+        document.getElementById('publishBtn').addEventListener('click', () => {
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            paymentModal.show();
+        });
+        
+        document.getElementById('confirmPayment').addEventListener('click', async function() {
+            if (paymentProcessed) return;
+        
+            const inputs = document.querySelectorAll('#paymentForm input');
+            let isValid = true;
+        
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+        
+            if (!isValid) {
+                alert('Veuillez remplir tous les champs du paiement !');
+                return;
+            }
+        
+            this.disabled = true;
+            this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Traitement...';
+            paymentProcessed = true;
+        
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                await generateAndDownloadZip();
+                const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+                if (paymentModal) {
+                    paymentModal.hide();
+                    document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+                    document.body.classList.remove('modal-open');
+                    document.body.style = '';
+                }
+            } catch (error) {
+                console.error('Erreur de paiement:', error);
+                alert('Échec du paiement !');
+            } finally {
+                this.disabled = false;
+                this.innerHTML = 'Pay now ($9.99)';
+                document.getElementById('paymentForm').reset();
+                paymentProcessed = false;
+            }
+        });
+        </script>
    </body>
 </html>
